@@ -1,0 +1,6 @@
+{
+  "id": "fixture-submission",
+  "agent_id": "fixture-agent",
+  "benchmark_id": "fixture-benchmark",
+  "payload": "{\\"config\\":\\"default\\"}"
+}

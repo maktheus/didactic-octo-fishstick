@@ -1,0 +1,345 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Back-End TCC API",
+    "version": "1.0.0",
+    "description": "Microservice API gateway that orchestrates authentication, agents, benchmarks, submissions, runner results, scoring summaries, traces, and leaderboard projections."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Default local port (override HTTP_PORT env var)."
+    },
+    {
+      "url": "http://localhost:{port}",
+      "description": "Custom local port exposed by Go binary or Docker container.",
+      "variables": {
+        "port": {
+          "default": "8080"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/auth": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Authenticate seeded user",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "description": "Seeded user identifier (defaults to 'admin').",
+            "schema": {"type": "string"},
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authenticated user",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+          }
+        }
+      }
+    },
+    "/agents": {
+      "get": {
+        "tags": ["Agents"],
+        "summary": "List registered agents",
+        "responses": {
+          "200": {
+            "description": "Agents snapshot",
+            "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/User"}}}}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Agents"],
+        "summary": "Register an agent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/User"},
+              "examples": {
+                "agent": {
+                  "summary": "Sample agent payload",
+                  "value": {"ID": "agent-123", "Email": "agent@example.com", "Role": "agent"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Agent registered",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/User"}}}
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+          }
+        }
+      }
+    },
+    "/benchmarks": {
+      "get": {
+        "tags": ["Benchmarks"],
+        "summary": "List benchmark definitions",
+        "responses": {
+          "200": {
+            "description": "Benchmark catalog",
+            "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/Benchmark"}}}}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Benchmarks"],
+        "summary": "Create a benchmark",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/BenchmarkInput"},
+              "examples": {
+                "benchmark": {
+                  "value": {"id": "bench-sample", "name": "LLM Evaluation", "description": "End-to-end benchmark"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Benchmark created",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Benchmark"}}}
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+          }
+        }
+      }
+    },
+    "/submissions": {
+      "get": {
+        "tags": ["Submissions"],
+        "summary": "List submissions",
+        "responses": {
+          "200": {
+            "description": "Submission list",
+            "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/Submission"}}}}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Submissions"],
+        "summary": "Submit benchmark payload",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/SubmissionInput"},
+              "examples": {
+                "submission": {
+                  "value": {"benchmark_id": "bench-sample", "agent_id": "agent-123", "payload": "{\\\"config\\\":\\\"default\\\"}"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Submission queued",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Submission"}}}
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+          }
+        }
+      }
+    },
+    "/results": {
+      "get": {
+        "tags": ["Runner"],
+        "summary": "Runner results",
+        "responses": {
+          "200": {
+            "description": "Completed submissions",
+            "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/Submission"}}}}
+          }
+        }
+      }
+    },
+    "/scores": {
+      "get": {
+        "tags": ["Scoring"],
+        "summary": "Score summaries",
+        "responses": {
+          "200": {
+            "description": "Aggregated score summaries",
+            "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/ScoreSummary"}}}}
+          }
+        }
+      }
+    },
+    "/traces": {
+      "get": {
+        "tags": ["Traces"],
+        "summary": "List trace events",
+        "responses": {
+          "200": {
+            "description": "Trace events",
+            "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/TraceEvent"}}}}
+          }
+        }
+      },
+      "post": {
+        "tags": ["Traces"],
+        "summary": "Record a trace event",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {"$ref": "#/components/schemas/TraceInput"},
+              "examples": {
+                "trace": {
+                  "value": {"submission_id": "sub-123456789", "message": "Runner started", "level": "info"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Trace recorded",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/TraceEvent"}}}
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Error"}}}
+          }
+        }
+      }
+    },
+    "/leaderboard": {
+      "get": {
+        "tags": ["Leaderboard"],
+        "summary": "Leaderboard entries",
+        "responses": {
+          "200": {
+            "description": "Leaderboard snapshot",
+            "content": {"application/json": {"schema": {"type": "array", "items": {"$ref": "#/components/schemas/LeaderboardEntry"}}}}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "ID": {"type": "string", "description": "Unique identifier"},
+          "Email": {"type": "string", "format": "email"},
+          "Role": {"type": "string"}
+        },
+        "required": ["ID", "Email", "Role"]
+      },
+      "Benchmark": {
+        "type": "object",
+        "properties": {
+          "ID": {"type": "string"},
+          "Name": {"type": "string"},
+          "Description": {"type": "string"},
+          "CreatedAt": {"type": "string", "format": "date-time"}
+        },
+        "required": ["ID", "Name", "Description", "CreatedAt"]
+      },
+      "BenchmarkInput": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "description": {"type": "string"}
+        },
+        "required": ["id", "name"]
+      },
+      "Submission": {
+        "type": "object",
+        "properties": {
+          "ID": {"type": "string"},
+          "AgentID": {"type": "string"},
+          "BenchmarkID": {"type": "string"},
+          "Payload": {"type": "string"},
+          "SubmittedAt": {"type": "string", "format": "date-time"},
+          "CompletedAt": {"type": "string", "format": "date-time", "nullable": true},
+          "Status": {"type": "string"},
+          "ScoreSummary": {"$ref": "#/components/schemas/ScoreSummary"}
+        },
+        "required": ["ID", "AgentID", "BenchmarkID", "Payload", "SubmittedAt", "Status"]
+      },
+      "SubmissionInput": {
+        "type": "object",
+        "properties": {
+          "benchmark_id": {"type": "string"},
+          "agent_id": {"type": "string"},
+          "payload": {"type": "string"}
+        },
+        "required": ["benchmark_id", "agent_id"]
+      },
+      "ScoreSummary": {
+        "type": "object",
+        "properties": {
+          "Score": {"type": "number", "format": "double"},
+          "Metrics": {
+            "type": "object",
+            "additionalProperties": {"type": "number", "format": "double"}
+          },
+          "Calculated": {"type": "string", "format": "date-time"}
+        }
+      },
+      "TraceEvent": {
+        "type": "object",
+        "properties": {
+          "ID": {"type": "string"},
+          "SubmissionID": {"type": "string"},
+          "Message": {"type": "string"},
+          "Level": {"type": "string"},
+          "Timestamp": {"type": "string", "format": "date-time"}
+        },
+        "required": ["ID", "SubmissionID", "Message", "Level", "Timestamp"]
+      },
+      "TraceInput": {
+        "type": "object",
+        "properties": {
+          "submission_id": {"type": "string"},
+          "message": {"type": "string"},
+          "level": {"type": "string"}
+        },
+        "required": ["submission_id", "message"]
+      },
+      "LeaderboardEntry": {
+        "type": "object",
+        "properties": {
+          "SubmissionID": {"type": "string"},
+          "BenchmarkID": {"type": "string"},
+          "AgentID": {"type": "string"},
+          "Score": {"type": "number", "format": "double"},
+          "Rank": {"type": "integer"}
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "info": {
+    "name": "Back-End TCC API",
+    "_postman_id": "00000000-0000-0000-0000-000000000001",
+    "description": "Collection covering the Back-End TCC API gateway endpoints for local and Docker workflows.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "const ensure = (key, factory) => {",
+          "  if (!pm.environment.get(key)) {",
+          "    pm.environment.set(key, factory());",
+          "  }",
+          "};",
+          "ensure('apiHost', function () { return 'localhost'; });",
+          "ensure('apiPort', function () { return '8080'; });",
+          "ensure('baseUrl', function () { return 'http://' + pm.environment.get('apiHost') + ':' + pm.environment.get('apiPort'); });",
+          "ensure('adminUserId', function () { return 'admin'; });",
+          "ensure('agentId', function () { return 'agent-' + Date.now(); });",
+          "ensure('agentEmail', function () { return 'agent' + Date.now() + '@example.com'; });",
+          "ensure('benchmarkId', function () { return 'bench-' + Date.now(); });",
+          "ensure('benchmarkName', function () { return 'Benchmark ' + Date.now(); });",
+          "ensure('submissionPayload', function () { return '{}'; });",
+          "ensure('submissionId', function () { return 'sub-' + Date.now(); });",
+          "ensure('traceMessage', function () { return 'Benchmark pipeline started'; });"
+        ]
+      }
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Authenticate (GET /auth)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/auth?user_id={{adminUserId}}",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["auth"],
+              "query": [
+                {"key": "user_id", "value": "{{adminUserId}}", "description": "Seeded user identifier"}
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', function () { pm.response.to.have.status(200); });",
+                  "try { const data = pm.response.json(); if (data.ID) pm.environment.set('adminUserId', data.ID); } catch (err) { console.warn('auth parse error', err); }"
+                ]
+              }
+            }
+          ],
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Agents",
+      "item": [
+        {
+          "name": "Register Agent (POST /agents)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ID\": \"{{agentId}}\",\n  \"Email\": \"{{agentEmail}}\",\n  \"Role\": \"agent\"\n}"
+            },
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/agents",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["agents"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201', function () { pm.response.to.have.status(201); });",
+                  "try { const data = pm.response.json(); if (data.ID) pm.environment.set('agentId', data.ID); if (data.Email) pm.environment.set('agentEmail', data.Email); } catch (err) { console.warn('agent register parse error', err); }"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List Agents (GET /agents)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/agents",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["agents"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Benchmarks",
+      "item": [
+        {
+          "name": "Create Benchmark (POST /benchmarks)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{benchmarkId}}\",\n  \"name\": \"{{benchmarkName}}\",\n  \"description\": \"Sample benchmark accessible via Postman.\"\n}"
+            },
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/benchmarks",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["benchmarks"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201', function () { pm.response.to.have.status(201); });",
+                  "try { const data = pm.response.json(); if (data.ID) pm.environment.set('benchmarkId', data.ID); if (data.Name) pm.environment.set('benchmarkName', data.Name); } catch (err) { console.warn('benchmark parse error', err); }"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List Benchmarks (GET /benchmarks)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/benchmarks",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["benchmarks"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Submissions",
+      "item": [
+        {
+          "name": "Submit Benchmark (POST /submissions)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"benchmark_id\": \"{{benchmarkId}}\",\n  \"agent_id\": \"{{agentId}}\",\n  \"payload\": \"{{submissionPayload}}\"\n}"
+            },
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/submissions",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["submissions"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 202', function () { pm.response.to.have.status(202); });",
+                  "try { const data = pm.response.json(); if (data.ID) pm.environment.set('submissionId', data.ID); } catch (err) { console.warn('submission parse error', err); }"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List Submissions (GET /submissions)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/submissions",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["submissions"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Runner & Scores",
+      "item": [
+        {
+          "name": "Runner Results (GET /results)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/results",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["results"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Score Summaries (GET /scores)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/scores",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["scores"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Traces",
+      "item": [
+        {
+          "name": "Record Trace (POST /traces)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"submission_id\": \"{{submissionId}}\",\n  \"message\": \"{{traceMessage}}\",\n  \"level\": \"info\"\n}"
+            },
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/traces",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["traces"]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 201', function () { pm.response.to.have.status(201); });",
+                  "try { const data = pm.response.json(); if (data.ID) pm.environment.set('traceId', data.ID); if (data.SubmissionID) pm.environment.set('submissionId', data.SubmissionID); } catch (err) { console.warn('trace parse error', err); }"
+                ]
+              }
+            }
+          ],
+          "response": []
+        },
+        {
+          "name": "List Traces (GET /traces)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/traces",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["traces"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Leaderboard",
+      "item": [
+        {
+          "name": "Leaderboard Entries (GET /leaderboard)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://{{apiHost}}:{{apiPort}}/leaderboard",
+              "protocol": "http",
+              "host": ["{{apiHost}}"],
+              "port": "{{apiPort}}",
+              "path": ["leaderboard"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "apiHost", "value": "localhost"},
+    {"key": "apiPort", "value": "8080"},
+    {"key": "baseUrl", "value": "http://localhost:8080"},
+    {"key": "adminUserId", "value": "admin"},
+    {"key": "agentId", "value": "agent-123"},
+    {"key": "agentEmail", "value": "agent123@example.com"},
+    {"key": "benchmarkId", "value": "bench-sample"},
+    {"key": "benchmarkName", "value": "Sample Benchmark"},
+    {"key": "submissionPayload", "value": "{\"config\":\"default\"}"},
+    {"key": "submissionId", "value": "sub-123456789"},
+    {"key": "traceMessage", "value": "Benchmark pipeline started"}
+  ]
+}

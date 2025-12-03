@@ -1,0 +1,10 @@
+.git
+.gitignore
+/tests
+**/*_test.go
+**/*.log
+*.local
+.tmp
+node_modules
+coverage
+.DS_Store

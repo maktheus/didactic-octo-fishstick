@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: tcc
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    ports:
+      - "8081:8080" # Mapping host 8081 to container 8080 as per previous discussion
+    environment:
+      - APP_ENV=development
+      - HTTP_PORT=8080
+      - STORAGE_DSN=postgres://user:password@db:5432/tcc?sslmode=disable
+      - JWT_SIGNING_SECRET=dev-secret
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
