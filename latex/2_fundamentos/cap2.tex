@@ -1,0 +1,38 @@
+\chapter{Fundamentos}
+\label{cap:Fundamentos}
+
+\lettrine[lines=3]{E}{} ste capítulo apresenta o pano de fundo conceitual para discutir a avaliação de agentes baseados em modelos de linguagem, destacando o cenário de 2025, as definições consolidadas de agentic AI e as taxonomias que norteiam a mensuração de suas capacidades.
+
+\section{Contexto: 2025 como o ano dos agentes de IA}
+
+O debate sobre modelos de linguagem migrou de comparações estáticas de LLMs para a discussão sobre quais agentes conseguem agir com segurança, eficiência e autonomia em domínios reais. O termo \textit{agentic AI} descreve sistemas que combinam modelos de linguagem, memória, ferramentas, acesso a ambientes corporativos e objetivos de longo prazo, assumindo a responsabilidade por sequências de ações ao invés de respostas isoladas \cite{Dynamiq2025}. Relatórios de mercado projetam 2025 como o ano em que agentes deixam de ser prova de conceito e passam a conduzir fluxos críticos, o que pressiona empresas e pesquisadores a construir métricas alinhadas a resultados de negócio e custos operacionais \cite{Investors2025}. Essa inflexão torna insuficientes benchmarks acadêmicos tradicionais e abre espaço para experimentos focados em uso correto de ferramentas, aderência a políticas e robustez adversarial, diretamente alinhados ao problema investigado neste trabalho. Compêndios produzidos por Evidently AI e Phil Schmid mapeiam pelo menos dez benchmarks ativos apenas no primeiro semestre de 2025, revelando um ecossistema fragmentado e ainda em busca de padronização \cite{Evidently2025,Schmid2025}.
+
+\section{Fundamentos teóricos da avaliação de agentes}
+
+\subsection{O que caracteriza um agente de LLM}
+
+A literatura recente descreve agentes como sistemas compostos por um modelo base, um planejador que decide ações, um catálogo de ferramentas e APIs, mecanismos de memória e laços de feedback (autoavaliação ou humano-no-loop) \cite{Dynamiq2025}. Diferentemente de copilotos convencionais, esses agentes iniciam, sequenciam e concluem tarefas com supervisão mínima, podendo negociar objetivos, executar chamadas externas e adaptar estratégias conforme o histórico. Essa arquitetura modular se mostrou recorrente em guias técnicos, relatórios industriais e tutoriais acadêmicos publicados em 2025, tornando-se referência para projetos de avaliação comparável ao proposto neste TCC.
+
+\subsection{Taxonomias de avaliação atuais}
+
+O artigo ``Evaluation and Benchmarking of LLM Agents: A Survey'', apresentado no KDD 2025, sintetiza a produção científica e propõe duas dimensões complementares para a avaliação: ``o que'' medir e ``como'' medir \cite{Mohammadi2025}. A primeira dimensão engloba \textit{capacidades} (raciocínio multi-etapas, uso de ferramentas, planejamento, memória), \textit{comportamento} (alinhamento a instruções, aderência a políticas, interpretabilidade), \textit{confiabilidade} (consistência, sensibilidade a ruído, tolerância a falhas) e \textit{segurança} (resistência a prompt injection, vazamento de dados e ações indevidas). A segunda dimensão detalha modos de interação (diálogo único, multi-turn, long horizon), ambientes (simulados, semi-reais, produção controlada), métricas (taxa de conclusão de tarefas, qualidade da ação, custo, latência, violações) e ferramentas de apoio (frameworks automatizados, leaderboards públicos, roteiros de \textit{red teaming}). Essa taxonomia orienta a definição de requisitos de qualidade e fundamenta a matriz comparativa que será construída ao longo do trabalho.
+
+\subsection{Implicações para este projeto}
+
+A combinação de pressões industriais e avanços acadêmicos evidencia a necessidade de benchmarks que capturem capacidades técnicas e salvaguardas de segurança em cenários próximos da produção. O trabalho proposto utiliza a taxonomia de Mohammadi et al. como referência conceitual e alinha suas métricas às preocupações levantadas por relatórios de mercado e guias técnicos de 2025, permitindo que os capítulos seguintes abordem, respectivamente, os benchmarks emergentes, a arquitetura da plataforma desenvolvida e sua implementação distribuída nos módulos \texttt{Back-End-Tcc}, \texttt{tcc-front-end} e \texttt{design}.
+
+\section{Componentes de um ecossistema de avaliação}
+
+As diretrizes recentes para avaliação de agentes apontam três pilares complementares: (i) instrumentos de coleta e rastreabilidade, (ii) catálogos de cenários e ferramentas e (iii) pipelines de análise e governança \cite{SAP2025}. Esses pilares guiam o desenho dos repositórios do projeto.
+
+\subsection{Instrumentação e rastreabilidade}
+
+Ambientes de avaliação precisam registrar cada decisão tomada por um agente, incluindo chamados de ferramentas, latências, parâmetros de custo e verificações de política. Na prática, isso se traduz em serviços de mensageria, armazenamentos de \textit{traces} e camadas de \textit{scoring} — elementos implementados no diretório \texttt{Back-End-Tcc} por meio de serviços Go independentes. A literatura destaca que a ausência de telemetria detalhada impede auditar violações ou reproduzir incidentes \cite{ART2025}. Portanto, o arcabouço desenvolvido combina filas (NATS/Kafka), banco relacional (Postgres) e armazenamento de objetos (S3/MinIO) para garantir observabilidade end-to-end.
+
+\subsection{Catálogo de cenários e ferramentas}
+
+Benchmarks como Agent Leaderboard v2 e ToolEyes evidenciam que a qualidade de um agente depende da variedade de tarefas, das ferramentas disponíveis e das restrições impostas \cite{Galileo2025,ToolEyes2025}. Para refletir essa necessidade, o projeto documenta cenários em um registro específico (serviço \texttt{benchmark-service}), o que facilita a criação de versões por domínio (bancário, TI, pesquisa científica) e conecta os dados às interfaces Compose e web descritas no Capítulo~\ref{cap:Arquitetura}. A taxonomia de Mohammadi et al. orienta os metadados essenciais (objetivos, políticas, ferramentas obrigatórias, métricas esperadas).
+
+\subsection{Pipelines de análise e governança}
+
+Por fim, a camada de análise converte dados brutos em indicadores compreensíveis (taxa de sucesso, custo por execução, violações por política, tempo de ciclo). Trabalhos como Evidently~AI e SAP reforçam que essas métricas precisam ser calculadas de forma transparente e auditável \cite{Evidently2025,SAP2025}. No projeto, essa função é desempenhada pelos serviços \texttt{scoring-service} e \texttt{leaderboard-service}, que expõem APIs REST reutilizadas tanto pela aplicação Compose quanto pelo protótipo web em \texttt{design}.

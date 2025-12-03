@@ -1,0 +1,74 @@
+This is BibTeX, Version 0.99d (TeX Live 2025/Homebrew)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: icomp-modelomonografia-pf.aux
+A level-1 auxiliary file: 0_pre/pre.aux
+A level-1 auxiliary file: 1_introducao/cap1.aux
+A level-1 auxiliary file: 2_fundamentos/cap2.aux
+A level-1 auxiliary file: 3_trabalhosRelacionados/cap3.aux
+A level-1 auxiliary file: 4_proposta/cap4.aux
+A level-1 auxiliary file: 5_resultados/cap5.aux
+A level-1 auxiliary file: 6_consideracoesFinais/cap6.aux
+A level-1 auxiliary file: 8_apendice/cap8.aux
+A level-1 auxiliary file: 9_anexos/cap9.aux
+The style file: abntex2-alf.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+Database file #1: abntex2-options.bib
+Database file #2: referencias.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
++---------------------------------------------------------+
+| Estilo bibliográfico abntex2-alf.bst versão v-1.9.7           |
+| Em caso de dúvidas ou problemas com este estilo procure |
+| http://www.abntex.net.br/                               |
++---------------------------------------------------------+
+You've used 14 entries,
+            6714 wiz_defined-function locations,
+            1278 strings with 11654 characters,
+and the built_in function-call counts, 22477 in all, are:
+= -- 2951
+> -- 212
+< -- 720
++ -- 838
+- -- 70
+* -- 1245
+:= -- 2790
+add.period$ -- 58
+call.type$ -- 14
+change.case$ -- 91
+chr.to.int$ -- 14
+cite$ -- 13
+duplicate$ -- 2498
+empty$ -- 799
+format.name$ -- 323
+if$ -- 4300
+int.to.chr$ -- 0
+int.to.str$ -- 0
+missing$ -- 224
+newline$ -- 75
+num.names$ -- 65
+pop$ -- 307
+preamble$ -- 1
+purify$ -- 43
+quote$ -- 0
+skip$ -- 2658
+stack$ -- 1
+substring$ -- 1013
+swap$ -- 850
+text.length$ -- 13
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 1
+warning$ -- 0
+while$ -- 93
+width$ -- 0
+write$ -- 197

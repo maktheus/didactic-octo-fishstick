@@ -1,0 +1,66 @@
+%%%  LISTA DE ABREVIAÇÕES E SÍMBOLOS
+
+\acsetup{first-style=short}
+
+% Abreviações
+\DeclareAcronym{llm}{
+	short = LLM,
+	long  = \textit{Large Language Model},
+	tag   = abbrev
+}
+
+\DeclareAcronym{ia}{
+	short = IA,
+	long  = Inteligência Artificial,
+	tag   = abbrev
+}
+
+\DeclareAcronym{api}{
+	short = API,
+	long  = \textit{Application Programming Interface},
+	tag   = abbrev
+}
+
+\DeclareAcronym{kpi}{
+	short = KPI,
+	long  = \textit{Key Performance Indicator},
+	tag   = abbrev
+}
+
+\DeclareAcronym{mq}{
+	short = MQ,
+	long  = Fila de Mensageria (ex.: NATS ou Kafka),
+	tag   = abbrev
+}
+
+% Símbolos
+\DeclareAcronym{successrate}{
+	short = $S_r$,
+	long  = Taxa de sucesso agregada por rodada do benchmark,
+	sort  = Sr,
+	tag   = nomencl
+}
+
+\DeclareAcronym{costrun}{
+	short = $C_{run}$,
+	long  = Custo médio por execução completa,
+	sort  = Crun,
+	tag   = nomencl
+}
+
+\DeclareAcronym{latency}{
+	short = $L_{p95}$,
+	long  = Latência do percentil 95 por fluxo de avaliação,
+	sort  = Lp95,
+	tag   = nomencl
+}
+
+% Garante a impressão das listas mesmo sem citações explícitas
+\acuse{llm}
+\acuse{ia}
+\acuse{api}
+\acuse{kpi}
+\acuse{mq}
+\acuse{successrate}
+\acuse{costrun}
+\acuse{latency}

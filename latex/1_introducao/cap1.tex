@@ -1,0 +1,27 @@
+\chapter{Introdução}
+\label{sec:introducao}
+
+\lettrine[lines=3]{A}{} discussão sobre modelos de linguagem evoluiu rapidamente entre 2023 e 2025, deixando de comparar LLMs isolados em benchmarks estáticos para questionar quais agentes conseguem operar com autonomia, segurança e eficiência em fluxos reais de negócio. Esse movimento, descrito por relatórios de mercado e guias técnicos, cunhou o termo \textit{agentic AI} para representar sistemas que combinam LLMs, memória, uso de ferramentas, planejamento e monitoramento contínuo \cite{Dynamiq2025}. Entretanto, apesar da expansão de plataformas proprietárias e open source, a literatura ainda carece de frameworks acadêmicos que conectem taxonomias de avaliação a implementações reprodutíveis. Este trabalho parte dessa lacuna para propor uma visão unificada entre teoria e prática, com foco em benchmarks lançados em 2025 e em uma arquitetura de referência implementada em múltiplos repositórios do projeto.
+
+\section{Contexto e definição do problema}
+
+Em 2025 surgiram dezenas de iniciativas de benchmark específicas para agentes (Agent Leaderboard v2, ToolEyes, ART, PaperArena, FML-bench, MLRC-BENCH e ITBench, entre outras). Tais iniciativas medem desde taxa de conclusão até tempo de execução, custo operacional e aderência a políticas \cite{Galileo2025,ToolEyes2025,ART2025,Moonlight2025}. Apesar da diversidade, não há consenso sobre como organizar métricas, ambientes e critérios de segurança — situação evidenciada pelo survey de Mohammadi et al., que propõe uma taxonomia em múltiplas dimensões, mas deixa em aberto como aplicá-la em plataformas reais \cite{Mohammadi2025}. Do ponto de vista industrial, empresas como Meta, Amazon e Booking reforçam a urgência de métricas confiáveis para mitigar riscos regulatórios e justificar investimentos em automação \cite{Investors2025}. Assim, o problema de pesquisa pode ser formulado da seguinte forma: \textit{como consolidar referenciais teóricos recentes sobre avaliação de agentes e traduzi-los em uma arquitetura de observabilidade e benchmarking que possa ser reproduzida em ambientes acadêmicos e corporativos?}
+
+\section{Objetivos}
+
+O objetivo geral deste trabalho é propor e documentar um arcabouço de avaliação para agentes de IA, alinhando benchmarks de 2025 a uma arquitetura de referência implementada nas pastas \texttt{Back-End-Tcc}, \texttt{tcc-front-end} e \texttt{design}. Os objetivos específicos são:
+
+\begin{itemize}
+    \item Revisar a literatura contemporânea sobre agentic AI, taxonomias de avaliação e benchmarks emergentes, identificando dimensões críticas (capacidade, comportamento, confiabilidade e segurança).
+    \item Mapear e analisar os artefatos existentes nos diretórios do projeto, relacionando serviços Go, clientes Compose Multiplatform e protótipos web às necessidades de observabilidade de agentes.
+    \item Definir uma arquitetura lógica e um conjunto de endpoints que suportem o registro de agentes, orquestração de \textit{runs}, coleta de \textit{traces} e cálculo de métricas alinhadas à taxonomia investigada.
+    \item Documentar diretrizes para uso dos benchmarks e métricas em cenários acadêmicos e corporativos, contemplando boas práticas de segurança e de comunicação de resultados.
+\end{itemize}
+
+\section{Metodologia e escopo}
+
+Para atingir esses objetivos, adotou-se uma abordagem qualitativa composta por: (i) revisão bibliográfica guiada pelos trabalhos de Dynamiq, Mohammadi et al., Galileo/Hugging Face, ART, Evidently e Phil Schmid; (ii) inspeção dos repositórios aplicacionais para compreender decisões arquiteturais já tomadas; e (iii) síntese documental no ambiente LaTeX, com foco em linguagem técnica e aderência às normas da ABNT. O escopo inclui apenas agentes avaliados via APIs públicas ou serviços internos instrumentados no Back-End em Go; agentes puramente experimentais executados em notebooks ou serviços sem telemetria não são tratados em detalhe.
+
+\section{Organização do trabalho}
+
+O Capítulo~\ref{cap:Fundamentos} apresenta os fundamentos teóricos sobre agentic AI e taxonomias de avaliação. O Capítulo~\ref{cap:TrabalhosRelacionados} discute benchmarks e iniciativas publicadas em 2025. O Capítulo~\ref{cap:Arquitetura} descreve a arquitetura da solução, os principais serviços e a implementação nos diretórios do projeto. Os capítulos seguintes consolidam resultados, discussões e conclusões, seguidos por apêndices e anexos com materiais de apoio.

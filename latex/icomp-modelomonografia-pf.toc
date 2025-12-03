@@ -1,0 +1,48 @@
+\babel@toc {brazil}{}\relax 
+\changetocdepth {4}
+\acswitchoff 
+\babel@toc {brazil}{}\relax 
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Introdução}}{16}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Contexto e definição do problema}{16}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Objetivos}{17}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Metodologia e escopo}{18}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Organização do trabalho}{18}{section.1.4}%
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{Fundamentos}}{19}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Contexto: 2025 como o ano dos agentes de IA}{19}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Fundamentos teóricos da avaliação de agentes}{20}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}O que caracteriza um agente de LLM}{20}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Taxonomias de avaliação atuais}{20}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Implicações para este projeto}{21}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Componentes de um ecossistema de avaliação}{21}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Instrumentação e rastreabilidade}{21}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Catálogo de cenários e ferramentas}{22}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Pipelines de análise e governança}{22}{subsection.2.3.3}%
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Trabalhos Relacionados}}{23}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Panorama de benchmarks em 2025}{23}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Especialização por domínio e tarefas abertas}{23}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Segurança e \textit {red teaming}}{24}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Compêndios e guias de referência}{24}{section.3.4}%
+\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{Arquitetura da Solução e Implementação}}{26}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Visão lógica}{26}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Especificação de endpoints}{28}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Agent Registry}{28}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Benchmark/Scenario Registry}{28}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Execução de benchmarks}{29}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}Métricas e leaderboard}{30}{subsection.4.2.4}%
+\contentsline {section}{\numberline {4.3}Implementação do protótipo}{31}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Serviços Go no diretório \texttt {Back-End-Tcc}}{31}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Aplicação Compose Multiplatform em \texttt {tccFrontEnd}}{32}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Protótipo web em \texttt {design}}{32}{subsection.4.3.3}%
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{Capítulo 5}}{33}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Seção 1}{33}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Seção 2}{33}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Subseção 2.1}{33}{subsection.5.2.1}%
+\contentsline {section}{\numberline {5.3}Seção 3}{33}{section.5.3}%
+\contentsline {chapter}{\chapternumberline {6}\MakeTextUppercase []{Considerações finais}}{34}{chapter.6}%
+\vspace {\cftbeforechapterskip }
+\contentsline {chapter}{Refer\^encias}{35}{chapter*.19}%
+\renewcommand *{\cftappendixname }{AP\^ENDICE \space }
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Primeiro apêndice}}{37}{appendix.A}%
+\cftinsert {AAA}
+\renewcommand *{\cftappendixname }{ANEXO \space }
+\contentsline {appendix}{\chapternumberline {A}\MakeTextUppercase []{Primeiro anexo.}}{38}{appendix.anexochapback.1}%

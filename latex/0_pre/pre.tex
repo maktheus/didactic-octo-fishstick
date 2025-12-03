@@ -1,0 +1,167 @@
+\noindent
+
+% Seleciona o idioma do documento (conforme pacotes do babel)
+%\selectlanguage{english}
+\selectlanguage{brazil}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+% \pretextual
+
+% ---
+% Capa
+% ---
+\imprimircapa
+% ---
+
+% ---
+% Folha de rosto
+% (o * indica que haverá a ficha bibliográfica)
+% ---
+\imprimirfolhaderosto*
+% ---
+
+% ---
+% Inserir folha de aprovação
+% ---
+
+% Isto é um exemplo de Folha de aprovação, elemento obrigatório da NBR
+% 14724/2011 (seção 4.2.1.3). Você pode utilizar este modelo até a aprovação
+% do trabalho. Após isso, substitua todo o conteúdo deste arquivo por uma
+% imagem da página assinada pela banca com o comando abaixo:
+%
+% \includepdf{folhadeaprovacao_final.pdf}
+%
+\begin{folhadeaprovacao}
+	\parindent=0pt
+	\setlength{\ABNTEXsignskip}{1.5cm}
+
+	Monografia de Graduação sob o título <\textit{Título da monografia}> apresentada por <Nome do aluno> e aceita pelo Instituto de Computação da Universidade Federal do Amazonas, sendo aprovada por todos os membros da banca examinadora abaixo especificada:
+
+	\assinatura{\fontsize{12}{15}\selectfont Titulação e nome do(a) orientador(a) \\ \fontsize{11}{15}\selectfont \imprimirorientadorRotulo~ \\ {\fontsize{10}{12}\selectfont Departamento \par Universidade}}
+	\vspace{1cm}
+	\assinatura{\fontsize{12}{15}\selectfont Titulação e nome do(a) membro da banca examinadora \\ \fontsize{11}{15}\selectfont Co-orientador(a), se houver \\ {\fontsize{10}{12}\selectfont Departamento \par Universidade}}
+	\vspace{1cm}
+	\assinatura{Titulação e nome do membro da banca examinadora \\ {\fontsize{10}{12}\selectfont Departamento \par Universidade}}
+	\vspace{1cm}
+	\assinatura{Titulação e nome do membro da banca examinadora \\ {\fontsize{10}{12}\selectfont Departamento \par Universidade}}
+	\vfill
+      
+	\begin{center}
+		\fontsize{12}{15}\selectfont
+		\vspace*{0.5cm}
+		\imprimirlocal, data de aprovação (por extenso).
+		\vspace*{1cm}
+	\end{center}
+  
+\end{folhadeaprovacao}
+
+% ---
+% Dedicatória
+% ---
+\begin{dedicatoria}
+   \vspace*{\fill}
+   \noindent
+   \leftskip=5cm
+
+   Dedico este trabalho à minha família, que sempre acreditou nos meus planos, e aos amigos que dividiram cada descoberta sobre agentes de IA comigo.
+
+   \vspace{5cm}
+\end{dedicatoria}
+% ---
+
+% ---
+% Agradecimentos
+% ---
+\begin{agradecimentos}
+
+À minha mãe e ao meu pai, que transformaram dúvidas em incentivo e estiveram presentes em todas as etapas deste percurso acadêmico. À minha avó, pelo cuidado paciente, pelas histórias que me lembram de onde vim e pelas leituras atentas das versões preliminares. Registro minha gratidão ao meu orientador, que ajudou a transformar um tema emergente em um plano concreto, e aos colegas do laboratório, que compartilharam benchmarks experimentais, scripts e muitos cafés durante a fase de implementação. Agradeço ainda ao Instituto de Computação da UFAM pelo ambiente colaborativo e aos profissionais do mercado que abriram seus processos para que eu pudesse validar a arquitetura proposta. Este trabalho também é dedicado a todos que acreditam em agentes seguros e úteis para o Brasil: vocês me lembram diariamente do impacto social da computação.
+
+\end{agradecimentos}
+
+% ---
+% Epígrafe
+% ---
+\begin{epigrafe}
+    \vspace*{\fill}
+	\begin{flushright}
+		\textit{Citação}
+
+		Autor
+	\end{flushright}\vspace{4cm}
+\end{epigrafe}
+% ---
+
+% ---
+% RESUMOS
+% ---
+
+% resumo em português
+\setlength{\absparsep}{18pt} % ajusta o espaçamento dos parágrafos do resumo
+\begin{resumo}
+
+ 	Em 2025 a discussão sobre modelos de linguagem migrou para a avaliação de agentes capazes de agir com autonomia, segurança e eficiência em contextos reais. Este trabalho investiga esse deslocamento a partir de duas frentes complementares: (i) uma revisão estruturada das taxonomias e benchmarks mais recentes para agentes de IA e (ii) a proposição de uma arquitetura de referência para executar e medir cenários complexos, inspirada em plataformas de observabilidade corporativas. A metodologia combina análise documental (Dynamiq, Mohammadi et al., Galileo, ART, Evidently) com o desenho de uma infraestrutura composta por gateway, registro de agentes, orquestrador, runner, mensageria e serviços de pontuação. O protótipo resultante consolida métricas de sucesso, uso de ferramentas, violações de políticas e custo operacional, permitindo comparar agentes em domínios como atendimento bancário, TI e pesquisa científica. Os principais achados indicam que referências contemporâneas convergem para avaliações multi-dimensionais e apontam segurança como requisito inevitável. Como contribuição prática, o trabalho entrega diretrizes para incorporar esses benchmarks em ambientes acadêmicos e corporativos, reduzindo o tempo de instrumentação e aumentando a transparência das medições.
+
+ \textit{Palavras-chave}: agentic AI, benchmark, avaliação de agentes, arquitetura distribuída.
+
+\end{resumo}
+
+% resumo em inglês
+\begin{resumo}[Abstract]
+ \begin{otherlanguage*}{english}
+   In 2025 the debate around large language models shifted toward assessing agents that can operate autonomously, safely, and efficiently in real-world scenarios. This thesis tackles the shift through two complementary fronts: (i) a structured review of the latest taxonomies and benchmarks for AI agents and (ii) the design of a reference architecture to execute and score complex scenarios, inspired by enterprise-grade observability platforms. The methodology blends documentary analysis (Dynamiq, Mohammadi et al., Galileo, ART, Evidently) with the implementation of an infrastructure composed of an API gateway, agent registry, orchestrator, runner, message broker, and scoring services. The resulting prototype aggregates metrics for task success, tool usage, policy violations, and operational cost, enabling comparisons across domains such as banking support, IT operations, and scientific research. Findings show that contemporary references converge toward multi-dimensional evaluations and highlight safety as a non-negotiable requirement. As a practical contribution, the work delivers guidance for embedding these benchmarks in academic and corporate environments, shortening instrumentation time and increasing measurement transparency.
+
+   \vspace{\onelineskip}
+ 
+   \noindent 
+   \textit{Keywords}: agentic AI, benchmarking, evaluation, distributed architecture.
+ \end{otherlanguage*}
+\end{resumo}
+
+\frontmatter
+
+% ---
+% inserir lista de figuras
+% ---
+\pdfbookmark[0]{\listfigurename}{lof}
+\listoffigures*
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de tabelas
+% ---
+\pdfbookmark[0]{\listtablename}{lot}
+\listoftables*
+\cleardoublepage
+% ---
+
+% ---
+% inserir lista de abreviaturas e siglas
+% ---
+\begin{siglas}
+\end{siglas}
+% ---
+
+% ---
+% inserir lista de símbolos
+% ---
+\begin{simbolos}
+\end{simbolos}
+% ---
+
+% ---
+% inserir o sumario
+% ---
+
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+% ---
+
+\textual

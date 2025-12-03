@@ -1,0 +1,94 @@
+\providecommand{\abntreprintinfo}[1]{%
+ \citeonline{#1}}
+\setlength{\labelsep}{0pt}\begin{thebibliography}{}
+\providecommand{\abntrefinfo}[3]{}
+\providecommand{\abntbstabout}[1]{}
+\abntbstabout{v-1.9.7 }
+
+\bibitem[{Agent Red Teaming Benchmark Consortium} 2025]{ART2025}
+\abntrefinfo{{Agent Red Teaming Benchmark Consortium}}{{Agent Red Teaming
+  Benchmark Consortium}}{2025}
+{{Agent Red Teaming Benchmark Consortium}. \emph{Security Challenges in AI
+  Agent Deployment}. 2025.
+Dispon{\'\i}vel em: \url{https://arxiv.org/abs/2507.20526}.}
+
+\bibitem[Bhavsar 2025]{Galileo2025}
+\abntrefinfo{Bhavsar}{BHAVSAR}{2025}
+{BHAVSAR, P. \emph{Agent Leaderboard v2: Benchmarking Enterprise AI Agents}.
+  2025.
+Publicado pela Galileo em parceria com a Hugging Face.
+Dispon{\'\i}vel em:
+  \url{https://huggingface.co/blog/pratikbhavsar/agent-leaderboard-v2}.}
+
+\bibitem[{Dynamiq} 2025]{Dynamiq2025}
+\abntrefinfo{{Dynamiq}}{{Dynamiq}}{2025}
+{{Dynamiq}. \emph{LLM Agents Explained: Complete Guide in 2025}. 2025.
+Acesso em 15 jan. 2025.
+Dispon{\'\i}vel em:
+  \url{https://www.getdynamiq.ai/post/llm-agents-explained-complete-guide-in-2025}.}
+
+\bibitem[{Evidently AI} 2025]{Evidently2025}
+\abntrefinfo{{Evidently AI}}{{Evidently AI}}{2025}
+{{Evidently AI}. \emph{10 AI Agent Benchmarks}. 2025.
+Dispon{\'\i}vel em:
+  \url{https://www.evidentlyai.com/blog/ai-agent-benchmarks}.}
+
+\bibitem[{FML-bench Team} 2025]{FMLBench2025}
+\abntrefinfo{{FML-bench Team}}{{FML-bench Team}}{2025}
+{{FML-bench Team}. \emph{FML-bench: Benchmarking Agents for Machine Learning
+  Research}. 2025.
+Dispon{\'\i}vel em: \url{https://arxiv.org/abs/2510.10472}.}
+
+\bibitem[{IBM Research} 2025]{IBM2025}
+\abntrefinfo{{IBM Research}}{{IBM Research}}{2025}
+{{IBM Research}. \emph{ITBench: Benchmarking LLM Agents for Enterprise IT
+  Operations}. 2025. Poster apresentado na ICML 2025.
+Dispon{\'\i}vel em: \url{https://icml.cc/virtual/2025/poster/44303}.}
+
+\bibitem[{Investor's Business Daily} 2025]{Investors2025}
+\abntrefinfo{{Investor's Business Daily}}{{Investor's Business Daily}}{2025}
+{{Investor's Business Daily}. \emph{Meta, Amazon e Booking apostam em agentic
+  AI}. 2025.
+Acesso em 3 fev. 2025.
+Dispon{\'\i}vel em:
+  \url{https://www.investors.com/news/technology/meta-stock-amazon-stock-ai-agentic-booking-stock/}.}
+
+\bibitem[Mohammadi et al. 2025]{Mohammadi2025}
+\abntrefinfo{Mohammadi et al.}{MOHAMMADI et al.}{2025}
+{MOHAMMADI, M. et al. Evaluation and benchmarking of llm agents: A survey. In:
+  \emph{Proceedings of the 31st ACM SIGKDD Conference on Knowledge Discovery
+  and Data Mining}. [s.n.], 2025. Dispon{\'\i}vel em:
+  \url{https://arxiv.org/abs/2507.21504}.}
+
+\bibitem[{Moonlight Research Collective} 2025]{Moonlight2025}
+\abntrefinfo{{Moonlight Research Collective}}{{Moonlight Research
+  Collective}}{2025}
+{{Moonlight Research Collective}. \emph{MLRC-BENCH: Can Language Agents Solve
+  Machine Learning Research Challenges?} 2025.
+Dispon{\'\i}vel em:
+  \url{https://www.themoonlight.io/en/review/mlrc-bench-can-language-agents-solve-machine-learning-research-challenges}.}
+
+\bibitem[{PaperArena Collaboration} 2025]{PaperArena2025}
+\abntrefinfo{{PaperArena Collaboration}}{{PaperArena Collaboration}}{2025}
+{{PaperArena Collaboration}. \emph{PaperArena: Evaluating LLM Agents for
+  Scientific Research}. 2025.
+Dispon{\'\i}vel em: \url{https://arxiv.org/abs/2510.10909}.}
+
+\bibitem[{SAP SE} 2025]{SAP2025}
+\abntrefinfo{{SAP SE}}{{SAP SE}}{2025}
+{{SAP SE}. \emph{LLM Agents Evaluation Tutorial}. 2025.
+Dispon{\'\i}vel em:
+  \url{https://sap-samples.github.io/llm-agents-eval-tutorial/}.}
+
+\bibitem[Schmid 2025]{Schmid2025}
+\abntrefinfo{Schmid}{SCHMID}{2025}
+{SCHMID, P. \emph{AI Agent Benchmark Compendium}. 2025.
+Dispon{\'\i}vel em: \url{https://www.philschmid.de/benchmark-compedium}.}
+
+\bibitem[{ToolEyes Team} 2025]{ToolEyes2025}
+\abntrefinfo{{ToolEyes Team}}{{ToolEyes Team}}{2025}
+{{ToolEyes Team}. \emph{ToolEyes: Benchmarking Tool-Using Agents}. 2025.
+  Proceedings of COLING 2025.
+Dispon{\'\i}vel em: \url{https://aclanthology.org/2025.coling-main.12.pdf}.}
+
+\end{thebibliography}

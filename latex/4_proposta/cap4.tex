@@ -1,0 +1,191 @@
+% - - -
+% Capítulo 4
+% - - -
+\chapter{Arquitetura da Solução e Implementação}
+\label{cap:Arquitetura}
+
+Este capítulo descreve a arquitetura lógica concebida para avaliar agentes de IA e detalha a implementação do protótipo distribuída nos diretórios \texttt{Back-End-Tcc}, \texttt{tccFrontEnd} e \texttt{design}. A documentação de apoio encontra-se nos arquivos da pasta \texttt{docs/} e em notas internas mantidas no Notion do time, evitando a exposição de URLs privados neste documento.
+
+\section{Visão lógica}
+
+O desenho arquitetural segue padrões adotados por plataformas de observabilidade e benchmarking de agentes (LangSmith, Langfuse, Agent Leaderboard), adaptados à realidade acadêmica do projeto. A Figura~\ref{fig:arquiteturaLogica} ilustra essa visão por meio de um diagrama em \textit{TikZ}.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.3cm and 1.6cm,
+        component/.style={draw, rounded corners, minimum width=3.6cm, minimum height=1.0cm, font=\small, align=center, fill=blue!5},
+        data/.style={draw, rounded corners, minimum width=3.6cm, minimum height=1.0cm, font=\small, align=center, fill=green!5},
+        >=Latex
+    ]
+        \node[component] (ui) {Compose MPP UI\\Desktop / Web / Mobile};
+        \node[component, below=of ui] (gateway) {API Gateway\\AuthN/Z + Routing};
+        \node[component, left=2.8cm of gateway] (auth) {Auth Service\\Tokens e políticas};
+        \node[component, right=3.0cm of gateway] (agentreg) {Agent Registry\\Credenciais e metadados};
+        \node[component, below=of agentreg] (benchreg) {Benchmark Registry\\Cenários e tarefas};
+        \node[component, below=1.5cm of gateway] (orch) {Run Orchestrator\\Agendamento de execuções};
+        \node[component, below=of orch] (queue) {Mensageria\\(NATS / Kafka)};
+        \node[component, below=of queue] (runner) {Runner / Execução\\Invoca agentes e ferramentas};
+        \node[data, below=of runner] (trace) {Trace Store\\Postgres + S3/MinIO};
+        \node[component, below=of trace] (scoring) {Scoring Service\\Métricas e conformidade};
+        \node[component, below=of scoring] (leaderboard) {Leaderboard Service\\Visualização e APIs};
+
+        \draw[->] (ui) -- node[right]{HTTP / gRPC} (gateway);
+        \draw[->] (auth) -- (gateway);
+        \draw[->] (gateway) -- (agentreg);
+        \draw[->] (gateway) -- (benchreg);
+        \draw[->] (gateway) -- node[right]{Jobs} (orch);
+        \draw[->] (orch) -- (queue);
+        \draw[->] (queue) -- (runner);
+        \draw[->] (runner) -- (trace);
+        \draw[->] (trace) -- (scoring);
+        \draw[->] (scoring) -- (leaderboard);
+        \draw[->, bend left=25] (leaderboard) to node[right]{Insights} (ui);
+    \end{tikzpicture}
+    \caption{Visão lógica do ecossistema proposto.}
+    \label{fig:arquiteturaLogica}
+\end{figure}
+
+O fluxo inicia na aplicação Compose Multiplatform (diretório \texttt{tccFrontEnd}), publicada para desktop, web e dispositivos móveis. As requisições são roteadas pelo API Gateway (binário em \texttt{Back-End-Tcc/cmd/api-gateway}), que delega chamadas aos serviços de autenticação, registro de agentes e registro de benchmarks. O Orchestrator cria \textit{runs} assíncronos e publica mensagens em um broker (NATS ou Kafka). O Runner consome as mensagens, interage com os agentes cadastrados (incluindo ferramentas simuladas) e grava \textit{traces} em uma combinação de Postgres e armazenamento de objetos. O Scoring Service calcula métricas alinhadas às dimensões discutidas nos Capítulos~\ref{cap:Fundamentos} e~\ref{cap:TrabalhosRelacionados}, e o Leaderboard Service expõe os resultados à interface.
+
+\section{Especificação de endpoints}
+
+Adotou-se um estilo OpenAPI simplificado para garantir rastreabilidade entre UI e serviços. Os principais recursos foram separados por domínio.
+
+\subsection{Agent Registry}
+
+\begin{verbatim}
+GET /agents
+POST /agents
+GET /agents/{id}
+PUT /agents/{id}
+DELETE /agents/{id}
+\end{verbatim}
+
+Exemplo de corpo para \texttt{POST /agents}:
+
+\begin{verbatim}
+{
+  "name": "OpenAI Assistant X",
+  "provider": "openai",
+  "base_url": "https://api.openai.com/v1/chat/completions",
+  "auth_type": "api_key",
+  "auth_config": {
+    "header": "Authorization",
+    "prefix": "Bearer "
+  },
+  "metadata": {
+    "supports_tools": true
+  }
+}
+\end{verbatim}
+
+\subsection{Benchmark/Scenario Registry}
+
+\begin{verbatim}
+GET /benchmarks
+POST /benchmarks
+GET /benchmarks/{id}
+POST /benchmarks/{id}/tasks
+GET /benchmarks/{id}/tasks
+\end{verbatim}
+
+Exemplo de benchmark:
+
+\begin{verbatim}
+{
+  "id": "support_banking_v1",
+  "name": "Atendimento bancário - v1",
+  "domain": "banking",
+  "description": "Cenário simulado de atendimento bancário.",
+  "tasks": [
+    {
+      "id": "reset_limit",
+      "user_prompt": "Quero aumentar o limite do meu cartão.",
+      "expected": {
+        "must_call_tool": "update_limit_api",
+        "constraints": ["no-PII-leak", "explicar política ao cliente"]
+      }
+    }
+  ]
+}
+\end{verbatim}
+
+\subsection{Execução de benchmarks}
+
+\begin{verbatim}
+POST /runs
+GET /runs
+GET /runs/{id}
+GET /runs/{id}/trace
+\end{verbatim}
+
+Corpo de \texttt{POST /runs}:
+
+\begin{verbatim}
+{
+  "benchmark_id": "support_banking_v1",
+  "agent_ids": ["openai-assistant-x", "internal-agent-y"]
+}
+\end{verbatim}
+
+Resposta:
+
+\begin{verbatim}
+{
+  "run_id": "run_123",
+  "status": "queued"
+}
+\end{verbatim}
+
+\subsection{Métricas e leaderboard}
+
+\begin{verbatim}
+GET /metrics/runs/{run_id}
+GET /leaderboard?benchmark_id={id}
+GET /agents/{id}/metrics?benchmark_id={id}
+\end{verbatim}
+
+Exemplo de resposta em \texttt{/leaderboard}:
+
+\begin{verbatim}
+{
+  "benchmark_id": "support_banking_v1",
+  "results": [
+    {
+      "agent_id": "openai-assistant-x",
+      "task_success_rate": 0.82,
+      "tool_use_correctness": 0.90,
+      "policy_violations": 0.01
+    },
+    {
+      "agent_id": "internal-agent-y",
+      "task_success_rate": 0.63,
+      "tool_use_correctness": 0.74,
+      "policy_violations": 0.08
+    }
+  ]
+}
+\end{verbatim}
+
+\section{Implementação do protótipo}
+
+\subsection{Serviços Go no diretório \texttt{Back-End-Tcc}}
+
+O repositório de back-end é um mono-repo em Go 1.22 com os executáveis agrupados na pasta \path{cmd/}. Nela residem binários como \texttt{agent}, \texttt{api}, \texttt{auth}, \texttt{benchmark}, \texttt{leaderboard}, \texttt{orchestrator}, \texttt{runner}, \texttt{scoring} e \texttt{trace}, cada um inicializando um servidor HTTP ou um consumidor de fila específico. A camada de domínio fica em \path{services/}, organizada por domínio e, dentro de cada domínio, pelas camadas \texttt{handlers}, \texttt{service} e \texttt{repository}. Por exemplo:
+\begin{itemize}
+    \item os handlers HTTP ficam na pasta \texttt{services/agent} (subdiretório \texttt{handlers}, arquivo \texttt{http.go}) e expõem o CRUD de agentes;
+    \item a lógica de negócio está na mesma pasta \texttt{services/agent}, subdiretório \texttt{service}, onde o arquivo \texttt{agent\_service.go} aplica validações e versionamento;
+    \item a camada de persistência utiliza o subdiretório \texttt{repository} de \texttt{services/agent}, com \texttt{agent\_repository.go} encapsulando as transações.
+\end{itemize}
+A pasta \path{pkg/} concentra utilitários compartilhados (configuração, logger estruturado, mensageria, banco de dados), enquanto \path{docs/openapi.json} mantém o contrato de APIs exposto ao front-end. Os serviços assíncronos (orchestrator, runner e scoring) se comunicam pela fila definida em \path{pkg/queue} e produzem artefatos consumidos pelo \texttt{trace-service}. O diretório \path{tests/} agrupa coleções Postman e suítes de integração que exercitam o fluxo end-to-end descrito na Figura~\ref{fig:arquiteturaLogica}.
+
+Os serviços assíncronos (orchestrator, runner e scoring) se comunicam pela fila definida em \texttt{pkg/queue} e produzem artefatos consumidos pelo \texttt{trace-service}. O diretório \texttt{tests/} agrupa coleções Postman e suítes de integração que exercitam o fluxo end-to-end descrito na Figura~\ref{fig:arquiteturaLogica}.
+
+\subsection{Aplicação Compose Multiplatform em \texttt{tccFrontEnd}}
+
+O cliente principal utiliza Compose Multiplatform. A pasta \path{shared/} contém os módulos \texttt{core}, \texttt{network}, \texttt{data} e \texttt{presentation}, com o pacote \texttt{org.example.project} armazenando constantes e os primeiros \textit{view models}. A execução para desktop e web reside em \path{composeApp/}, enquanto \path{iosApp/} prepara o binário para iOS e a pasta \path{server/} hospeda um adaptador Ktor simples para experimentos em modo servidor. O arquivo \texttt{Greeting.kt}, localizado no módulo \texttt{shared} (fonte \texttt{commonMain}, pacote \texttt{org.example.project}), demonstra o padrão adotado para expor estados multiplataforma e será estendido para telas como cadastro de agentes, execução de benchmarks e leaderboard.
+
+\subsection{Protótipo web em \texttt{design}}
+
+Para validar fluxos de interface rapidamente, o diretório \texttt{design} abriga um projeto Vite + React com componentes funcionais em \path{src/components}. Arquivos como \texttt{AgentForm.tsx} e \texttt{RunConsole.tsx} (subpasta \texttt{pages}) simulam interações com o backend, apoiados por dados fictícios em \texttt{src/lib/mockData.ts}. Os estilos globais ficam em \texttt{src/styles/globals.css} e há documentação de diretrizes em \texttt{src/guidelines/Guidelines.md}. Esse protótipo serve como referência visual para a equipe que mantém o aplicativo multiplataforma.

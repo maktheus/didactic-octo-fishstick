@@ -1,0 +1,23 @@
+% ---
+% Capítulo 3
+% ---
+\chapter{Trabalhos Relacionados}
+\label{cap:TrabalhosRelacionados}
+
+Este capítulo consolida os principais benchmarks, iniciativas e compêndios publicados em 2025 que tratam da avaliação de agentes baseados em modelos de linguagem. Os trabalhos selecionados cobrem dimensões de desempenho, custo, aderência a políticas, segurança e especialização por domínio, compondo o estado da arte que fundamenta a proposta deste TCC.
+
+\section{Panorama de benchmarks em 2025}
+
+Benchmarks gerais, como o Agent Leaderboard v2, priorizam métricas de resultado aplicadas a setores específicos (bancário, saúde, investimentos, telecom e seguros). A plataforma, mantida pela Galileo em parceria com a Hugging Face, mede taxa de conclusão de ação, qualidade do uso de ferramentas e aderência a políticas, aproximando os experimentos acadêmicos de fluxos corporativos reais \cite{Galileo2025}. O desempenho é reportado junto ao custo e à experiência do usuário, reforçando a necessidade de indicadores múltiplos para avaliar agentes.
+
+\section{Especialização por domínio e tarefas abertas}
+
+Benchmarks verticais ganharam destaque por revelar limitações práticas. O ToolEyes, apresentado no COLING 2025, avalia a capacidade de compreender intenções, planejar, selecionar e orquestrar ferramentas com critérios explícitos de alinhamento de formato e organização da resposta \cite{ToolEyes2025}. O PaperArena mede agentes voltados à pesquisa científica e mostra que, mesmo combinando buscas em múltiplos artigos e ferramentas auxiliares, os melhores modelos atingem apenas cerca de 38,8\% de acurácia em questões complexas \cite{PaperArena2025}. O FML-bench introduz oito tarefas fundamentais para pesquisa em aprendizado de máquina e monitora exploração de hipóteses, iteração e qualidade científica, expandindo a avaliação para domínios criativos \cite{FMLBench2025}. Complementarmente, o MLRC-BENCH e o ITBench submetem agentes a desafios reais de pesquisa em ML e operações de TI, respectivamente, incluindo métricas de corretude, velocidade e segurança operacional \cite{Moonlight2025,IBM2025}.
+
+\section{Segurança e \textit{red teaming}}
+
+O Agent Red Teaming Benchmark (ART) reúne uma competição pública com 1{,}8 milhão de ataques contra 22 agentes e evidencia que praticamente todos violam políticas após 10--100 interações, mesmo quando treinados para cenários sensíveis \cite{ART2025}. O conjunto de casos passou a servir como baseline público para medir robustez e resistência a \textit{prompt injection}, exfiltração e ações indevidas. Esses resultados justificam tratar segurança como métrica obrigatória em qualquer framework avaliativo.
+
+\section{Compêndios e guias de referência}
+
+Relatórios de 2025 organizam o ecossistema de benchmarks ao listar dimensões, domínios e métricas predominantes. O guia ``10 AI Agent Benchmarks'', publicado pela Evidently AI, apresenta comparativos entre BFCL, HAL, Agent Leaderboard, ToolEyes, ART e outras iniciativas, destacando os cenários cobertos e as lacunas existentes \cite{Evidently2025}. O compêndio de Phil Schmid reúne benchmarks por categoria (código, web, enterprise, segurança) e oferece um mapa rápido para seleção de datasets e métricas conforme o objetivo do avaliador \cite{Schmid2025}. Tutoriais apresentados em conferências como a KDD e materiais curados por empresas como SAP e IBM reforçam a necessidade de avaliações holísticas que combinem capacidade técnica, segurança e métricas de negócio \cite{SAP2025}. Esses compêndios são utilizados neste trabalho para justificar escolhas de métricas e posicionar o protótipo frente ao estado da arte.
