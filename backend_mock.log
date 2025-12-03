@@ -1,0 +1,65 @@
+api 2025/12/03 20:29:06.313118 Connected to PostgreSQL
+2025/12/03 20:29:06 DEBUG: Creating PostgresRepository for collection: submissions
+2025/12/03 20:29:06 DEBUG: Creating PostgresRepository for collection: scores
+2025/12/03 20:29:06 DEBUG: Creating PostgresRepository for collection: traces
+2025/12/03 20:29:06 DEBUG: Creating PostgresRepository for collection: leaderboard
+2025/12/03 20:29:06 DEBUG: Creating PostgresRepository for collection: benchmarks
+2025/12/03 20:29:06 DEBUG: Creating PostgresRepository for collection: agents
+2025/12/03 20:29:06 DEBUG: Creating PostgresRepository for collection: users
+2025/12/03 20:29:06 DEBUG: Saving item admin to collection users
+2025/12/03 20:29:06 DEBUG: Successfully saved item admin
+api 2025/12/03 20:29:06.358874 queue: subscribed handler for submission.created
+runner 2025/12/03 20:29:06.358901 runner: subscribed to submission.created
+api 2025/12/03 20:29:06.358958 queue: subscribed handler for score.calculated
+scoring 2025/12/03 20:29:06.358960 scoring: subscribed to score.calculated
+api 2025/12/03 20:29:06.359039 queue: subscribed handler for leaderboard.updated
+leaderboard 2025/12/03 20:29:06.359047 leaderboard: subscribed to leaderboard.updated
+api 2025/12/03 20:29:06.360596 API gateway listening on :8080
+agent 2025/12/03 20:29:16.390506 agent: registering agent, initial ID: 
+agent 2025/12/03 20:29:16.390723 agent: generated ID: agent-1764793756390661337
+2025/12/03 20:29:16 DEBUG: Saving item agent-1764793756390661337 to collection agents
+2025/12/03 20:29:16 DEBUG: Successfully saved item agent-1764793756390661337
+agent 2025/12/03 20:29:16.398239 agent: registered agent agent-1764793756390661337
+2025/12/03 20:29:36 DEBUG: Saving item sub-1764793776845155138 to collection submissions
+orchestrator 2025/12/03 20:29:36.852332 orchestrator: submission sub-1764793776845155138 queued for benchmark=bench-1764791883407017012 agent=agent-1764793756390661337
+2025/12/03 20:29:36 DEBUG: Successfully saved item sub-1764793776845155138
+runner 2025/12/03 20:29:36.853545 runner: processing submission sub-1764793776845155138
+runner 2025/12/03 20:29:37.268039 runner: generated plan: 1. Write python script
+2. Write test
+3. Run test
+2025/12/03 20:29:37 DEBUG: Saving item trace-1764793777268122639 to collection traces
+2025/12/03 20:29:37 DEBUG: Successfully saved item trace-1764793777268122639
+2025/12/03 20:29:37 DEBUG: Saving item trace-1764793777278759430-reflect-0 to collection traces
+runner 2025/12/03 20:29:37.278682 runner: using mock LLM for prompt: Goal: Write a python script named fib.py that calculates fibonacci, then write a test for it named test_fib.py, then run the test.
+
+Plan:
+1. Write python script
+2. Write test
+3. Run test
+
+Execute the plan using available tools.
+2025/12/03 20:29:37 DEBUG: Successfully saved item trace-1764793777278759430-reflect-0
+runner 2025/12/03 20:29:37.281392 runner: result approved
+runner 2025/12/03 20:29:37.281416 runner: final response: Mock execution successful. I have completed the task.
+2025/12/03 20:29:37 DEBUG: Saving item sub-1764793776845155138 to collection submissions
+2025/12/03 20:29:37 DEBUG: Successfully saved item sub-1764793776845155138
+2025/12/03 20:29:37 DEBUG: Saving item sub-1764793776845155138 to collection scores
+2025/12/03 20:29:37 DEBUG: Successfully saved item sub-1764793776845155138
+2025/12/03 20:29:37 DEBUG: Listing items for collection leaderboard
+2025/12/03 20:29:37 DEBUG: Found 4 items for collection leaderboard
+2025/12/03 20:29:37 DEBUG: Saving item 20251202210925 to collection leaderboard
+2025/12/03 20:29:37 DEBUG: Successfully saved item 20251202210925
+2025/12/03 20:29:37 DEBUG: Saving item 20251203202937 to collection leaderboard
+2025/12/03 20:29:37 DEBUG: Successfully saved item 20251203202937
+2025/12/03 20:29:37 DEBUG: Saving item 20251202234336 to collection leaderboard
+2025/12/03 20:29:37 DEBUG: Successfully saved item 20251202234336
+2025/12/03 20:29:37 DEBUG: Saving item 20251203194218 to collection leaderboard
+2025/12/03 20:29:37 DEBUG: Successfully saved item 20251203194218
+2025/12/03 20:29:37 DEBUG: Saving item 20251203195847 to collection leaderboard
+2025/12/03 20:29:37 DEBUG: Successfully saved item 20251203195847
+leaderboard 2025/12/03 20:29:37.294236 leaderboard: updated with score 1.00
+api 2025/12/03 20:29:37.295120 queue: publish leaderboard.updated handled by 1 subscribers in 9.071917ms
+scoring 2025/12/03 20:29:37.295641 scoring: stored summary for submission sub-1764793776845155138
+api 2025/12/03 20:29:37.295685 queue: publish score.calculated handled by 1 subscribers in 12.079084ms
+runner 2025/12/03 20:29:37.295693 runner: completed submission sub-1764793776845155138
+api 2025/12/03 20:29:37.433869 queue: publish submission.created handled by 1 subscribers in 581.43375ms

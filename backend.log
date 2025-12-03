@@ -1,0 +1,60 @@
+api 2025/12/03 19:55:13.300856 Connected to PostgreSQL
+2025/12/03 19:55:13 DEBUG: Creating PostgresRepository for collection: submissions
+2025/12/03 19:55:13 DEBUG: Creating PostgresRepository for collection: scores
+2025/12/03 19:55:13 DEBUG: Creating PostgresRepository for collection: traces
+2025/12/03 19:55:13 DEBUG: Creating PostgresRepository for collection: leaderboard
+2025/12/03 19:55:13 DEBUG: Creating PostgresRepository for collection: benchmarks
+2025/12/03 19:55:13 DEBUG: Creating PostgresRepository for collection: agents
+2025/12/03 19:55:13 DEBUG: Creating PostgresRepository for collection: users
+2025/12/03 19:55:13 DEBUG: Saving item admin to collection users
+2025/12/03 19:55:13 DEBUG: Successfully saved item admin
+api 2025/12/03 19:55:13.321651 queue: subscribed handler for submission.created
+runner 2025/12/03 19:55:13.321677 runner: subscribed to submission.created
+api 2025/12/03 19:55:13.321729 queue: subscribed handler for score.calculated
+scoring 2025/12/03 19:55:13.321730 scoring: subscribed to score.calculated
+api 2025/12/03 19:55:13.321799 queue: subscribed handler for leaderboard.updated
+leaderboard 2025/12/03 19:55:13.321801 leaderboard: subscribed to leaderboard.updated
+api 2025/12/03 19:55:13.322809 API gateway listening on :8080
+2025/12/03 19:58:03 DEBUG: Saving item bench-1764791883407017012 to collection benchmarks
+2025/12/03 19:58:03 DEBUG: Successfully saved item bench-1764791883407017012
+benchmark 2025/12/03 19:58:03.417297 benchmark: created benchmark bench-1764791883407017012
+2025/12/03 19:58:45 DEBUG: Saving item sub-1764791925323968462 to collection submissions
+2025/12/03 19:58:45 DEBUG: Successfully saved item sub-1764791925323968462
+orchestrator 2025/12/03 19:58:45.339787 orchestrator: submission sub-1764791925323968462 queued for benchmark=bench-1764791883407017012 agent=agent-1764790863496754513
+runner 2025/12/03 19:58:45.340631 runner: processing submission sub-1764791925323968462
+runner 2025/12/03 19:58:46.717568 runner: planning failed: planner api error: 401 Unauthorized - {
+    "error": {
+        "message": "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.",
+        "type": "invalid_request_error",
+        "param": null,
+        "code": null
+    }
+}
+2025/12/03 19:58:47 DEBUG: Saving item sub-1764791925323968462 to collection submissions
+runner 2025/12/03 19:58:47.222468 runner: execution failed: openai api error: 401 Unauthorized - {
+    "error": {
+        "message": "You didn't provide an API key. You need to provide your API key in an Authorization header using Bearer auth (i.e. Authorization: Bearer YOUR_KEY), or as the password field (with blank username) if you're accessing the API from your browser and are prompted for a username and password. You can obtain an API key from https://platform.openai.com/account/api-keys.",
+        "type": "invalid_request_error",
+        "param": null,
+        "code": null
+    }
+}
+2025/12/03 19:58:47 DEBUG: Successfully saved item sub-1764791925323968462
+2025/12/03 19:58:47 DEBUG: Saving item sub-1764791925323968462 to collection scores
+2025/12/03 19:58:47 DEBUG: Successfully saved item sub-1764791925323968462
+2025/12/03 19:58:47 DEBUG: Listing items for collection leaderboard
+2025/12/03 19:58:47 DEBUG: Found 3 items for collection leaderboard
+2025/12/03 19:58:47 DEBUG: Saving item 20251202210925 to collection leaderboard
+2025/12/03 19:58:47 DEBUG: Successfully saved item 20251202210925
+2025/12/03 19:58:47 DEBUG: Saving item 20251202234336 to collection leaderboard
+2025/12/03 19:58:47 DEBUG: Successfully saved item 20251202234336
+2025/12/03 19:58:47 DEBUG: Saving item 20251203194218 to collection leaderboard
+2025/12/03 19:58:47 DEBUG: Successfully saved item 20251203194218
+2025/12/03 19:58:47 DEBUG: Saving item 20251203195847 to collection leaderboard
+2025/12/03 19:58:47 DEBUG: Successfully saved item 20251203195847
+leaderboard 2025/12/03 19:58:47.232281 leaderboard: updated with score 0.00
+api 2025/12/03 19:58:47.232944 queue: publish leaderboard.updated handled by 1 subscribers in 5.77875ms
+scoring 2025/12/03 19:58:47.233189 scoring: stored summary for submission sub-1764791925323968462
+api 2025/12/03 19:58:47.233215 queue: publish score.calculated handled by 1 subscribers in 8.245584ms
+runner 2025/12/03 19:58:47.233221 runner: completed submission sub-1764791925323968462
+api 2025/12/03 19:58:47.359423 queue: publish submission.created handled by 1 subscribers in 2.019494668s
