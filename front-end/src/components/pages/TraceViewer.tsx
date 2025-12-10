@@ -1,14 +1,34 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { ArrowLeft, User, Bot, Wrench } from 'lucide-react';
-import { mockTraces } from '../../lib/mockData';
+import { fetchTraces } from '../../lib/api';
+import { Trace } from '../../lib/types';
 
 export function TraceViewer() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const trace = mockTraces.find(t => t.id === id);
+  const [trace, setTrace] = useState<Trace | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchTraces()
+      .then(data => {
+        const found = data.find(t => t.id === id);
+        setTrace(found || null);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return <div className="p-8 text-center">Carregando...</div>;
+  }
 
   if (!trace) {
     return (
@@ -67,7 +87,7 @@ export function TraceViewer() {
 
       <div>
         <div className="flex items-center gap-3">
-          <h1>{trace.taskName}</h1>
+          <h1>{trace.taskName || 'Sem nome'}</h1>
           <Badge variant={trace.success ? 'default' : 'secondary'}>
             {trace.success ? 'Sucesso' : 'Falha'}
           </Badge>
@@ -92,7 +112,7 @@ export function TraceViewer() {
               Custo
             </p>
             <p className="mt-2">
-              ${trace.cost.toFixed(2)}
+              ${trace.cost ? trace.cost.toFixed(2) : '0.00'}
             </p>
           </CardContent>
         </Card>
@@ -102,7 +122,7 @@ export function TraceViewer() {
               Latência
             </p>
             <p className="mt-2">
-              {trace.latency.toFixed(1)}s
+              {trace.latency ? trace.latency.toFixed(1) : '0.0'}s
             </p>
           </CardContent>
         </Card>
@@ -111,7 +131,7 @@ export function TraceViewer() {
             <p className="text-neutral-600 dark:text-neutral-400">
               Mensagens
             </p>
-            <p className="mt-2">{trace.messages.length}</p>
+            <p className="mt-2">{trace.messages ? trace.messages.length : 0}</p>
           </CardContent>
         </Card>
       </div>
@@ -120,8 +140,8 @@ export function TraceViewer() {
         <CardContent className="pt-6">
           <h2 className="mb-6">Timeline de Interações</h2>
           <div className="space-y-4">
-            {trace.messages.map((message, index) => (
-              <div key={message.id} className="flex gap-4">
+            {trace.messages && trace.messages.map((message, index) => (
+              <div key={message.id || index} className="flex gap-4">
                 <div className="flex flex-col items-center">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${getMessageColor(message.type)}`}>
                     {getMessageIcon(message.type)}
@@ -134,13 +154,13 @@ export function TraceViewer() {
                 <div className="flex-1 pb-8">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="capitalize">
-                      {message.type === 'user' ? 'Usuário' : 
-                       message.type === 'agent' ? 'Agente' : 
-                       'Ferramenta'}
+                      {message.type === 'user' ? 'Usuário' :
+                        message.type === 'agent' ? 'Agente' :
+                          'Ferramenta'}
                     </span>
                     <span className="text-neutral-500">•</span>
                     <span className="text-neutral-600 dark:text-neutral-400">
-                      {message.timestamp.toLocaleTimeString('pt-BR')}
+                      {message.timestamp ? new Date(message.timestamp).toLocaleTimeString('pt-BR') : '-'}
                     </span>
                   </div>
 
@@ -153,7 +173,7 @@ export function TraceViewer() {
                           <p className="text-neutral-600 dark:text-neutral-400 mb-2">
                             Ferramenta: <span className="font-mono">{message.toolName}</span>
                           </p>
-                          
+
                           {message.parameters && (
                             <div className="mt-2">
                               <p className="text-neutral-600 dark:text-neutral-400 mb-1">

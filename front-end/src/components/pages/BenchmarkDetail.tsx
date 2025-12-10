@@ -1,14 +1,34 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { ArrowLeft, PlayCircle } from 'lucide-react';
-import { mockBenchmarks } from '../../lib/mockData';
+import { fetchBenchmarks } from '../../lib/api';
+import { Benchmark } from '../../lib/types';
 
 export function BenchmarkDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const benchmark = mockBenchmarks.find(b => b.id === id);
+  const [benchmark, setBenchmark] = useState<Benchmark | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchBenchmarks()
+      .then(data => {
+        const found = data.find(b => b.id === id);
+        setBenchmark(found || null);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return <div className="p-8 text-center">Carregando...</div>;
+  }
 
   if (!benchmark) {
     return (
@@ -61,7 +81,7 @@ export function BenchmarkDetail() {
             <p className="text-neutral-600 dark:text-neutral-400">
               Total de Tarefas
             </p>
-            <p className="mt-2">{benchmark.tasksCount}</p>
+            <p className="mt-2">{benchmark.tasks ? benchmark.tasks.length : 0}</p>
           </CardContent>
         </Card>
         <Card>
@@ -78,7 +98,7 @@ export function BenchmarkDetail() {
               Criado em
             </p>
             <p className="mt-2">
-              {benchmark.createdAt.toLocaleDateString('pt-BR')}
+              {benchmark.createdAt ? new Date(benchmark.createdAt).toLocaleDateString('pt-BR') : '-'}
             </p>
           </CardContent>
         </Card>
@@ -89,7 +109,7 @@ export function BenchmarkDetail() {
           <CardTitle>Tarefas do Benchmark</CardTitle>
         </CardHeader>
         <CardContent>
-          {benchmark.tasks.length === 0 ? (
+          {!benchmark.tasks || benchmark.tasks.length === 0 ? (
             <p className="text-neutral-600 dark:text-neutral-400 text-center py-8">
               Nenhuma tarefa cadastrada ainda.
             </p>
@@ -97,7 +117,7 @@ export function BenchmarkDetail() {
             <div className="space-y-4">
               {benchmark.tasks.map((task, index) => (
                 <div
-                  key={task.id}
+                  key={index}
                   className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg"
                 >
                   <div className="flex items-start gap-4">
@@ -106,37 +126,15 @@ export function BenchmarkDetail() {
                     </div>
                     <div className="flex-1 space-y-2">
                       <p>{task.prompt}</p>
-                      
-                      {task.expectedTool && (
+
+                      {task.expected_output && (
                         <div className="flex items-center gap-2">
                           <span className="text-neutral-600 dark:text-neutral-400">
-                            Ferramenta esperada:
+                            Saída Esperada:
                           </span>
-                          <Badge variant="secondary">{task.expectedTool}</Badge>
-                        </div>
-                      )}
-                      
-                      {task.constraints && task.constraints.length > 0 && (
-                        <div>
-                          <span className="text-neutral-600 dark:text-neutral-400">
-                            Restrições:
+                          <span className="font-mono text-sm bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">
+                            {task.expected_output}
                           </span>
-                          <ul className="mt-2 space-y-1 ml-4">
-                            {task.constraints.map((constraint, i) => (
-                              <li key={i} className="text-neutral-600 dark:text-neutral-400 list-disc">
-                                {constraint}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
-                      
-                      {task.maxTurns && (
-                        <div className="flex items-center gap-2">
-                          <span className="text-neutral-600 dark:text-neutral-400">
-                            Turnos máximos:
-                          </span>
-                          <span>{task.maxTurns}</span>
                         </div>
                       )}
                     </div>

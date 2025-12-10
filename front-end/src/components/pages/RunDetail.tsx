@@ -1,16 +1,36 @@
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { ArrowLeft, Activity } from 'lucide-react';
-import { mockRuns, mockTraces } from '../../lib/mockData';
+import { fetchRun, fetchTraces } from '../../lib/api';
+import { Run, Trace } from '../../lib/types';
 import { Progress } from '../ui/progress';
 
 export function RunDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const run = mockRuns.find(r => r.id === id);
-  const traces = mockTraces.filter(t => t.runId === id);
+  const [run, setRun] = useState<Run | null>(null);
+  const [traces, setTraces] = useState<Trace[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (id) {
+      Promise.all([
+        fetchRun(id).catch(() => null),
+        fetchTraces().then(ts => ts.filter(t => t.runId === id)).catch(() => [])
+      ]).then(([runData, tracesData]) => {
+        setRun(runData);
+        setTraces(tracesData);
+        setLoading(false);
+      });
+    }
+  }, [id]);
+
+  if (loading) {
+    return <div className="p-8 text-center">Carregando detalhes...</div>;
+  }
 
   if (!run) {
     return (

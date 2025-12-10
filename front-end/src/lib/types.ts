@@ -30,7 +30,7 @@ export interface Benchmark {
   tasksCount: number;
 }
 
-export type RunStatus = 'pending' | 'running' | 'completed' | 'failed';
+export type RunStatus = 'pending' | 'running' | 'completed' | 'failed' | 'queued';
 
 export interface Run {
   id: string;
