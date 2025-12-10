@@ -23,7 +23,7 @@ type DockerSandbox struct {
 
 // NewDockerSandbox creates a new DockerSandbox.
 func NewDockerSandbox(image string) (*DockerSandbox, error) {
-	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+	cli, err := client.NewClientWithOpts(client.FromEnv, client.WithVersion("1.44"))
 	if err != nil {
 		return nil, err
 	}

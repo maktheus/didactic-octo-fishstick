@@ -1,0 +1,547 @@
+\documentclass[a4paper]{scrartcl}
+
+\usepackage[unicode,colorlinks=true,linkcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{booktabs}
+\usepackage{amssymb}
+
+% It is possible to use 8-bit Greek text fonts in the LGR TeX font encoding
+% also with XeTeX/LuaTeX, if the »fontenc« package is loaded before
+% »fontspec« and »textalpha«:
+\usepackage[LGR,TU]{fontenc}
+% Prevent a font substitution warning:
+\DeclareFontFamilySubstitution{LGR}{FreeSerif(0)}{cmr}
+
+% Unicode font setup:
+\usepackage{fontspec}
+% \setmainfont{DejaVu Serif}
+% \setsansfont{DejaVu Sans}
+% \usepackage{libertineotf}
+% \setmainfont{Linux Libertine O}
+\setsansfont[Renderer=Harfbuzz]{Linux Biolinum O}
+% \setmainfont{cmunrm.otf} % CMU Serif % many missing characters :(
+\setmainfont[Renderer=Harfbuzz]{FreeSerif}%
+% \setmainfont{Droid Sans}
+
+% Declare the font encoding and Greek LICR definitions:
+\usepackage[normalize-symbols]{textalpha}
+
+% For the new \MakeUppercase, we need to set the text language to Greek
+% with Babel or Polyglossia:
+\usepackage[greek,english]{babel}
+
+\newcommand{\Greek}{
+  \ifdefined\extrasgreek
+    \selectlanguage{greek}
+  \fi
+}
+
+% select the LGR font encoding and CB fonts
+\providecommand*{\lgrfont}[1]{\leavevmode{%
+  \fontfamily{cmr}\fontencoding{LGR}\selectfont#1}%
+}
+
+\newcommand{\pkgref}[1]{\emph{\href{https://ctan.org/pkg/#1}{#1}}}
+
+
+\begin{document}
+
+\title{Font setup for Greek with XeTeX/LuaTeX}
+\author{Günter Milde}
+\date{2020/10/30}
+\maketitle
+
+\noindent The file \href{tuenc-greek.def.html}{tuenc-greek.def} provides
+support for Greek \hyperref[licr]{LICR} macros and upcasing of text with
+XeTeX and LuaTeX. It is loaded automatically by
+\href{textalpha-doc.pdf}{\emph{textalpha}},
+\href{alphabeta-doc.pdf}{\emph{alphabeta}},
+and \pkgref{babel-greek} when used with Unicode fonts
+(LuaTeX or XeTeX with \pkgref{fontspec}).
+
+\tableofcontents
+
+\section{Requirements}
+
+\subsection{\emph{fontspec} and suitable Unicode fonts}
+
+LaTeX sets up the TU Unicode text font encoding if it detects the XeTeX or
+LuaTeX engines. The user must ensure that the selected font contains Greek
+glyphs (the default Latin Modern fonts have only capital Greek letters).
+\textbf{There are no errors for missing glyphs}, just warnings in the log
+file (but not in the console output) and empty spaces in the output
+document.
+
+The \pkgref{fontspec} package is the standard tool to select fonts in
+XeTeX/LuaTeX. \pkgref{babel} provides a front-end to set
+up language-specific fonts with the \verb|\babelfont| command.
+
+\section{Usage}
+
+\texttt{tuenc-greek.def} is loaded automatically by
+\href{textalpha-doc.pdf}{\emph{textalpha}},
+\href{alphabeta-doc.pdf}{\emph{alphabeta}}, or \pkgref{Babel} (with the
+language option \href{https://ctan.org/pkg/babel-greek}{greek}) if these
+packages are used with Unicode-aware TeX engines (XeTeX or LuaTeX). This
+provides support for Greek LICR input and fixes for MakeUppercase
+(cf. section~\ref{sec:uppercase-and-lowercase}).
+
+
+\section{LICR input%
+         \label{licr}}
+
+The LaTeX internal character representation (LICR) can be used as a verbose,
+fail-safe 7-bit ASCII encoding. It works under both, 8-bit
+TeX and XeTeX/LuaTeX. Use cases are macro definitions and generated text.
+
+See the source of this document,
+\href{test-tuenc-greek.tex}{\texttt{test-tuenc-greek.tex}} for the input used
+in the examples below.
+
+\subsection{Greek alphabet}
+
+Greek letters via LICR macros:
+\begin{quote}
+  \textAlpha{} \textBeta{} \textGamma{} \textDelta{} \textEpsilon{}
+  \textZeta{} \textEta{} \textTheta{} \textIota{} \textKappa{}
+  \textLambda{} \textMu{} \textNu{} \textXi{} \textOmicron{} \textPi{}
+  \textRho{} \textSigma{} \textTau{} \textUpsilon{} \textPhi{}
+  \textChi{} \textPsi{} \textOmega{}
+
+  \textalpha{} \textbeta{} \textgamma{} \textdelta{} \textepsilon{}
+  \textzeta{} \texteta{} \texttheta{} \textiota{} \textkappa{}
+  \textlambda{} \textmu{} \textnu{} \textxi{} \textomicron{} \textpi{}
+  \textrho{} \textsigma{} \texttau{} \textupsilon{}
+  \textphi{} \textchi{} \textpsi{} \textomega{}
+\end{quote}
+The small sigma is set with a different
+glyph if it ends a word:
+\begin{quote}
+  \textsigma{}       \verb|\textsigma|\\
+  \textfinalsigma{}  \verb|\textfinalsigma| or \verb|\textvarsigma|
+\end{quote}
+The \verb|\textautosigma| currently works only with 8-bit LGR fonts:
+\textautosigma\textiota{} vs. \textiota\textautosigma.
+
+
+\subsection{Diacritics}
+
+Greek diacritics can be input by named macro or symbol macro:
+\begin{quote}
+  \acctonos\textalpha       \'\textalpha{}  \acctonos       x\'x
+  \accvaria\textalpha       \`\textalpha{}  \accvaria       x\`x
+  \accdialytika\textiota    \"\textiota{}   \accdialytika   x\"x
+  \accperispomeni\textalpha \~\textalpha{}  \accperispomeni x\~x
+  \accpsili\textalpha       \>\textalpha{}  \accpsili       x\>x
+  \accdasia\textalpha       \<\textalpha{}  \accdasia       x\<x
+\end{quote}
+%
+XeTeX and LuaTeX with the Harfbuzz renderer normalise combining diacritics
+with the base letter to the corresponding pre-composed Unicode character
+(if such a character exists).%
+\footnote{\label{fnt:overlap}
+  Composite diacritics may overlap when they are not normalised to a
+  pre-composed character.
+  However, this is no problem in normal use as there are pre-composed
+  Unicode characters for all letters/diacritic combinations that are
+  actually used in the Greek language.%
+}
+\begin{quote}
+  % άάὰὰϊϊᾶᾶἀἀἁἁ
+  \acctonos α       \'α
+  \accvaria α       \`α
+  \accdialytika ι   \"ι
+  \accperispomeni α \~α
+  \accpsili α       \>α
+  \accdasia α       \<α
+\end{quote}
+
+\subsubsection{perispomeni vs. tilde}
+
+The Greek \emph{perispomeni} has the look of a tilde but the semantic of
+a circumflex accent. The Unicode standard provides distinct code points.
+Only <Greek letter> + COMBINING GREEK PERISPOMENI is considered equivalent
+to the pre-composed character <Greek letter> WITH PERISPOMENI.
+
+The \verb|\accperispomeni| macro uses COMBINING GREEK PERISPOMENI,
+while the standard tilde-accent macro \verb|\~| uses the COMBINING TILDE.
+Composite definitions for \verb|\~| select the pre-composed character:
+
+\begin{quote}
+  accent + base char / literal:
+  \~α/ᾶ, \~η/ῆ, \~ι/ῖ, \~υ/ῦ, \~ω\ypogegrammeni{}/ῷ
+
+  There are no pre-composed capital letters with perispomeni:
+  \~Α, \~Η, \~Ι, \~Υ, \~ῼ \footref{fnt:overlap}
+\end{quote}
+
+
+\subsubsection{composite diacritics}
+
+Composite diacritics are defined using two combining diacritical characters.%
+\footref{fnt:overlap}
+
+\begin{quote}
+\accdialytikatonos\textiota{}     \"'\textiota{} \"\'\textiota{}
+\accdialytikatonos x              \"'x           \"\'x
+\accdialytikavaria\textiota{}     \"`\textiota{} \"\`\textiota{}
+\accdialytikavaria x              \"`x           \"\`x
+\accdialytikaperispomeni\textiota{} \~"\textiota{} \~\"\textiota{}
+\accdialytikaperispomeni x        \~"x           \~\"x
+
+\accdasiaoxia\textiota{}          \<'\textiota{} \<\'\textiota{}
+\accdasiaoxia x                   \<'x           \<\'x
+\accdasiavaria\textiota{}         \<`\textiota{} \<\`\textiota{}
+\accdasiavaria x                  \<`x           \<\`x
+\accdasiaperispomeni\textiota{}   \~<\textiota{} \~\<\textiota{}
+\accdasiaperispomeni x            \~<x           \~\<x
+
+\accpsilioxia\textiota{}          \>'\textiota{} \>\'\textiota{}
+\accpsilioxia x                   \>'x           \>\'x
+\accpsilivaria\textiota{}         \>`\textiota{} \>\`\textiota{}
+\accpsilivaria x                  \>`x           \>\`x
+\accpsiliperispomeni\textiota{}   \~>\textiota{} \~\>\textiota{}
+\accpsiliperispomeni x            \~>x           \~\>x
+\end{quote}
+
+\subsubsection{sub-iota}
+
+The sub-iota is input after the base letter.
+
+\begin{itemize}
+\item
+  \verb|\ypogegrammeni| sets a COMBINING GREEK YPOGEGRAMMENI:
+  \textalpha\ypogegrammeni{} k\ypogegrammeni{}.
+
+  A Greek capital letter followed by COMBINING GREEK YPOGEGRAMMENI is
+  normalised to the corresponding Greek capital letter WITH [... AND]
+  PROSGEGRAMMENI, if a mapping exists in the Unicode standard.
+
+\item \verb|\prosgegrammeni| sets a spacing GREEK PROSGEGRAMMENI:
+  \textAlpha\prosgegrammeni{} K\prosgegrammeni{}.
+
+  Spacing is better with the pre-composed characters for Greek capital
+  letters \ldots{} WITH PROSGEGRAMMENI.
+
+  Compare Αι (small letter iota) vs. Αι (spacing prosgegrammeni) vs. ᾼ
+  (pre-composed).
+
+
+\end{itemize}
+%
+Test letters with ypogegrammeni and prosgegrammeni (literal/LICR):
+
+\begin{quote}
+  % \Greek % compilation error, see section TODO below
+  \begin{tabular}{lll}
+    unchanged & make lowercase & make uppercase. \\
+
+    ᾳαι/\textalpha\ypogegrammeni \textalpha\prosgegrammeni{} &
+    \MakeLowercase{ᾳαι/\textalpha\ypogegrammeni \textalpha\prosgegrammeni} &
+    \MakeUppercase{ᾳαι/\textalpha\ypogegrammeni \textalpha\prosgegrammeni} \\
+
+    ᾼΑι/\textAlpha\ypogegrammeni \textAlpha\prosgegrammeni{} &
+    \MakeLowercase{ᾼΑι/\textAlpha\ypogegrammeni \textAlpha\prosgegrammeni} &
+    \MakeUppercase{ᾼΑι/\textAlpha\ypogegrammeni \textAlpha\prosgegrammeni} \\
+
+    ΛͅΛι/\textLambda\ypogegrammeni \textLambda\prosgegrammeni{} &
+    \MakeLowercase{ΛͅΛι/\textLambda\ypogegrammeni \textLambda\prosgegrammeni} &
+    \MakeUppercase{ΛͅΛι/\textLambda\ypogegrammeni \textLambda\prosgegrammeni}
+  \end{tabular}
+\end{quote}
+
+
+\subsection{Additional Greek symbols}
+
+\subsubsection{symbols for Greek numbers}
+
+\begin{quote}
+\raggedright
+\textkoppa{}      textkoppa                 \\ % ϟ
+\textKoppa{}      textKoppa                 \\ % Ϟ
+\textqoppa{}      textqoppa (archaic koppa) \\ % ϙ
+\textQoppa{}      textQoppa (archaic Koppa) \\ % Ϙ
+\textstigma{}     textstigma                \\ % ϛ
+% \textvarstigma{}  textvarstigma \\ % no separate Unicode character
+\textStigma{}     textStigma (Sigma-Tau-Ligature in CB-fonts)%
+\footnote{the name “stigma” originally applied to a medieval sigma-tau
+         ligature, whose shape was confusingly similar to the cursive
+         digamma}                           \\ % Ϛ
+\textsampi{}      textsampi                 \\ % ϡ
+\textSampi{}      textSampi                 \\ % Ϡ
+\textdigamma{}    textdigamma               \\ % ϝ (\digamma used by amsmath!)
+\textDigamma{}    textDigamma               \\ % Ϝ
+% numeral signs: http://en.wikipedia.org/wiki/Greek_numerals
+\textdexiakeraia{}    textdexiakeraia       \\ % ʹ
+\textaristerikeraia{} textaristerikeraia    \\ % ͵
+\end{quote}
+
+\subsubsection{symbol variants}
+
+Mathematical notation uses variant shapes of some Greek letters as
+additional symbols. The variations have no syntactic meaning in Greek text
+and text fonts may use the variant shapes in place of the “regular” ones as
+a stylistic choice.
+
+Unicode defines separate code points for the symbol variants. TeX supports
+some of the variant shape symbols in mathematical mode, but its concept of
+“standard” vs. “variant” symbols differs from the distinction between
+“GREEK LETTER ...” vs. “GREEK ... SYMBOL” in the Unicode standard (see
+Table \ref{tab:symbol-variants}).
+
+\begin{table}[tbp]
+  \centering
+  \begin{tabular}{cccc}
+  \hline
+  \multicolumn{2}{c}{TeX math} & \multicolumn{2}{c}{Unicode} \\
+  symbol & var symbol & “letter” & “symbol” \\
+  \hline
+  $\pi$      & $\varpi$       & π & ϖ \\
+  $\rho$     & $\varrho$      & ρ & ϱ \\
+  $\theta$   & $\vartheta$    & θ & ϑ \\
+  \hline
+  $\epsilon$ & $\varepsilon$  & ε & ϵ \\
+  $\phi$     & $\varphi$      & φ & ϕ \\
+  \hline
+  $\beta$    & \emph{missing} & β & ϐ \\
+  $\kappa$   & \emph{missing} & κ & ϰ \\
+  $\Theta$   & \emph{missing} & Θ & ϴ \\
+  \hline
+  \end{tabular}
+  \caption{Greek symbol variants in TeX and Unicode}
+  \label{tab:symbol-variants}
+\end{table}
+
+\texttt{tuenc-greek.def} defines three TextCommands for each of these
+letters:
+\begin{quote}
+  \verb|\text<name>| selects the Unicode GREEK LETTER ... variant,
+
+  \verb|\text<name>symbol| selects the Unicode
+     GREEK ... SYMBOL variant,
+
+  \verb|\textvar<name>| selects the variant
+    shape according to TeX's mathematical mode
+\end{quote}
+See Table \ref{tab:symbol-variant-macros} for the full list. The
+\href{alphabeta-doc.pdf}{\emph{alphabeta}} package defines short macros that
+work in text and math mode.
+
+\begin{table}[tbp]
+  \centering
+  \begin{tabular}{lclc}
+  \hline
+  \multicolumn{2}{c}{text} & \multicolumn{2}{c}{mathematics} \\
+  macro & output & macro & output \\
+  \hline
+  \verb$\textbeta$          & \textbeta          & \verb$\beta$       & $\beta$       \\
+  \verb$\textvarbeta$       & \textvarbeta       & \emph{missing}     & \\
+  \verb$\textbetasymbol$    & \textbetasymbol    &                    & \\
+  \hline
+  \verb$\textepsilon$       & \textepsilon       & \verb$\epsilon$    & $\epsilon$    \\
+  \verb$\textvarepsilon$    & \textvarepsilon    & \verb$\varepsilon$ & $\varepsilon$ \\
+  \verb$\textepsilonsymbol$ & \textepsilonsymbol &                    & \\
+  \hline
+  \verb$\texttheta$         & \texttheta         & \verb$\theta$      & $\theta$      \\
+  \verb$\textvartheta$      & \textvartheta      & \verb$\vartheta$   & $\vartheta$   \\
+  \verb$\textthetasymbol$   & \textthetasymbol   &                    & \\
+  \hline
+  \verb$\textTheta$         & \textTheta         & \verb$\Theta$      & $\Theta$      \\
+  \verb$\textvarTheta$      & \textvarTheta      & \emph{missing}     & \\
+  \verb$\textThetasymbol$   & \textThetasymbol   &                    & \\
+  \hline
+  \verb$\textkappa$         & \textkappa         & \verb$\kappa$      & $\kappa$      \\
+  \verb$\textvarkappa$      & \textvarkappa      & \verb$\varkappa$   & $\varkappa$   \\
+  \verb$\textkappasymbol$   & \textkappasymbol   &                    & \\
+  \hline
+  \verb$\textpi$            & \textpi            & \verb$\pi$         & $\pi$         \\
+  \verb$\textvarpi$         & \textvarpi         & \verb$\varpi$      & $\varpi$      \\
+  \verb$\textpisymbol$      & \textpisymbol      &                    & \\
+  \hline
+  \verb$\textrho$           & \textrho           & \verb$\rho$        & $\rho$        \\
+  \verb$\textvarrho$        & \textvarrho        & \verb$\varrho$     & $\varrho$     \\
+  \verb$\textrhosymbol$     & \textrhosymbol     &                    & \\
+  \hline
+  \verb$\textphi$           & \textphi           & \verb$\phi$        & $\phi$        \\
+  \verb$\textvarphi$        & \textvarphi        & \verb$\varphi$     & $\varphi$     \\
+  \verb$\textphisymbol$     & \textphisymbol     &                    & \\
+  \hline
+  \end{tabular}
+  \caption{Macros for Greek symbol variants}
+  \label{tab:symbol-variant-macros}
+\end{table}
+
+\subsubsection{Ancient Greek Numbers}
+
+Ancient Greek Numbers are missing in most fonts (including Libertine and
+Deja Vu). The “FreeSerif” font works fine:
+\begin{quote}
+\textpentedeka    % GREEK ACROPHONIC ATTIC FIFTY
+\textpentehekaton % GREEK ACROPHONIC ATTIC FIVE HUNDRED
+\textpenteqilioi  % GREEK ACROPHONIC ATTIC FIVE THOUSAND
+\textpentemuria   % GREEK ACROPHONIC ATTIC FIFTY THOUSAND
+\end{quote}
+If the LGR font encoding is loaded via «fontenc» in the document preamble,
+Ancient Greek Numbers (as well as any other character) from LGR encoded
+8-bit TeX fonts can be used after a font-encoding switch. (This document
+defines the \verb|\lgrfont| command for this purpose in the preamble.)
+\begin{quote}
+\lgrfont{
+\textpentedeka    % GREEK ACROPHONIC ATTIC FIFTY
+\textpentehekaton % GREEK ACROPHONIC ATTIC FIVE HUNDRED
+\textpenteqilioi  % GREEK ACROPHONIC ATTIC FIVE THOUSAND
+\textpentemuria   % GREEK ACROPHONIC ATTIC FIFTY THOUSAND
+}
+\end{quote}
+
+
+\subsubsection{generic text symbols}
+
+There are some LICR macros for symbols from the 8-bit font encoding LGR
+that are not confined to Greek but missing in
+\texttt{tuenc.def} [2021/04/29 v2.0v] in TeXLive 23.
+
+\begin{quote}
+  \textsemicolon{} textsemicolon\\
+  \textmicro{} textmicro \\
+  \textschwa{} textschwa
+\end{quote}
+The SI unit prefix MICRO SIGN is not upcased with MakeUppercase:
+
+\begin{quote}
+  textmu: \textmu{} $\mapsto$ \MakeUppercase{\textmu} but
+  textmicro: \textmicro{} $\mapsto$ \MakeUppercase{\textmicro}.
+\end{quote}
+
+
+\section{Latin transliteration}
+
+The Latin transliteration known from LGR encoded 8-bit fonts%
+\footnote{See the \pkgref{teubner} package or \pkgref{babel-greek}
+          for a description.}
+does not work with Unicode fonts.
+
+For LuaTeX, there is a \texttt{transliteration.omega} \emph{transform} that
+applies the transliteration system devised by Yannis Haralambous for the
+Omega system (cf. the Babel documentation for the
+\href{https://latex3.github.io/babel/guides/locale-greek.html}{Greek locale}).
+
+It is possible to set up LGR encoded fonts parallel to Unicode fonts (see
+the preamble of the source file \url{test-tuenc-greek.tex} for an example).
+After switching the font encoding to LGR, Greek text can be input
+via a \emph{Latin transliteration}, e.g. «logos» becomes «\lgrfont{logos}»
+and «\texttt{>aupn'ia}» becomes «\lgrfont{>aupn\'ia}».
+
+Mark that you cannot use Unicode input with LGR encoded fonts except when
+running in 8-bit compatibility mode.
+LICR macros work in both, TU and LGR: compare
+\>\textIota\textalpha\textnu\textomicron\textupsilon\textalpha
+\textrho\acctonos\textiota\textomicron\textupsilon{} (TU) vs.
+\lgrfont{\>\textIota\textalpha\textnu\textomicron\textupsilon\textalpha
+         \textrho\acctonos\textiota\textomicron\textupsilon} (LGR).
+
+
+\section{UPPERCASE and lowercase \label{sec:uppercase-and-lowercase}}
+
+According to Greek typesetting conventions, Greek diacritics (except the
+dialytika and sub-iota) are placed to the left (instead of above) capital
+letters and dropped if text is set in UPPERCASE, e.g. \ensuregreek{μαΐστρος
+$\mapsto$ \MakeUppercase{μαΐστρος}}.
+
+The 2022 \verb|\MakeUppercase| implementation
+(cf. \textsf{ltnews35.pdf}) relies on Unicode data.
+It upcases literal characters according to the Greek conventions
+\textbf{if the text language is set to Greek} with \pkgref{babel}
+or \pkgref{polyglossia}.
+For the pre-2022/06 implementation, \texttt{tuenc-greek.def} contains
+uccode/lccode corrections (taken from Apostolos Syropoulos \pkgref{xgreek}
+package) to get the same effect (independent of the text language).
+
+In addition, \texttt{tuenc-greek.def} contains code to drop Greek diacritics
+input as accent macros.
+However, when using the symbol macros (\verb|\' \` \~|) for tonos, varia,
+and perispomeni, special definitions from \pkgref{babel-greek} ≥ 1.13.3 are
+required to distinguish them from acute, grave, and tilde accents that must
+be kept on Latin letters.
+
+Named Greek accents and symbol accents on Greek vs. Latin letter:
+\begin{quote}
+  \Greek
+  \newcommand{\sample}{
+   \acctonos\textupsilon\'\textupsilon{}  \acctonos u\'u
+   \accvaria\textupsilon\`\textupsilon{}  \accvaria u\`u}
+  \sample → \MakeUppercase{\sample}
+\end{quote}
+Standard symbol accents on Latin letters are kept (OK). With pre-2023 LaTeX
+versions or babel-greek < 1.13.3, standard accents are also kept on Greek
+letters (sic!).
+
+
+\subsection{hiatus}
+
+Tonos and psili mark a \emph{hiatus} (break-up of a diphthong) if placed on
+the first of two consecutive vowels (άι, άυ, έι, ἀυ, ἄι, ἄυ, ἔι).
+A dialytika must be placed on the second vowel if they are dropped:
+\begin{quote}
+  % from teubner: άυλος/ΑΫΛΟΣ
+  \acctonos\textalpha\textupsilon λος $\mapsto$
+  \MakeUppercase{\acctonos\textalpha\textupsilon λος},
+  \accpsilioxia\textalpha\textupsilon λος $\mapsto$
+  \MakeUppercase{\accpsilioxia\textalpha\textupsilon λος},
+
+  % from http://diacritics.typo.cz/index.php?id=69  μάινα -> ΜΑΪΝΑ
+  m\acctonos\textalpha\textiota να $\mapsto$
+  \MakeUppercase{m\acctonos\textalpha\textiota να},
+  % from  http://de.wikipedia.org/wiki/Neugriechische_Orthographie#Das_Trema
+  % κέικ, ἀυπνία/αϋπνία
+  \textkappa\acctonos\textepsilon\textiota\textkappa $\mapsto$
+  \MakeUppercase{\textkappa\acctonos\textepsilon\textiota\textkappa},
+  \accpsili\textalpha\textupsilon πνία $\mapsto$
+  \MakeUppercase{\accpsili\textalpha\textupsilon πνία}.
+  % from https://r12a.github.io/scripts/grek/el.html#transforms
+  % νεράιδα -> ΝΕΡΑΪΔΑ
+  νεράιδα → \MakeUppercase{νεράιδα}
+\end{quote}
+%
+Since 2023/02/10, this works with all literals
+\begin{quote}
+  \Greek
+  \newcommand*{\hiatest}{άι, άυ, έι, ἄι, ἄυ, ἔι, ἀυ}
+  \hiatest{} $\mapsto$ \MakeUppercase{\hiatest},
+\end{quote}
+with named accent-macro + Unicode literals:
+\begin{quote}
+  \Greek
+  \newcommand*{\hiatest}{
+    \acctonos αι, \acctonos αυ, \acctonos ει,
+    \accpsilioxia αι, \accpsilioxia αυ, \accpsilioxia ει, \accpsili αυ}
+  \hiatest{} $\mapsto$ \MakeUppercase{\hiatest}
+\end{quote}
+and, with babel-greek 1.13.3 with short accent-macro + Unicode literals:
+\begin{quote}
+  \Greek
+  \newcommand*{\hiatest}{
+    \'αι, \'αυ, \'ει, \'>αι, \'>αυ, \'>ει, \>αυ}
+  \hiatest{} $\mapsto$ \MakeUppercase{\hiatest}
+\end{quote}
+
+\section{Character Tables}
+
+The file \texttt{char-list.tex} contains a listing of all Greek
+Unicode characters supported by the \emph{greek-fontenc} package.
+See \texttt{char-list-tu.tex} for the output with XeTeX/LuaTeX.
+
+\section{TODO}
+
+Compilation error with MakeUppercase and combining ypogegrammeni in Greek
+locale.
+
+% \begin{quote}
+%   \Greek
+%   Λͅ → \MakeUppercase{Λͅ} % fails with new XeTeX / LuaTeX
+%
+%   % \~α\ypogegrammeni{} →
+%   % \MakeUppercase{\~α\ypogegrammeni{}} % fails with old LuaTeX (but not XeTeX)
+% \end{quote}
+
+\end{document}

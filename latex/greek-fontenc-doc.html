@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="Docutils 0.21b.dev: https://docutils.sourceforge.io/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="dcterms.rights" content="© 2010 – 2023 Günter Milde &lt;milde&#64;users.sf.net&gt;" />
+<title>greek-fontenc</title>
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/"/>
+<style type="text/css">
+
+/* Minimal style sheet for the HTML output of Docutils.                    */
+/*                                                                         */
+/* :Author: Günter Milde, based on html4css1.css by David Goodger          */
+/* :Id: $Id$                                                               */
+/* :Copyright: © 2015, 2021 Günter Milde.                                  */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+
+/* This CSS3 stylesheet defines rules for Docutils elements without        */
+/* HTML equivalent. It is required to make the document semantics visible. */
+/*                                                                         */
+/* .. _validates: http://jigsaw.w3.org/css-validator/validator$link        */
+
+/* titles */
+p.topic-title,
+p.admonition-title,
+p.system-message-title {
+  font-weight: bold;
+}
+p.sidebar-title,
+p.rubric {
+  font-weight: bold;
+  font-size: larger;
+}
+p.rubric {
+  color: maroon;
+}
+p.subtitle,
+p.section-subtitle,
+p.sidebar-subtitle {
+  font-weight: bold;
+  margin-top: -0.5em;
+}
+h1 + p.subtitle {
+  font-size: 1.6em;
+}
+a.toc-backref {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Warnings, Errors */
+.system-messages h2,
+.system-message-title,
+span.problematic {
+  color: red;
+}
+
+/* Inline Literals */
+.docutils.literal {
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+/* do not wrap at hyphens and similar: */
+.literal > span.pre { white-space: nowrap; }
+
+/* Lists */
+
+/* compact and simple lists: no margin between items */
+.simple  li, .simple  ul, .simple  ol,
+.compact li, .compact ul, .compact ol,
+.simple  > li p, dl.simple  > dd,
+.compact > li p, dl.compact > dd {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Nested Paragraphs */
+p:first-child { margin-top: 0; }
+p:last-child { margin-bottom: 0; }
+details > p:last-child { margin-bottom: 1em; }
+
+/* Table of Contents */
+.contents ul.auto-toc { /* section numbers present */
+  list-style-type: none;
+}
+
+/* Enumerated Lists */
+ol.arabic     { list-style: decimal }
+ol.loweralpha { list-style: lower-alpha }
+ol.upperalpha { list-style: upper-alpha }
+ol.lowerroman { list-style: lower-roman }
+ol.upperroman { list-style: upper-roman }
+
+/* Definition Lists and Derivatives */
+dt .classifier { font-style: italic }
+dt .classifier:before {
+  font-style: normal;
+  margin: 0.5em;
+  content: ":";
+}
+/* Field Lists and similar */
+/* bold field name, content starts on the same line */
+dl.field-list,
+dl.option-list,
+dl.docinfo {
+  display: flow-root;
+}
+dl.field-list > dt,
+dl.option-list > dt,
+dl.docinfo > dt {
+  font-weight: bold;
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.2em;
+}
+/* Offset for field content (corresponds to the --field-name-limit option) */
+dl.field-list > dd,
+dl.option-list > dd,
+dl.docinfo > dd {
+  margin-left:  9em; /* ca. 14 chars in the test examples, fit all Docinfo fields */
+}
+/* start nested lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+/* start field-body on a new line after long field names */
+dl.field-list > dd > *:first-child,
+dl.option-list > dd > *:first-child
+{
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+}
+
+/* Bibliographic Fields (docinfo) */
+dl.docinfo pre.address {
+  font: inherit;
+  margin: 0.5em 0;
+}
+dl.docinfo > dd.authors > p { margin: 0; }
+
+/* Option Lists */
+dl.option-list > dt { font-weight: normal; }
+span.option { white-space: nowrap; }
+
+/* Footnotes and Citations  */
+
+.footnote, .citation { margin: 1em 0; } /* default paragraph skip (Firefox) */
+/* hanging indent */
+.citation { padding-left: 2em; }
+.footnote { padding-left: 1.7em; }
+.footnote.superscript { padding-left: 1.0em; }
+.citation > .label { margin-left: -2em; }
+.footnote > .label { margin-left: -1.7em; }
+.footnote.superscript > .label { margin-left: -1.0em; }
+
+.footnote > .label + *,
+.citation > .label + * {
+  display: inline-block;
+  margin-top: 0;
+  vertical-align: top;
+}
+.footnote > .backrefs + *,
+.citation > .backrefs + * {
+  margin-top: 0;
+}
+.footnote > .label + p, .footnote > .backrefs + p,
+.citation > .label + p, .citation > .backrefs + p {
+  display: inline;
+  vertical-align: inherit;
+}
+
+.backrefs { user-select: none; }
+.backrefs > a { font-style: italic; }
+
+/* superscript footnotes */
+a[role="doc-noteref"].superscript,
+.footnote.superscript > .label,
+.footnote.superscript > .backrefs {
+  vertical-align: super;
+  font-size: smaller;
+  line-height: 1;
+}
+a[role="doc-noteref"].superscript > .fn-bracket,
+.footnote.superscript > .label > .fn-bracket {
+  /* hide brackets in display but leave for copy/paste */
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+}
+[role="doc-noteref"].superscript + [role="doc-noteref"].superscript {
+  padding-left: 0.15em; /* separate consecutive footnote references */
+  /* TODO: unfortunately, "+" also selects with text between the references. */
+}
+
+/* Alignment */
+.align-left   {
+  text-align: left;
+  margin-right: auto;
+}
+.align-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.align-right  {
+  text-align: right;
+  margin-left: auto;
+}
+.align-top    { vertical-align: top; }
+.align-middle { vertical-align: middle; }
+.align-bottom { vertical-align: bottom; }
+
+/* reset inner alignment in figures and tables */
+figure.align-left, figure.align-right,
+table.align-left, table.align-center, table.align-right {
+  text-align: inherit;
+}
+
+/* Text Blocks */
+.topic { margin: 1em 2em; }
+.sidebar,
+.admonition,
+.system-message {
+  margin: 1em 2em;
+  border: thin solid;
+  padding: 0.5em 1em;
+}
+div.line-block { display: block; }
+div.line-block div.line-block, pre { margin-left: 2em; }
+
+/* Code line numbers: dropped when copying text from the page */
+pre.code .ln { display: none; }
+pre.code code:before {
+  content: attr(data-lineno); /* …, none) fallback not supported by any browser */
+  color: gray;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+}
+td, th {
+  border: thin solid silver;
+  padding: 0 1ex;
+}
+.borderless td, .borderless th {
+  border: 0;
+  padding: 0;
+  padding-right: 0.5em /* separate table cells */
+}
+
+table > caption {
+  text-align: left;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+table.captionbelow {
+  caption-side: bottom;
+}
+
+/* Document Header and Footer */
+header { border-bottom: 1px solid black; }
+footer { border-top: 1px solid black; }
+
+/* Images are block-level by default in Docutils */
+/* New HTML5 block elements: set display for older browsers */
+img, header, footer, main, aside, nav, section, figure, video, details {
+  display: block;
+}
+/* inline images */
+p img, p video, figure img, figure video {
+  display: inline;
+}
+
+</style>
+<style type="text/css">
+
+/* CSS3_ style sheet for the output of Docutils HTML5 writer.  */
+/* Generic responsive design for all screen sizes.                         */
+/*                                                                         */
+/* :Author: Günter Milde                                                   */
+/*                                                                         */
+/* :Id: $Id$                                                               */
+/* :Copyright: © 2021 Günter Milde.                                        */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+/* .. _CSS3: https://www.w3.org/Style/CSS/                                 */
+
+/* Note:                                                                   */
+/* This style sheet is provisional:                                        */
+/* the API is not settled and may change with any minor Docutils version.  */
+
+
+
+/* General Settings */
+/* ================ */
+
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: #fafaf6;
+  margin: auto;
+  --field-indent: 6.6em; /* indent of fields in field lists */
+  --sidebar-margin-right: 0; /* adapted in media queries below */
+}
+main {
+  counter-reset: figure table;
+}
+body > * {
+  background-color: white;
+  line-height: 1.6;
+  padding: 0.5rem calc(29% - 7.2rem); /* go from 5% to 15% (8.15em/54em) */
+  margin: auto;
+  max-width: 100rem;
+}
+sup, sub { /* avoid additional inter-line space for lines with sup/sub */
+  line-height: 1;
+}
+
+/* Vertical Space (Parskip) */
+p, ol, ul, dl, li,
+div.line-block,
+.topic,
+.footnote, .citation,
+div > math,
+table {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+h1, h2, h3, h4, h5, h6,
+dl > dd, details > p:last-child {
+  margin-bottom: 0.5em;
+}
+
+/* Indented Blocks */
+blockquote, figure, .topic {
+  margin: 1em 2%;
+  padding-left: 1em;
+}
+div.line-block div.line-block,
+pre, dd, dl.option-list {
+  margin-left: calc(2% + 1em);
+}
+
+/* Object styling */
+/* ============== */
+
+footer, header {
+  font-size: small;
+}
+
+/* Frontmatter */
+div.dedication {
+  padding: 0;
+  margin: 1.4em 0;
+  font-style: italic;
+  font-size: large;
+}
+.dedication p.topic-title {
+  display: none;
+}
+
+blockquote p.attribution,
+.topic p.attribution {
+  text-align: right;
+}
+
+/* Table of Contents */
+nav.contents ul {
+  padding-left: 1em;
+}
+ul.auto-toc > li > p { /* hanging indent */
+  padding-left: 1em;
+  text-indent: -1em;
+}
+main > nav.contents  ul:not(.auto-toc) {
+  list-style-type: square;
+}
+main > nav.contents  ul ul:not(.auto-toc) {
+  list-style-type: disc;
+}
+main > nav.contents  ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B29\ ';
+}
+main > nav.contents  ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B1D\ ';
+}
+main > nav.contents  ul ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B2A\ ';
+}
+nav.contents ul > li::marker {
+  color: grey;
+}
+
+/* Transitions */
+hr {
+  margin: 1em 10%;
+}
+
+/* Lists */
+
+ul, ol {
+  padding-left: 1.1em; /* indent by bullet width (Firefox, DejaVu fonts) */
+}
+dl.field-list > dd,
+dl.docinfo > dd {
+  margin-left: var(--field-indent); /* adapted in media queries or HTML */
+}
+dl.option-list > dd {
+  margin-left: 20%;
+}
+/* run-in: start field-body on same line after long field names */
+dl.field-list.run-in > dd p {
+  display: block;
+}
+/* "description style" like in most dictionaries, encyclopedias etc. */
+dl.description {
+  display: flow-root;
+}
+dl.description > dt {
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.3em;
+  font-weight: bold;
+}
+dl.description > dd:after {
+  display: table;
+  content: "";
+  clear: left; /* clearfix for empty descriptions */
+}
+/* start lists nested in description/field lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+
+/* disclosures */
+details { padding-left: 1em; }
+summary { margin-left: -1em; }
+
+/* Footnotes and Citations */
+.footnote {
+  font-size: small;
+}
+
+/* Images, Figures, and Tables */
+img {
+  display: block;
+}
+p > img, p > a > img,
+figure > img, figure > a > img {
+  display: inline;
+}
+
+figcaption,
+table > caption {
+  /*   font-size: small; */
+  font-style: italic;
+}
+figcaption > .legend {
+  font-size: small;
+  font-style: initial;
+}
+figure.numbered > figcaption > p:before {
+  counter-increment: figure;
+  content: "Figure " counter(figure) ": ";
+  font-weight: bold;
+  font-style: initial;
+}
+
+table tr {
+  text-align: left;
+  vertical-align: baseline;
+}
+table.booktabs { /* "booktabs" style (no vertical lines) */
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+}
+table.booktabs * {
+  border: 0;
+}
+table.booktabs th {
+  border-bottom: thin solid;
+}
+table.numbered > caption:before {
+  counter-increment: table;
+  content: "Table " counter(table) ": ";
+  font-weight: bold;
+  font-style: initial;
+}
+
+/* Admonitions and System Messages */
+.admonition,
+div.system-message {
+  border: thin solid silver;
+  margin: 1em 2%;
+  padding: 0.5em 1em;
+}
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.warning p.admonition-title,
+div.error {
+  color: maroon;
+}
+div.system-message > p > span.literal {
+  overflow-wrap: break-word;
+}
+
+/* Literal and Code */
+pre.literal-block, pre.doctest{
+  padding: 0.2em;
+  overflow-x: auto;
+}
+.literal-block, .doctest, span.literal {
+  background-color: #f6f9f8;
+}
+.system-message span.literal {
+  background-color: inherit;
+}
+
+/* basic highlighting: for a complete scheme, see */
+/* https://docutils.sourceforge.io/sandbox/stylesheets/ */
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+/* Hyperlink References */
+a {
+  text-decoration: none; /* for chromium */
+  /* Wrap links at any place, if this is the only way to prevent overflow */
+  overflow-wrap: break-word;
+}
+.contents a, a.toc-backref, a.citation-reference {
+  overflow-wrap: inherit;
+}
+/* Undecorated Links (see also minimal.css) */
+/* a.citation-reference, */
+.citation a.fn-backref {
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+*:hover > a.toc-backref:after {
+  content: " \2191"; /* ↑ UPWARDS ARROW */
+  color: grey;
+}
+*:hover > a.self-link:after {
+  content: "\1F517"; /* LINK SYMBOL */
+  color: grey;
+  font-size: smaller;
+  margin-left: 0.2em;
+}
+/* highlight the target of the current URL */
+section:target > h2, section:target > h3, section:target > h4,
+section:target > h5, section:target > h6,
+.contents :target,
+.contents:target > .topic-title,
+[role="doc-biblioentry"]:target > .label,
+[role="doc-biblioref"]:target,
+[role="note"]:target, /* Docutils 0.18 ... 0.19 */
+[role="doc-footnote"]:target, /* Docutils >= 0.20 */
+[role="doc-noteref"]:target {
+  background-color: #d2e6ec;
+}
+
+/* Block Alignment */
+/* Let content flow to the side of aligned images and figures */
+
+/* no floats around this elements */
+footer, header, hr,
+h1, h2, h3 {
+  clear: both;
+}
+
+img.align-left,
+svg.align-left,
+video.align-left,
+figure.align-left,
+div.align-left,
+table.align-left {
+  margin-left: 0;
+  padding-left: 0;
+  margin-right: 0.5em;
+  clear: left;
+  float: left;
+}
+img.align-right,
+svg.align-right,
+video.align-right,
+figure.align-right,
+div.align-right,
+table.align-right {
+  margin-left: 0.5em;
+  margin-right: 0;
+  clear: right;
+  float: right;
+}
+
+/* Margin Elements */
+/* see below for screen size dependent rules */
+.sidebar,
+.marginal,
+.admonition.marginal {
+  max-width: 40%;
+  border: none;
+  background-color: #efefea;
+  margin: 0.5em var(--sidebar-margin-right) 0.5em 1em;
+  padding: 0.5em;
+  padding-left: 0.7em;
+  clear: right;
+  float: right;
+  font-size: small;
+}
+.sidebar {
+  width: 40%;
+}
+
+/* Math */
+/* for math-output=MathML (for math-output=HTML, see math.css) */
+math .boldsymbol {
+  font-weight: bold;
+}
+mstyle.mathscr, mi.mathscr {
+  font-family: STIX, XITSMathJax_Script, rsfs10,
+               "Asana Math", Garamond, cursive;
+}
+
+/* Adaptive page layout */
+/* ==================== */
+
+@media (max-width: 30em) {
+  /* Smaller margins and no floating elements for small screens */
+  /* (main text less than 40 characters/line) */
+  body > * {
+    padding: 0.5rem 5%;
+    line-height: 1.4
+  }
+  .sidebar,
+  .marginal,
+  .admonition.marginal {
+    width: auto;
+    max-width: 100%;
+    float: none;
+  }
+  dl.option-list,
+  pre {
+    margin-left: 0;
+  }
+  body {
+    --field-indent: 4em;
+  }
+  dl.field-list.narrow, dl.docinfo, dl.option-list {
+    --field-indent: 2.4em;
+  }
+  pre, pre * {
+  font-size: 0.9em;
+  /* overflow: auto; */
+  }
+}
+
+@media (min-width: 54em) {
+  /* Move ToC to the left */
+  /* Main text width before: 70% ≙ 35em ≙ 75…95 chrs (Dejavu/Times) */
+  /*                  after:      ≳ 30em ≙ 54…70 chrs (Dejavu/Times) */
+  body.with-toc {
+    padding-left: 8%;
+  }
+  body.with-toc > * {
+    margin-left: 0;
+    padding-left: 22rem; /* fallback for webkit */
+    padding-left: min(22%, 22rem);
+    padding-right: 7%;
+  }
+  main > nav.contents { /* global ToC */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(25%, 25em);
+    height: 100vh;
+    margin: 0;
+    background-color: #fafaf6;
+    padding: 1em 2% 0 2%;
+    overflow: auto;
+  }
+  main > nav.contents > * {
+    padding-left: 0;
+    line-height: 1.4;
+  }
+  main > nav.contents a {
+  color: inherit;
+  }
+}
+
+@media (min-width: 70em) {
+  body {
+    --field-indent: 9em;
+  }
+}
+
+@media (min-width: 77em) {
+  /* Move marginalia to 6rem from right border       */
+  /* .sidebar,                                       */
+  /* .marginal,                                      */
+  /* .admonition.marginal {                          */
+  /*   margin-right: calc(6rem - 15%);               */
+  /* }                                               */
+  /* BUG: margin is calculated for break point width */
+  /* workaround: variable + many breakpoints         */
+  body > * {
+    padding-left: 18%;
+    padding-right: 28%; /* fallback for webkit */
+    padding-right: min(28%, 28rem);
+    --sidebar-margin-right: -20rem;
+  }
+  /* limit main text to ~ 50em ≙ 85…100 characters DejaVu rsp. …120 Times */
+  body.with-toc > * {
+    padding-left: min(22%, 22rem);
+    padding-right: calc(78% - 50rem); /* fallback for webkit */
+    padding-right: min(78% - 50rem, 28rem);
+    --sidebar-margin-right: 0;
+  }
+}
+
+@media (min-width: 85em) {
+  body.with-toc > * {
+    --sidebar-margin-right: -9rem;
+  }
+}
+
+@media (min-width: 90em) {
+  /* move marginalia into the margin */
+  body > * {
+    padding-left: min(22%, 22rem);
+    --sidebar-margin-right: -23rem;
+  }
+  body.with-toc > * {
+    --sidebar-margin-right: -14rem;
+  }
+}
+
+@media (min-width: 99em) {
+  /* move marginalia out of main text area */
+  body.with-toc > * {
+    --sidebar-margin-right: -20rem;
+  }
+  body > *, body.with-toc > * { /* for webkit */
+    padding-left: 22rem;
+    padding-right: 28rem;
+  }
+  .admonition.marginal,
+  .marginal {
+    width: 40%; /* make marginal figures, ... "full width" */
+  }
+}
+
+@media (min-width: 104em) {
+  body.with-toc > * {
+    --sidebar-margin-right: -23rem;
+  }
+}
+
+</style>
+</head>
+<body class="with-toc">
+<main id="greek-fontenc">
+<h1 class="title">greek-fontenc</h1>
+<p class="subtitle" id="greek-font-encoding-definition-files">Greek font encoding definition files</p>
+<dl class="docinfo">
+<dt class="version">Version<span class="colon">:</span></dt>
+<dd class="version">2.6 (<a class="reference internal" href="#changelog">changelog</a>)</dd>
+<dt class="copyright">Copyright<span class="colon">:</span></dt>
+<dd class="copyright">© 2010 – 2023 Günter Milde &lt;<a class="reference external" href="mailto:milde&#64;users.sf.net">milde&#64;users.sf.net</a>&gt;</dd>
+<dt class="licence">Licence<span class="colon">:</span></dt>
+<dd class="licence"><p>This work may be distributed and/or modified under the
+conditions of the <a class="reference external" href="http://www.latex-project.org/lppl.txt">LaTeX Project Public License</a>, either
+version 1.3 of this license or any later version.</p>
+</dd>
+<dt class="homepage">Homepage<span class="colon">:</span></dt>
+<dd class="homepage"><p><a class="reference external" href="https://codeberg.org/milde/greek-tex">https://codeberg.org/milde/greek-tex</a></p>
+</dd>
+<dt class="latest-release">Latest Release<span class="colon">:</span></dt>
+<dd class="latest-release"><p><a class="reference external" href="https://ctan.org/pkg/greek-fontenc">https://ctan.org/pkg/greek-fontenc</a></p>
+</dd>
+</dl>
+<div class="topic abstract" role="doc-abstract">
+<p class="topic-title">Abstract</p>
+<p>The <cite>greek-fontenc</cite> bundle provides encoding definition files
+for <a class="reference internal" href="#greek-text-font-encodings">Greek text font encodings</a> that define LICR<a class="superscript" href="#footnote-1" id="footnote-reference-1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> macros
+for characters from the Greek script</p>
+<p>Included are also the LaTeX packages <a class="reference internal" href="#textalpha">textalpha</a> and <a class="reference internal" href="#alphabeta">alphabeta</a>.</p>
+</div>
+<aside class="footnote-list superscript">
+<aside class="footnote superscript" id="footnote-1" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-1">1</a><span class="fn-bracket">]</span></span>
+<p><cite>LaTeX internal character representation</cite> (LICR) macros can
+serve as a human readable 7-bit-ASCII character encoding that
+works unaltered under both, 8-bit TeX and XeTeX/LuaTeX.
+Use cases are macro definitions and generated text.</p>
+</aside>
+</aside>
+<nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#tex-files-and-packages" id="toc-entry-1">TeX files and packages</a></p>
+<ul>
+<li><p><a class="reference internal" href="#packages" id="toc-entry-2">Packages</a></p></li>
+<li><p><a class="reference internal" href="#font-encoding-definitions" id="toc-entry-3">Font encoding definitions</a></p></li>
+<li><p><a class="reference internal" href="#auxiliary-files" id="toc-entry-4">Auxiliary files</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#usage-examples-and-test-documents" id="toc-entry-5">Usage examples and test documents</a></p></li>
+<li><p><a class="reference internal" href="#download-and-installation" id="toc-entry-6">Download and Installation</a></p></li>
+<li><p><a class="reference internal" href="#conflicts" id="toc-entry-7">Conflicts</a></p></li>
+<li><p><a class="reference internal" href="#usage" id="toc-entry-8">Usage</a></p></li>
+<li><p><a class="reference internal" href="#greek-text-font-encodings" id="toc-entry-9">Greek text font encodings</a></p>
+<ul>
+<li><p><a class="reference internal" href="#lgr" id="toc-entry-10">LGR</a></p></li>
+<li><p><a class="reference internal" href="#tu" id="toc-entry-11">TU</a></p></li>
+<li><p><a class="reference internal" href="#pu" id="toc-entry-12">PU</a></p></li>
+<li><p><a class="reference internal" href="#lgi" id="toc-entry-13">LGI</a></p></li>
+<li><p><a class="reference internal" href="#t7" id="toc-entry-14">T7</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#greek-licr-macro-names" id="toc-entry-15">Greek LICR macro names</a></p>
+<ul>
+<li><p><a class="reference internal" href="#letters-and-symbols" id="toc-entry-16">Letters and symbols</a></p></li>
+<li><p><a class="reference internal" href="#accent-macros" id="toc-entry-17">Accent macros</a></p></li>
+<li><p><a class="reference internal" href="#symbol-variants" id="toc-entry-18">Symbol variants</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#changelog" id="toc-entry-19">Changelog</a></p></li>
+<li><p><a class="reference internal" href="#references" id="toc-entry-20">References</a></p></li>
+</ul>
+</nav>
+<section id="tex-files-and-packages">
+<h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink">TeX files and packages</a></h2>
+<section id="packages">
+<h3><a class="toc-backref" href="#toc-entry-2" role="doc-backlink">Packages</a></h3>
+<dl id="textalpha">
+<dt><a class="reference external" href="textalpha.sty">textalpha.sty</a>: <a class="reference external" href="textalpha.sty.html">Greek symbols in text</a></dt>
+<dd><p>Use <span class="docutils literal">\textalpha</span> … <span class="docutils literal">\textOmega</span> or Greek literal characters
+independent of font encoding and TeX engine.</p>
+<p>Documentation: <a class="reference external" href="textalpha-doc.pdf">textalpha-doc.pdf</a></p>
+</dd>
+<dt id="alphabeta"><a class="reference external" href="alphabeta.sty">alphabeta.sty</a>: <a class="reference external" href="alphabeta.sty.html">Greek symbols in text and math</a></dt>
+<dd><p>Use <span class="docutils literal">\alpha</span> … <span class="docutils literal">\Omega</span> independent of text/math mode,
+font encoding, and TeX engine.</p>
+<p>Documentation: <a class="reference external" href="alphabeta-doc.pdf">alphabeta-doc.pdf</a></p>
+</dd>
+</dl>
+</section>
+<section id="font-encoding-definitions">
+<h3><a class="toc-backref" href="#toc-entry-3" role="doc-backlink">Font encoding definitions</a></h3>
+<dl class="simple" id="lgr-font-encoding-definition-file">
+<dt><a class="reference external" href="greek-fontenc.def">greek-fontenc.def</a></dt>
+<dd><p><a class="reference external" href="greek-fontenc.def.html">Common Greek font encoding definitions</a></p>
+</dd>
+<dt><a class="reference external" href="lgrenc.def">lgrenc.def</a></dt>
+<dd><p><a class="reference external" href="lgrenc.def.html">LGR Greek font encoding definitions.</a></p>
+</dd>
+<dt id="tuenc-greek"><a class="reference external" href="tuenc-greek.def">tuenc-greek.def</a></dt>
+<dd><p><a class="reference external" href="tuenc-greek.def.html">Extended Greek definitions for the TU font encoding</a></p>
+</dd>
+<dt><a class="reference external" href="puenc-greek.def">puenc-greek.def</a></dt>
+<dd><p><a class="reference external" href="puenc-greek.def.html">Extended Greek definitions for PDF strings</a></p>
+</dd>
+</dl>
+</section>
+<section id="auxiliary-files">
+<h3><a class="toc-backref" href="#toc-entry-4" role="doc-backlink">Auxiliary files</a></h3>
+<dl class="simple">
+<dt><a class="reference external" href="greek-euenc.def">greek-euenc.def</a></dt>
+<dd><p>Backwards compatibility file loading <a class="reference external" href="tuenc-greek.def">tuenc-greek.def</a>.</p>
+</dd>
+<dt><a class="reference external" href="lgr2licr.lua">lgr2licr.lua</a></dt>
+<dd><p><a class="reference external" href="lgr2licr.lua.html">LGR Transcription to Greek LICR transformation</a>.
+Provisional.</p>
+</dd>
+</dl>
+<p>The source files can be converted with <a class="reference external" href="https://pypi.org/project/pylit/">PyLit</a> to <a class="reference external" href="https://docutils.sourceforge.io/rst.html">reStructuredText</a> and
+with <a class="reference external" href="https://docutils.sourceforge.io/rst.html">Docutils</a> to the HTML documentation.</p>
+</section>
+</section>
+<section id="usage-examples-and-test-documents">
+<h2><a class="toc-backref" href="#toc-entry-5" role="doc-backlink">Usage examples and test documents</a></h2>
+<dl>
+<dt><a class="reference external" href="char-list.tex">char-list.tex</a><span class="classifier"><a class="reference external" href="char-list.pdf">char-list.pdf</a>, <a class="reference external" href="char-list-tu.pdf">char-list-tu.pdf</a></span></dt>
+<dd><p>List of Greek characters supported by <cite>greek-fontenc</cite>.
+Compares input variants and tests chase changing.</p>
+</dd>
+<dt><a class="reference external" href="char-list-alphabeta.tex">char-list-alphabeta.tex</a><span class="classifier"><a class="reference external" href="char-list-alphabeta.pdf">char-list-alphabeta.pdf</a>, <a class="reference external" href="char-list-alphabeta-tu.pdf">char-list-alphabeta-tu.pdf</a></span></dt>
+<dd><p>List/test of Greek characters supported by <cite>alphabeta</cite>.</p>
+</dd>
+<dt><a class="reference external" href="hyperref-with-greek.tex">hyperref-with-greek.tex</a><span class="classifier"><a class="reference external" href="hyperref-with-greek.pdf">hyperref-with-greek.pdf</a></span></dt>
+<dd><p><a class="reference external" href="https://ctan.org/pkg/hyperref">Hyperref</a> test and usage example.</p>
+</dd>
+<dt><a class="reference external" href="test-lgrenc.tex">test-lgrenc.tex</a><span class="classifier"><a class="reference external" href="test-lgrenc.pdf">test-lgrenc.pdf</a></span></dt>
+<dd><p>LGR test and usage example.</p>
+</dd>
+<dt><a class="reference external" href="test-tuenc-greek.tex">test-tuenc-greek.tex</a><span class="classifier"><a class="reference external" href="test-tuenc-greek.pdf">test-tuenc-greek.pdf</a></span></dt>
+<dd><p>TU test and usage example.</p>
+</dd>
+<dt><a class="reference external" href="test-luainputenc.tex">test-luainputenc.tex</a><span class="classifier"><a class="reference external" href="test-luainputenc.pdf">test-luainputenc.pdf</a></span></dt>
+<dd><p>Test LICRs with LuaTeX in 8-bit compatibility mode (with <a class="reference external" href="https://ctan.org/pkg/luainputenc">luainputenc</a>).</p>
+</dd>
+</dl>
+</section>
+<section id="download-and-installation">
+<h2><a class="toc-backref" href="#toc-entry-6" role="doc-backlink">Download and Installation</a></h2>
+<p>The simplest way is to install this package from your distribution using
+its installation manager.</p>
+<p>Alternatively:</p>
+<ul class="simple">
+<li><p>Download the latest <a class="reference external" href="https://mirrors.ctan.org/language/greek/greek-fontenc.zip">release</a> from the package’s <a class="reference external" href="https://www.ctan.org/pkg/greek-fontenc">CTAN page</a> or a
+<a class="reference external" href="https://codeberg.org/milde/greek-tex/archive/master.zip">snapshot</a> of the <a class="reference external" href="https://codeberg.org/milde/greek-tex/">greek-tex</a> repository.</p></li>
+<li><p>Unpack the source archive to a temporary location.</p></li>
+<li><p>Copy/Move/Link files ending in <span class="docutils literal">.def</span> or <span class="docutils literal">.sty</span> to a suitable place in
+the TeX search path.</p></li>
+</ul>
+</section>
+<section id="conflicts">
+<h2><a class="toc-backref" href="#toc-entry-7" role="doc-backlink">Conflicts</a></h2>
+<p>The <a class="reference external" href="https://ctan.org/pkg/arabi">arabi</a> package provides the Babel <span class="docutils literal">arabic</span> option which loads
+<span class="docutils literal">arabicfnt.sty</span> for font setup. This package overwrites the LICR macros
+<span class="docutils literal">\omega</span> and <span class="docutils literal">\textomega</span> with font selecting commands.  See the report
+for Debian <a class="reference external" href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=858987">bug 858987</a> for details and the <a class="reference internal" href="#arabi-workaround">arabi workaround</a> below.</p>
+</section>
+<section id="usage">
+<h2><a class="toc-backref" href="#toc-entry-8" role="doc-backlink">Usage</a></h2>
+<p>There are several alternatives to set up the support for a Greek font
+encoding provided by this bundle, e.g.:</p>
+<dl>
+<dt>Babel:</dt>
+<dd><p>Use the <span class="docutils literal">greek</span> option with <a class="reference external" href="https://ctan.org/pkg/babel">Babel</a>:</p>
+<pre class="literal-block">\usepackage[greek]{babel}</pre>
+<p>This automatically loads <span class="docutils literal">lgrenc.def</span> with 8-bit TeX and
+<span class="docutils literal"><span class="pre">tuenc-greek.def</span></span> with XeTeX/LuaTeX and provides localized auto-strings,
+hyphenation and other localizations (see <a class="reference external" href="https://ctan.org/pkg/babel-greek">babel-greek</a>).</p>
+<p>Babel can be used together with <a class="reference internal" href="#textalpha">textalpha</a> or <a class="reference internal" href="#alphabeta">alphabeta</a>.</p>
+</dd>
+<dt><a class="reference internal" href="#textalpha">textalpha</a>:</dt>
+<dd><p>Ensure support for Greek characters in text mode:</p>
+<pre class="literal-block">\usepackage{textalpha}</pre>
+<p>eventually with the <a class="reference external" href="textalpha.sty.html#normalize-symbols">normalize-symbols</a> option to handle <a class="reference internal" href="#symbol-variants">symbol variants</a>
+and/or the <a class="reference external" href="textalpha.sty.html#keep-semicolon">keep-semicolon</a> option to use the <a class="reference external" href="textalpha.sty.html#semicolon-as-erotimatiko">semicolon as erotimatiko</a>
+also in LGR</p>
+<pre class="literal-block">\usepackage[normalize-symbols,keep-semicolon]{textalpha}</pre>
+<p>This sets up LICR macros for Greek text characters under both, 8-bit TeX
+and Xe-/LuaTeX.
+For details see <a class="reference external" href="textalpha-doc.tex">textalpha-doc.tex</a> and <a class="reference external" href="textalpha-doc.pdf">textalpha-doc.pdf</a> (8-bit
+TeX) as well as <a class="reference external" href="test-tuenc-greek.tex">test-tuenc-greek.tex</a> and <a class="reference external" href="test-tuenc-greek.pdf">test-tuenc-greek.pdf</a>
+(XeTeX/LuaTeX).</p>
+</dd>
+<dt><a class="reference internal" href="#alphabeta">alphabeta</a>:</dt>
+<dd><p>To use the short macro names (<span class="docutils literal">\alpha</span> … <span class="docutils literal">\Omega</span>) known from math
+mode in both, text and math mode, write</p>
+<pre class="literal-block">\usepackage{alphabeta}</pre>
+<p>For details see <a class="reference external" href="alphabeta-doc.tex">alphabeta-doc.tex</a> and <a class="reference external" href="alphabeta-doc.pdf">alphabeta-doc.pdf</a>.</p>
+</dd>
+<dt>fontenc:</dt>
+<dd><p>Declare LGR via <a class="reference external" href="https://ctan.org/pkg/fontenc">fontenc</a>. For example, specify T1 (8-bit
+Latin) as default font encoding and LGR for Greek with</p>
+<pre class="literal-block">\usepackage[LGR,T1]{fontenc}</pre>
+<p>Note that without <a class="reference internal" href="#textalpha">textalpha</a> or <a class="reference internal" href="#alphabeta">alphabeta</a>, Greek text macros work
+only if the current font encoding supports Greek. See <a class="citation-reference" href="#fntguide" id="citation-reference-1" role="doc-biblioref">[fntguide]</a> for
+details and <a class="reference external" href="test-lgrenc.tex">test-lgrenc.tex</a> for an example.</p>
+<p>It is possible to use 8-bit Greek text fonts in the LGR TeX font encoding
+also with XeTeX/LuaTeX, if the <a class="reference external" href="https://ctan.org/pkg/fontenc">fontenc</a> package is loaded before
+Babel, <a class="reference internal" href="#textalpha">textalpha</a>, or <a class="reference internal" href="#alphabeta">alphabeta</a>, e.g.</p>
+<pre class="literal-block">\usepackage[LGR]{fontenc}
+\usepackage{fontspec}
+\setmainfont{Linux Libertine O} % Latin Modern does not support Greek
+\setsansfont{Linux Biolinum O}
+\usepackage{textalpha}</pre>
+<p>See <a class="reference external" href="test-tuenc-greek.tex">test-tuenc-greek.tex</a>, <a class="reference external" href="test-tuenc-greek.pdf">test-tuenc-greek.pdf</a> and
+<a class="reference external" href="test-lgrenc.tex">test-lgrenc.tex</a>, <a class="reference external" href="test-lgrenc.pdf">test-lgrenc.pdf</a>.</p>
+</dd>
+</dl>
+<p id="arabi-workaround">To work around the conflict with <a class="reference external" href="https://ctan.org/pkg/arabi">arabi</a>, it may suffice to ensure <span class="docutils literal">greek</span>
+is loaded after <span class="docutils literal">arabic</span>:</p>
+<pre class="literal-block">\usepackage[arabic,greek,english]{babel}</pre>
+<p>More secure is an explicit reverse-definition, e.g.</p>
+<pre class="literal-block">% save original \omega
+\let\mathomega\omega
+
+\usepackage[utf8]{inputenc}
+\usepackage[LAE,LGR,T1]{fontenc}
+\usepackage[arabic,greek,english]{babel}
+
+% fix arabtex:
+\DeclareTextSymbol{\textomega}{LGR}{119}
+\renewcommand{\omega}{\mathomega}</pre>
+</section>
+<section id="greek-text-font-encodings">
+<h2><a class="toc-backref" href="#toc-entry-9" role="doc-backlink">Greek text font encodings</a></h2>
+<section id="lgr">
+<h3><a class="toc-backref" href="#toc-entry-10" role="doc-backlink">LGR</a></h3>
+<p>The LGR font encoding is the de-facto standard for typesetting Greek with
+8-bit LaTeX. <cite>greek-fontenc</cite> provides a comprehensive <a class="reference internal" href="#lgr-font-encoding-definition-file">LGR font
+encoding definition file</a>.</p>
+<p>Fonts in this encoding include the <a class="reference external" href="https://ctan.org/pkg/cbgreek-complete">CB fonts</a> (matching CM), <a class="reference external" href="https://ctan.org/pkg/grtimes">grtimes</a>
+(Greek Times), <a class="reference external" href="https://ctan.org/pkg/kerkis">Kerkis</a> (matching URW Bookman), <a class="reference external" href="https://ctan.org/pkg/dejavu">DejaVu</a>, <a class="reference external" href="https://ctan.org/pkg/libertinegc">Libertine GC</a>, and
+the <a class="reference external" href="https://ctan.org/pkg/gfs">GFS fonts</a>. Setup of these fonts as Greek variant to
+matching Latin fonts is facilitated by the
+<span class="docutils literal">\DeclareFontfamilySubstitution</span> command added to the
+LaTeX kernel in the 2020-02 release <a class="citation-reference" href="#ltnews31" id="citation-reference-2" role="doc-biblioref">[ltnews31]</a>.</p>
+<p>The LGR font encoding allows to access Greek characters via an ASCII
+transliteration. This enables simple input with a Latin keyboard.
+Characters with diacritics can be selected by ligature definitions in the
+font (see <a class="citation-reference" href="#greek-usage" id="citation-reference-3" role="doc-biblioref">[greek-usage]</a>, <a class="citation-reference" href="#teubner-doc" id="citation-reference-4" role="doc-biblioref">[teubner-doc]</a>, <a class="citation-reference" href="#cbfonts" id="citation-reference-5" role="doc-biblioref">[cbfonts]</a>).</p>
+<p>A major drawback of the transliteration is the fact, that you cannot
+access Latin letters if LGR is the active font encoding (e.g. in
+documents or parts of documents given the <cite>Babel</cite> language <span class="docutils literal">greek</span> or
+<span class="docutils literal">polutionikogreek</span>). This means that for every Latin-written word or
+acronym an explicit language-switch is required. This problem can be
+circumvented using Unicode fonts (font encoding <a class="reference internal" href="#tu">TU</a>) with XeTeX or
+LuaTeX.</p>
+</section>
+<section id="tu">
+<h3><a class="toc-backref" href="#toc-entry-11" role="doc-backlink">TU</a></h3>
+<p>Standard Unicode font encoding for XeTeX and LuaTeX loaded by <a class="reference external" href="https://ctan.org/pkg/fontspec">fontspec</a>
+(since v2.5a) rsp. the LaTeX kernel since 2017/01/01 <a class="citation-reference" href="#ltnews26" id="citation-reference-6" role="doc-biblioref">[ltnews26]</a>.<a class="superscript" href="#footnote-2" id="footnote-reference-2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>
+<cite>greek-fontenc</cite> adds support for the Greek script (see <a class="reference internal" href="#tuenc-greek">tuenc-greek</a>).</p>
+<p>Xe/LuaTeX works with any system-wide installed <a class="reference external" href="https://ctan.org/topic/font-otf">OpenType font</a>. Suitable
+fonts supporting Greek include <a class="reference external" href="https://ctan.org/pkg/cm-unicode">CM Unicode</a>, <a class="reference external" href="http://dejavu-fonts.org">Deja Vu</a>, <a class="reference external" href="https://ctan.org/pkg/ebgaramond">EB Garamond</a>,
+the <a class="reference external" href="https://ctan.org/pkg/gfs">GFS fonts</a>, <a class="reference external" href="https://ctan.org/pkg/libertineotf">Libertine OTF</a>, <a class="reference external" href="https://ctan.org/pkg/libertinus">Libertinus</a>, <a class="reference external" href="https://ctan.org/pkg/oldstandard">Old Standard</a>,
+<a class="reference external" href="https://ctan.org/pkg/tempora">Tempora</a>, and <a class="reference external" href="https://ctan.org/pkg/umtypewriter">UM Typewriter</a> (all available on CTAN) but also many commercial
+fonts. Unfortunately, the <a class="reference external" href="https://ctan.org/pkg/fontspec">fontspec</a> default, <a class="reference external" href="http://www.gust.org.pl/projects/e-foundry/latin-modern">Latin Modern</a> misses most
+Greek characters.</p>
+<p>LuaTeX does not apply the NFC normalization by default. This leads to
+sub-optimal placing of some diacritics, especially the sub-iota (becoming
+unintelligible in combination with small letter eta). This issue can be fixed
+specifiying the “Harfbuzz” renderer when loading fonts with fontspec,
+e.g.</p>
+<pre class="literal-block">\setmainfont[Renderer=Harfbuzz]{FreeSerif}</pre>
+<aside class="footnote-list superscript">
+<aside class="footnote superscript" id="footnote-2" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-2">2</a><span class="fn-bracket">]</span></span>
+<p>The legacy Unicode font encodings EU1 and EU2 for XeTeX and LuaTeX
+respectively were superseded by TU in the 2017 fontspec release.</p>
+</aside>
+</aside>
+</section>
+<section id="pu">
+<h3><a class="toc-backref" href="#toc-entry-12" role="doc-backlink">PU</a></h3>
+<p>The package <a class="reference external" href="https://ctan.org/pkg/hyperref">hyperref</a> defines the PU font encoding for use in PDF strings
+(ToC, bookmarks). <cite>greek-fontenc</cite> adds support for Greek LICRs
+(see <a class="reference external" href="hyperref-with-greek.tex">hyperref-with-greek.tex</a>, <a class="reference external" href="hyperref-with-greek.pdf">hyperref-with-greek.pdf</a>).</p>
+<hr class="docutils" />
+<p>The following two encodings are not supported by <cite>greek-fontenc</cite>:</p>
+</section>
+<section id="lgi">
+<h3><a class="toc-backref" href="#toc-entry-13" role="doc-backlink">LGI</a></h3>
+<p>The ‘Ibycus’ fonts from the package <a class="reference external" href="https://ctan.org/pkg/ibygrk">ibygrk</a> implement an alternative
+transliteration scheme (also explained in <a class="citation-reference" href="#babel-patch" id="citation-reference-7" role="doc-biblioref">[babel-patch]</a>).
+It is currently not supported by <cite>greek-fontenc</cite>.</p>
+<p>The font encoding file <span class="docutils literal">lgienc.def</span> from <a class="reference external" href="https://ctan.org/pkg/ibycus-babel">ibycus-babel</a> provides a basic
+setup (without any LICR macros or composite definitions).</p>
+</section>
+<section id="t7">
+<h3><a class="toc-backref" href="#toc-entry-14" role="doc-backlink">T7</a></h3>
+<p>The <a class="citation-reference" href="#encguide" id="citation-reference-8" role="doc-biblioref">[encguide]</a> reserves the name T7 for a Greek <cite>standard font encoding</cite>.
+However, up to now, there is no agreement on an implementation because the
+restrictions for general text encodings are too severe for typesetting
+polytonic Greek.</p>
+</section>
+</section>
+<section id="greek-licr-macro-names">
+<h2><a class="toc-backref" href="#toc-entry-15" role="doc-backlink">Greek LICR macro names</a></h2>
+<aside class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The LICR macro names for Greek symbols are chosen pending
+endorsement by the TeX community and related packages.</p>
+<p>Names for archaic characters, accents/diacritics, and
+punctuation may change in future versions.</p>
+</aside>
+<p>This bundle provides LaTeX internal character representations (LICR macros)
+for Greek letters and diacritics. Macro names were selected based on the
+following considerations:</p>
+<section id="letters-and-symbols">
+<h3><a class="toc-backref" href="#toc-entry-16" role="doc-backlink">Letters and symbols</a></h3>
+<ul>
+<li><p>The <a class="reference internal" href="#fntguide">fntguide</a> (section 6.4 Naming conventions) recommends:</p>
+<blockquote>
+<p>Where possible, text symbols should be named as <span class="docutils literal">\text</span> followed
+by the <strong>Adobe glyph name</strong>: for example <span class="docutils literal">\textonequarter</span> or
+<span class="docutils literal">\textsterling</span>. Similarly, math symbols should be named as
+<span class="docutils literal">\math</span> followed by the glyph name, for example
+<span class="docutils literal">\mathonequarter</span> or <span class="docutils literal">\mathsterling</span>.</p>
+</blockquote>
+<dl class="simple">
+<dt>Problem:</dt>
+<dd><p>The <a class="reference external" href="http://raw.githubusercontent.com/adobe-type-tools/agl-aglfn/master/aglfn.txt">Adobe Glyph List For New Fonts</a> has names for many glyphs in the
+<cite>Greek and Coptic</cite> Unicode block, but not for <cite>Greek extended</cite>. The
+<a class="reference external" href="http://raw.githubusercontent.com/adobe-type-tools/agl-aglfn/master/glyphlist.txt">Adobe Glyph List</a> (for existing fonts) lists additional glyph names
+used in older fonts.  However, these are not intended for active use.</p>
+</dd>
+</dl>
+</li>
+<li><p>If there exists a <strong>math-mode macro</strong> for a symbol, the corresponding text
+macro could be formed by prepending <span class="docutils literal">text</span>.</p>
+<dl class="simple">
+<dt>Example:</dt>
+<dd><p>The glyph name for the GREEK SMALL LETTER FINAL SIGMA is <span class="docutils literal">sigma1</span>,
+the corresponding math-macro is <span class="docutils literal">\varsigma</span>. The text symbol is
+made available as <span class="docutils literal">\textvarsigma</span>.</p>
+</dd>
+<dt>Problem:</dt>
+<dd><p><a class="reference internal" href="#symbol-variants">Symbol variants</a> (see below).</p>
+</dd>
+</dl>
+</li>
+<li><p>The <a class="reference external" href="http://www.unicode.org/Public/UNIDATA/NamesList.txt">Unicode names list</a> provides standardized descriptive names for all
+Unicode characters that use only capital letters of the Latin alphabet.
+While not suited for direct use in LICR macros, they can be
+converted to LICR macro names via a defined set of transformation rules.</p>
+<dl class="simple">
+<dt>Example:</dt>
+<dd><p><span class="docutils literal">\textfinalsigma</span> is a descriptive alias for
+GREEK SMALL LETTER FINAL SIGMA derived via the rules:</p>
+<ul class="simple">
+<li><p>drop “LETTER” if the name remains unique,</p></li>
+<li><p>drop “GREEK” if the name remains unique,</p></li>
+<li><p>use capitalized name for capital letters, lowercase for “SMALL” letters
+and drop “SMALL”,</p></li>
+<li><p>concatenate</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Omit the “text” prefix for macros that do not have a math counterpart?</p>
+<dl class="simple">
+<dt>Pro:</dt>
+<dd><ul class="simple">
+<li><p>Simpler,</p></li>
+<li><p>ease of use (less typing, better readability of source text),</p></li>
+<li><p>many established text macro names without “text”,</p></li>
+<li><p><span class="docutils literal">text</span> prefix does <strong>not</strong> mark a macro as encoding-specific or
+“inserting a glyph”. There are e.g. font-changing macros (<span class="docutils literal">\textbf</span>,
+<span class="docutils literal">\textit</span>) and encoding-changing macros (<span class="docutils literal">\textcyr</span>).</p></li>
+<li><p>There are examples of encoding-specific macros
+without the <span class="docutils literal">text</span>-prefix, especially for letters, see <a class="reference internal" href="#encguide">encguide</a>.</p></li>
+</ul>
+</dd>
+<dt>Contra:</dt>
+<dd><ul class="simple">
+<li><p>Less consistent,</p></li>
+<li><p>possible name clashes</p></li>
+<li><p><span class="docutils literal">text</span> prefix marks a macro as confined to text (as opposed to math)
+mode,</p></li>
+</ul>
+</dd>
+</dl>
+<p>The font encoding definition files use the <span class="docutils literal">text</span> prefix for symbols.
+Aliases (short forms, compatibility defs, etc.) are defined in
+additional packages (e.g. <a class="reference external" href="alphabeta.sty">alphabeta.sty</a> and <a class="reference external" href="https://ctan.org/pkg/teubner">teubner</a>)</p>
+</li>
+</ul>
+</section>
+<section id="accent-macros">
+<h3><a class="toc-backref" href="#toc-entry-17" role="doc-backlink">Accent macros</a></h3>
+<ul>
+<li><p>standard accent macros (<span class="docutils literal">\DeclareTextAccent</span> definitions in
+<span class="docutils literal"><span class="pre">latex/base/...</span></span>) are one-character macros (<span class="docutils literal">\' \&quot; ... \u \v ...</span>) .</p></li>
+<li><p><span class="docutils literal">tipa.sty</span>, <a class="reference external" href="https://ctan.org/pkg/xunicode">xunicode</a>, and <a class="reference external" href="https://ctan.org/pkg/unicode">ucs</a> use the “text” prefix also for accent
+macros.</p>
+<p>However, the <a class="reference external" href="http://raw.githubusercontent.com/adobe-type-tools/agl-aglfn/master/aglfn.txt">Adobe Glyph List For New Fonts</a> maps, e.g., “tonos” and
+“dieresistonos” to the spacing characters GREEK TONOS rsp. GREEK DIALYTIKA
+TONOS, hence <span class="docutils literal">\texttonos</span> and <span class="docutils literal">\textdieresistonos</span> should be spacing
+characters.</p>
+</li>
+<li><p>textcomp (ts1enc.def) defines <span class="docutils literal"><span class="pre">\capital...</span></span> accents (i.e. without
+<span class="docutils literal">text</span> prefix).</p></li>
+</ul>
+<p>Currently, <cite>greek-fontenc</cite> uses for diacritics:</p>
+<ul class="simple">
+<li><p>Greek names like in Unicode, and <span class="docutils literal">ucsencs.def</span>, and</p></li>
+<li><p>the prefix <span class="docutils literal">\acc</span> to distinguish the macros as <cite>TextAaccent</cite> and
+reduce the risk of name clashes with spacing characters.</p></li>
+</ul>
+<p>Aliases to the “symbol macros” <span class="docutils literal">\~ \' \` \&quot; \&quot;' \&quot;` ...</span> are
+provided. With <a class="reference internal" href="#textalpha">textalpha</a> or <a class="reference internal" href="#alphabeta">alphabeta</a> also <span class="docutils literal">\&lt;</span> and <span class="docutils literal">\&gt;</span> for
+<span class="docutils literal">\accdasia</span> and <span class="docutils literal">\accpsili</span>.</p>
+</section>
+<section id="symbol-variants">
+<h3><a class="toc-backref" href="#toc-entry-18" role="doc-backlink">Symbol variants</a></h3>
+<p>Mathematical notation distinguishes variant shapes for beta (β|ϐ),
+theta (θ|ϑ), phi (φ|ϕ), pi (π|ϖ), kappa (κ|ϰ), rho (ρ|ϱ), Theta (Θ|ϴ),
+and epsilon (ε|ϵ).</p>
+<p>The variations have no syntactic meaning in Greek text and Greek text
+fonts use the shape variants indiscriminately (cf. <a class="reference external" href="http://en.wikipedia.org/wiki/Greek_alphabet#Glyph_variants">glyph variants</a>).
+The variant shapes are not given separate code-points in the <a class="reference internal" href="#lgr">LGR</a> text
+font encoding.</p>
+<p>In mathematical mode, TeX supports the alternative glyph variants with
+<span class="docutils literal">\var&lt;lettername&gt;</span> macros (variant macros for ϴ, ϐ, and ϰ require
+additional packages).</p>
+<p>Unicode defines separate code points for the symbol variants for use in
+mathematical context.<a class="superscript" href="#footnote-3" id="footnote-reference-3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> Unfortunately, the mapping between Unicode’s
+letter/symbol distinction and “normal”/variant in TeX is inconsistent.</p>
+<p><cite>greek-fontenc</cite> provides <span class="docutils literal">\text&lt;lettername&gt;symbol</span> LICR macros for the
+Greek symbol characters:</p>
+<ul>
+<li><p>With Unicode fonts, the macros select the GREEK &lt;lettername&gt; SYMBOL``.</p></li>
+<li><p>With LGR encoded fonts, they report an error by default.</p>
+<p>With the <span class="docutils literal"><span class="pre">normalize-symbols</span></span> option of <a class="reference internal" href="#textalpha">textalpha</a> and <a class="reference internal" href="#alphabeta">alphabeta</a>,
+they are mapped to the corresponding letter (loosing the distinction
+between the shape variants).</p>
+</li>
+</ul>
+<p>The <a class="reference internal" href="#alphabeta">alphabeta</a> package provides <span class="docutils literal">\&lt;lettername&gt;</span>, <span class="docutils literal">\var&lt;lettername&gt;</span>,
+and <span class="docutils literal">\&lt;lettername&gt;symbol</span> in both, text and math mode (cf. Table 1 in
+<a class="reference external" href="alphabeta-doc-tu.pdf">alphabeta-doc-tu.pdf</a>).</p>
+<aside class="footnote-list superscript">
+<aside class="footnote superscript" id="footnote-3" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#footnote-reference-3">3</a><span class="fn-bracket">]</span></span>
+<p>However, they are sometimes also used in place of the
+corresponding letter characters in Unicode-encoded text.</p>
+</aside>
+</aside>
+</section>
+</section>
+<section id="changelog">
+<h2><a class="toc-backref" href="#toc-entry-19" role="doc-backlink">Changelog</a></h2>
+<dl class="simple">
+<dt>0.9 (2013-07-03)</dt>
+<dd><ul class="simple">
+<li><p><span class="docutils literal"><span class="pre">greek-fontenc.def</span></span> “outsourced” from <span class="docutils literal">lgrxenc.def</span></p></li>
+<li><p>experimental LICRs for XeTeX/LuaTeX.</p></li>
+</ul>
+</dd>
+<dt>0.9.1 (2013-07-18)</dt>
+<dd><ul class="simple">
+<li><p>Bugfix: wrong breathings psilioxia -&gt; dasiaoxia.</p></li>
+</ul>
+</dd>
+<dt>0.9.2 (2013-07-19)</dt>
+<dd><ul class="simple">
+<li><p>Bugfix: Disable composite defs starting with char macro,</p></li>
+<li><p>Fix “hiatus” handling.</p></li>
+</ul>
+</dd>
+<dt>0.9.3 (2013-07-24)</dt>
+<dd><ul class="simple">
+<li><p>Fix path for <span class="docutils literal">\input</span> of <span class="docutils literal"><span class="pre">greek-fontenc.def</span></span>.</p></li>
+</ul>
+</dd>
+<dt>0.9.4 (2013-09-10)</dt>
+<dd><ul class="simple">
+<li><p><span class="docutils literal"><span class="pre">greek-fontenc.sty</span></span>: Greek text font encoding setup package.</p></li>
+<li><p>remove <span class="docutils literal"><span class="pre">xunicode-greek.sty</span></span>.</p></li>
+</ul>
+</dd>
+<dt>0.10 (2013-09-13)</dt>
+<dd><ul class="simple">
+<li><p><a class="reference internal" href="#textalpha">textalpha</a> and <a class="reference internal" href="#alphabeta">alphabeta</a> moved here from lgrx and updated to work
+with XeTeX/LuaTeX.</p></li>
+<li><p><span class="docutils literal"><span class="pre">greek-fontenc.sty</span></span> removed (obsoleted by <a class="reference internal" href="#textalpha">textalpha</a>).</p></li>
+</ul>
+</dd>
+<dt>0.10.1 (2013-10-01)</dt>
+<dd><ul class="simple">
+<li><p>Bugfix in <span class="docutils literal"><span class="pre">greek-euenc.def</span></span> and <span class="docutils literal"><span class="pre">alphabeta-euenc.def</span></span>.</p></li>
+</ul>
+</dd>
+<dt>0.11 (2013-11-28)</dt>
+<dd><ul class="simple">
+<li><p>Compatibility with Xe/LuaTeX in 8-bit mode.</p></li>
+<li><p><span class="docutils literal">\greekscript</span> <em>TextCommand</em> (cf. <a class="citation-reference" href="#encguide" id="citation-reference-9" role="doc-biblioref">[encguide]</a>).</p></li>
+</ul>
+</dd>
+<dt>0.11.1 (2013-12-01)</dt>
+<dd><ul class="simple">
+<li><p>Fix identification of <span class="docutils literal"><span class="pre">greek-euenc.def</span></span>.</p></li>
+</ul>
+</dd>
+<dt>0.11.2 (2014-09-04)</dt>
+<dd><ul class="simple">
+<li><p>Documentation update, remove duplicate code.</p></li>
+</ul>
+</dd>
+<dt>0.12 (2014-12-25)</dt>
+<dd><ul class="simple">
+<li><p>Fix auxiliary macro names in <a class="reference internal" href="#textalpha">textalpha</a>.</p></li>
+<li><p>Conservative naming: move definition of <span class="docutils literal">\&lt;</span> and <span class="docutils literal">\&gt;</span> from
+<span class="docutils literal"><span class="pre">greek-fontenc.def</span></span> to <span class="docutils literal">textalpha.sty</span> (Bugreport David Kastrup).</p></li>
+</ul>
+</dd>
+<dt>0.13 (2015-09-04)</dt>
+<dd><ul class="simple">
+<li><p>Support for <a class="reference internal" href="#symbol-variants">symbol variants</a>,</p></li>
+<li><p><span class="docutils literal"><span class="pre">keep-semicolon</span></span> option in <a class="reference internal" href="#textalpha">textalpha</a>,</p></li>
+<li><p><span class="docutils literal">\lccode</span>/<span class="docutils literal">\uccode</span> corrections for Unicode
+(from Apostolos Syropoulos’ <a class="reference external" href="https://ctan.org/pkg/xgreek">xgreek</a>) in greek-euenc.</p></li>
+<li><p>Do not convert <span class="docutils literal">\ypogegrammeni</span> to <span class="docutils literal">\prosgegrammeni</span>
+with <span class="docutils literal">\MakeUppercase</span>.</p></li>
+</ul>
+</dd>
+<dt>0.13.1 (2015-12-07)</dt>
+<dd><ul class="simple">
+<li><p>Fix <a class="reference external" href="http://tex.stackexchange.com/questions/281631/greek-small-rho-with-dasia-and-also-psili-problem-with-accent-and-lgr-encodin">rho with dasia bug</a> in lgrenc.def (Linus Romer).</p></li>
+</ul>
+</dd>
+<dt>0.13.2 (2016-02-05)</dt>
+<dd><ul class="simple">
+<li><p>Support for standard Unicode text font encoding “TU”
+(new in fontspec v2.5a).</p></li>
+</ul>
+</dd>
+<dt>0.13.3 (2019-07-10)</dt>
+<dd><ul class="simple">
+<li><p>Drop error font declaration (cf. <a class="reference external" href="https://www.latex-project.org/cgi-bin/ltxbugs2html?pr=latex%2F4399&amp;search=">ltxbugs 4399</a>).</p></li>
+</ul>
+</dd>
+<dt>0.13.4 (2019-07-11)</dt>
+<dd><ul class="simple">
+<li><p>“Lowercase” <span class="docutils literal">\prosgegrammeni</span> -&gt; <span class="docutils literal">\ypogegrammeni</span>
+but not vice versa.</p></li>
+</ul>
+</dd>
+<dt>0.14 (2020-02-28)</dt>
+<dd><ul class="simple">
+<li><p>Rename <span class="docutils literal"><span class="pre">greek-euenc</span></span> to <span class="docutils literal"><span class="pre">tuenc-greek</span></span>.</p></li>
+<li><p>Use <span class="docutils literal">\UTFencoding</span> instead of <span class="docutils literal">\LastDeclaredEncoding</span>.</p></li>
+</ul>
+</dd>
+<dt>1.0 (2020-09-25)</dt>
+<dd><ul class="simple">
+<li><p>Bugfix in <a class="reference internal" href="#textalpha">textalpha</a>: Let <span class="docutils literal">\greekscript</span> set <span class="docutils literal">\encodingdefault</span>.</p></li>
+<li><p><span class="docutils literal">\textKoppa</span> as alias for <span class="docutils literal">\textkoppa</span> in LGR.</p></li>
+</ul>
+</dd>
+<dt>2.0 (2020-10-30)</dt>
+<dd><ul class="simple">
+<li><p>Move common alias definitions to <span class="docutils literal"><span class="pre">greek-fontenc.def</span></span>.</p></li>
+<li><p><a class="reference internal" href="#textalpha">textalpha</a> loads TU with Xe/LuaTeX by default and provides
+<span class="docutils literal">\textmicro</span> and LICR macros for archaic symbols from the
+“Greek and Coptic” Unicode block.</p></li>
+<li><p>Use <span class="docutils literal">\UnicodeEncodingName</span> (by the LaTeX kernel) instead of
+<span class="docutils literal">\UTFencname</span> for the Unicode font encoding name.</p></li>
+<li><p>Replace utf8 literals in <span class="docutils literal"><span class="pre">tuenc-greek.def</span></span>.</p></li>
+<li><p>New file <span class="docutils literal"><span class="pre">puenc-greek.def</span></span>: setup for PU encoding defined by
+<a class="reference external" href="https://ctan.org/pkg/hyperref">hyperref</a> for PDF strings.</p></li>
+<li><p>Don’t use <span class="docutils literal">\textcompwordmark</span> as base in accent commands.</p></li>
+</ul>
+</dd>
+<dt>2.1 (2022-06-14)</dt>
+<dd><ul class="simple">
+<li><p>Support the correct spelling <span class="docutils literal">\guillemet…</span> for « and ».
+See <a class="reference external" href="https://github.com/latex3/latex2e/issues/65">https://github.com/latex3/latex2e/issues/65</a></p></li>
+</ul>
+</dd>
+<dt>2.2 (2023-02-28)</dt>
+<dd><ul class="simple">
+<li><p>Use correct glyph for <span class="docutils literal">\textanoteleia</span> (middle dot) in LGR.</p></li>
+<li><p>Test and add composite commands for combinations that are not
+converted to pre-composed characters.</p></li>
+<li><p>Don’t use <span class="docutils literal">\makeatother</span> in <span class="docutils literal">\AtBeginDocument</span>.</p></li>
+<li><p>Skip <span class="docutils literal">\uccode</span> fixes when ignored by <span class="docutils literal">\MakeUppercase</span>.</p></li>
+<li><p>Various small fixes and documentation update.</p></li>
+</ul>
+</dd>
+<dt>2.2.1 (2023-03-08)</dt>
+<dd><ul class="simple">
+<li><p>Fix broken links in README.md.</p></li>
+<li><p><span class="docutils literal">&#64;uclclist</span> entry for <span class="docutils literal">\accoxia</span>, prevent
+downcasing <span class="docutils literal">\textStigma</span> to <span class="docutils literal">\textvarstigma</span>.</p></li>
+</ul>
+</dd>
+<dt>2.2.2 (2023-03-17)</dt>
+<dd><ul class="simple">
+<li><p>Don’t map active <span class="docutils literal">;</span> to <span class="docutils literal">\textsemicolon</span> in math mode.</p></li>
+</ul>
+</dd>
+<dt>2.3 (2023-06-01)</dt>
+<dd><ul class="simple">
+<li><p>Fix Unicode errors with pdfLaTeX and “new” (2023) <span class="docutils literal">\MakeUppercase</span>.</p></li>
+<li><p>Upcase symbol variants also if input as LICR.</p></li>
+</ul>
+</dd>
+<dt>2.4 (2023-08-15)</dt>
+<dd><ul class="simple">
+<li><p>Fixes for the 2022 implementation of <span class="docutils literal">\MakeUppercase</span>.</p></li>
+<li><p><a class="reference internal" href="#textalpha">textalpha</a>: Map character 00B5 MICRO SIGN to <span class="docutils literal">\textmicro</span>.</p></li>
+</ul>
+</dd>
+<dt>2.5 (2023-09-12)</dt>
+<dd><ul class="simple">
+<li><p><span class="docutils literal">\textvarTheta</span> is now an alias for <span class="docutils literal">\textTheta</span> (the AMS-math
+command <span class="docutils literal">\varTheta</span> sets the <em>letter</em> Theta in italic shape).</p></li>
+<li><p>Fix errors in LuaTeX’s 8-bit compatibility mode (<a class="reference external" href="https://ctan.org/pkg/luainputenc">luainputenc</a>).</p></li>
+<li><p>Fix <span class="docutils literal">\MakeUppercase</span> in PDF strings.</p></li>
+<li><p>Drop composite definitions if the pre-composed character can also be
+selected by the <a class="reference external" href="https://www.unicode.org/reports/tr15/">Unicode NFC normalization</a>.</p></li>
+<li><p>Test/fix case change commands with <a class="reference internal" href="#alphabeta">alphabeta</a>.
+Composite commands for PU.
+Inline <span class="docutils literal"><span class="pre">alphabeta-tuenc.def</span></span> and <span class="docutils literal"><span class="pre">alphabeta-lgr.def</span></span>.</p></li>
+<li><p>Update documentation, fix links.</p></li>
+</ul>
+</dd>
+<dt>2.6 (2023-11-16)</dt>
+<dd><ul class="simple">
+<li><p>Bugfix in <a class="reference internal" href="#alphabeta">alphabeta</a>: Don’t use TextCommands for generic macros.</p></li>
+</ul>
+</dd>
+<dt>TODO:</dt>
+<dd><ul class="simple">
+<li><p>Fix <span class="docutils literal">\textautosigma</span> with Unicode fonts.</p></li>
+</ul>
+<!-- report issues:
+The polytonic variant with dasia and oxia used in ἢ … ἤ (*either … or*)
+drops diacritics! By mistake, omission, or intent?
+
+Compilation error with MakeUppercase and combining ypogegrammeni in Greek
+locale: ``\foreignlanguage{greek}{Λͅ → \MakeUppercase{Λͅ}}`` -->
+</dd>
+</dl>
+</section>
+<section id="references">
+<h2><a class="toc-backref" href="#toc-entry-20" role="doc-backlink">References</a></h2>
+<p>An alternative, more complete set of short mnemonic character names is
+the <a class="reference external" href="http://www.w3.org/TR/xml-entity-names/">XML Entity Definitions for Characters</a> W3C Recommendation from
+01 April 2010.</p>
+<p>For glyph names of the LGR encoding see, e.g., <span class="docutils literal">CB.enc</span> by Apostolos
+Syropoulos and <span class="docutils literal"><span class="pre">xl-lgr.enc</span></span> from the <a class="reference external" href="https://ctan.org/pkg/libertine-legacy">libertine</a> (legacy) package.
+<span class="docutils literal">lgr.cmap</span> provides a mapping to Unicode characters.</p>
+<p>A full set of <span class="docutils literal">\text*</span> symbol macros is defined in <span class="docutils literal">ucsencs.def</span>
+from the <a class="reference external" href="https://ctan.org/pkg/unicode">ucs</a> package.</p>
+<div role="list" class="citation-list">
+<div class="citation" id="babel-patch" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-7">babel-patch</a><span class="fn-bracket">]</span></span>
+<p>Werner Lemberg, <cite>Unicode support for the Greek LGR
+encoding</cite> Εὔτυπον, τεῦχος  № 20, 2008.
+<a class="reference external" href="http://www.eutypon.gr/eutypon/pdf/e2008-20/e20-a03.pdf">http://www.eutypon.gr/eutypon/pdf/e2008-20/e20-a03.pdf</a></p>
+</div>
+<div class="citation" id="cbfonts" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-5">cbfonts</a><span class="fn-bracket">]</span></span>
+<p>Claudio Beccari, <cite>The CB Greek fonts</cite>, Εὔτυπον, τεῦχος № 21, 2008.
+<a class="reference external" href="http://www.eutypon.gr/eutypon/pdf/e2008-21/e21-a01.pdf">http://www.eutypon.gr/eutypon/pdf/e2008-21/e21-a01.pdf</a></p>
+</div>
+<div class="citation" id="encguide" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>encguide<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#citation-reference-8">1</a>,<a role="doc-backlink" href="#citation-reference-9">2</a>)</span>
+<p>Frank Mittelbach, Robin Fairbairns, Werner Lemberg,
+LaTeX3 Project Team, <cite>LaTeX font encodings</cite>.
+<a class="reference external" href="https://mirrors.ctan.org/macros/latex/base/encguide.pdf">https://mirrors.ctan.org/macros/latex/base/encguide.pdf</a></p>
+</div>
+<div class="citation" id="fntguide" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-1">fntguide</a><span class="fn-bracket">]</span></span>
+<p>LaTeX3 Project Team, <cite>LaTeX2ε font selection</cite>.
+<a class="reference external" href="https://mirrors.ctan.org/macros/latex/base/fntguide.pdf">https://mirrors.ctan.org/macros/latex/base/fntguide.pdf</a></p>
+</div>
+<div class="citation" id="greek-usage" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-3">greek-usage</a><span class="fn-bracket">]</span></span>
+<p>Apostolos Syropoulos, <cite>Writing Greek with the greek option
+of the babel package</cite>, 1997.
+<a class="reference external" href="https://mirrors.ctan.org/language/babel/contrib/greek/usage.pdf">https://mirrors.ctan.org/language/babel/contrib/greek/usage.pdf</a></p>
+</div>
+<div class="citation" id="ltnews26" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-6">ltnews26</a><span class="fn-bracket">]</span></span>
+<p>LaTeX Project Team, <cite>LaTeX News</cite> Issue 26, January 2017.
+<a class="reference external" href="https://www.latex-project.org/news/latex2e-news/ltnews26.pdf">https://www.latex-project.org/news/latex2e-news/ltnews26.pdf</a></p>
+</div>
+<div class="citation" id="ltnews31" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-2">ltnews31</a><span class="fn-bracket">]</span></span>
+<p><cite>LaATeX News</cite>, Issue 31, February 2020, p. 3:
+<a class="reference external" href="https://www.latex-project.org/news/latex2e-news/ltnews31.pdf">https://www.latex-project.org/news/latex2e-news/ltnews31.pdf</a>.</p>
+</div>
+<div class="citation" id="teubner-doc" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-4">teubner-doc</a><span class="fn-bracket">]</span></span>
+<p>Claudio Beccari, <span class="docutils literal">teubner.sty</span>
+<cite>An extension to the greek option of the babel package</cite>, 2011.
+<a class="reference external" href="https://mirrors.ctan.org/macros/latex/contrib/teubner/teubner-doc.pdf">https://mirrors.ctan.org/macros/latex/contrib/teubner/teubner-doc.pdf</a></p>
+</div>
+</div>
+</section>
+</main>
+</body>
+</html>

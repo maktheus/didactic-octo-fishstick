@@ -10,12 +10,14 @@ type User struct {
 	Role         string            `json:"role"`
 	Provider     string            `json:"provider"`     // New: OpenAI, Anthropic, etc.
 	Endpoint     string            `json:"endpoint"`     // New: API Endpoint
+	Image        string            `json:"image"`        // New: Docker Image for Agent
 	Model        string            `json:"model"`        // New: gpt-4, llama3, etc.
 	SystemPrompt string            `json:"systemPrompt"` // New: Persona/Instructions
 	AuthType     string            `json:"authType"`     // New: Bearer, API Key
 	Status       string            `json:"status"`       // New: active, inactive
 	CreatedAt    time.Time         `json:"createdAt"`    // New
 	Headers      map[string]string `json:"headers"`      // New: Custom headers
+	AuthToken    string            `json:"authToken"`    // New: Per-agent API Key
 }
 
 // Benchmark describes a benchmark suite definition.
@@ -31,11 +33,12 @@ type Benchmark struct {
 
 // Task describes a specific task within a benchmark.
 type Task struct {
-	ID           string   `json:"id"`
-	Prompt       string   `json:"prompt"`
-	ExpectedTool string   `json:"expectedTool"`
-	Constraints  []string `json:"constraints"`
-	MaxTurns     int      `json:"maxTurns"`
+	ID             string   `json:"id"`
+	Prompt         string   `json:"prompt"`
+	ExpectedTool   string   `json:"expectedTool"`
+	ExpectedOutput string   `json:"expected_output"` // New: For text matching
+	Constraints    []string `json:"constraints"`
+	MaxTurns       int      `json:"maxTurns"`
 }
 
 // Submission is a benchmark submission by an agent (Run).

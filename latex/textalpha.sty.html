@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="Docutils 0.21b.dev: https://docutils.sourceforge.io/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="dcterms.rights" content="© 2010, 2023 Günter Milde" />
+<title>textalpha.sty</title>
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/"/>
+<style type="text/css">
+
+/* Minimal style sheet for the HTML output of Docutils.                    */
+/*                                                                         */
+/* :Author: Günter Milde, based on html4css1.css by David Goodger          */
+/* :Id: $Id$                                                               */
+/* :Copyright: © 2015, 2021 Günter Milde.                                  */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+
+/* This CSS3 stylesheet defines rules for Docutils elements without        */
+/* HTML equivalent. It is required to make the document semantics visible. */
+/*                                                                         */
+/* .. _validates: http://jigsaw.w3.org/css-validator/validator$link        */
+
+/* titles */
+p.topic-title,
+p.admonition-title,
+p.system-message-title {
+  font-weight: bold;
+}
+p.sidebar-title,
+p.rubric {
+  font-weight: bold;
+  font-size: larger;
+}
+p.rubric {
+  color: maroon;
+}
+p.subtitle,
+p.section-subtitle,
+p.sidebar-subtitle {
+  font-weight: bold;
+  margin-top: -0.5em;
+}
+h1 + p.subtitle {
+  font-size: 1.6em;
+}
+a.toc-backref {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Warnings, Errors */
+.system-messages h2,
+.system-message-title,
+span.problematic {
+  color: red;
+}
+
+/* Inline Literals */
+.docutils.literal {
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+/* do not wrap at hyphens and similar: */
+.literal > span.pre { white-space: nowrap; }
+
+/* Lists */
+
+/* compact and simple lists: no margin between items */
+.simple  li, .simple  ul, .simple  ol,
+.compact li, .compact ul, .compact ol,
+.simple  > li p, dl.simple  > dd,
+.compact > li p, dl.compact > dd {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Nested Paragraphs */
+p:first-child { margin-top: 0; }
+p:last-child { margin-bottom: 0; }
+details > p:last-child { margin-bottom: 1em; }
+
+/* Table of Contents */
+.contents ul.auto-toc { /* section numbers present */
+  list-style-type: none;
+}
+
+/* Enumerated Lists */
+ol.arabic     { list-style: decimal }
+ol.loweralpha { list-style: lower-alpha }
+ol.upperalpha { list-style: upper-alpha }
+ol.lowerroman { list-style: lower-roman }
+ol.upperroman { list-style: upper-roman }
+
+/* Definition Lists and Derivatives */
+dt .classifier { font-style: italic }
+dt .classifier:before {
+  font-style: normal;
+  margin: 0.5em;
+  content: ":";
+}
+/* Field Lists and similar */
+/* bold field name, content starts on the same line */
+dl.field-list,
+dl.option-list,
+dl.docinfo {
+  display: flow-root;
+}
+dl.field-list > dt,
+dl.option-list > dt,
+dl.docinfo > dt {
+  font-weight: bold;
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.2em;
+}
+/* Offset for field content (corresponds to the --field-name-limit option) */
+dl.field-list > dd,
+dl.option-list > dd,
+dl.docinfo > dd {
+  margin-left:  9em; /* ca. 14 chars in the test examples, fit all Docinfo fields */
+}
+/* start nested lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+/* start field-body on a new line after long field names */
+dl.field-list > dd > *:first-child,
+dl.option-list > dd > *:first-child
+{
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+}
+
+/* Bibliographic Fields (docinfo) */
+dl.docinfo pre.address {
+  font: inherit;
+  margin: 0.5em 0;
+}
+dl.docinfo > dd.authors > p { margin: 0; }
+
+/* Option Lists */
+dl.option-list > dt { font-weight: normal; }
+span.option { white-space: nowrap; }
+
+/* Footnotes and Citations  */
+
+.footnote, .citation { margin: 1em 0; } /* default paragraph skip (Firefox) */
+/* hanging indent */
+.citation { padding-left: 2em; }
+.footnote { padding-left: 1.7em; }
+.footnote.superscript { padding-left: 1.0em; }
+.citation > .label { margin-left: -2em; }
+.footnote > .label { margin-left: -1.7em; }
+.footnote.superscript > .label { margin-left: -1.0em; }
+
+.footnote > .label + *,
+.citation > .label + * {
+  display: inline-block;
+  margin-top: 0;
+  vertical-align: top;
+}
+.footnote > .backrefs + *,
+.citation > .backrefs + * {
+  margin-top: 0;
+}
+.footnote > .label + p, .footnote > .backrefs + p,
+.citation > .label + p, .citation > .backrefs + p {
+  display: inline;
+  vertical-align: inherit;
+}
+
+.backrefs { user-select: none; }
+.backrefs > a { font-style: italic; }
+
+/* superscript footnotes */
+a[role="doc-noteref"].superscript,
+.footnote.superscript > .label,
+.footnote.superscript > .backrefs {
+  vertical-align: super;
+  font-size: smaller;
+  line-height: 1;
+}
+a[role="doc-noteref"].superscript > .fn-bracket,
+.footnote.superscript > .label > .fn-bracket {
+  /* hide brackets in display but leave for copy/paste */
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+}
+[role="doc-noteref"].superscript + [role="doc-noteref"].superscript {
+  padding-left: 0.15em; /* separate consecutive footnote references */
+  /* TODO: unfortunately, "+" also selects with text between the references. */
+}
+
+/* Alignment */
+.align-left   {
+  text-align: left;
+  margin-right: auto;
+}
+.align-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.align-right  {
+  text-align: right;
+  margin-left: auto;
+}
+.align-top    { vertical-align: top; }
+.align-middle { vertical-align: middle; }
+.align-bottom { vertical-align: bottom; }
+
+/* reset inner alignment in figures and tables */
+figure.align-left, figure.align-right,
+table.align-left, table.align-center, table.align-right {
+  text-align: inherit;
+}
+
+/* Text Blocks */
+.topic { margin: 1em 2em; }
+.sidebar,
+.admonition,
+.system-message {
+  margin: 1em 2em;
+  border: thin solid;
+  padding: 0.5em 1em;
+}
+div.line-block { display: block; }
+div.line-block div.line-block, pre { margin-left: 2em; }
+
+/* Code line numbers: dropped when copying text from the page */
+pre.code .ln { display: none; }
+pre.code code:before {
+  content: attr(data-lineno); /* …, none) fallback not supported by any browser */
+  color: gray;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+}
+td, th {
+  border: thin solid silver;
+  padding: 0 1ex;
+}
+.borderless td, .borderless th {
+  border: 0;
+  padding: 0;
+  padding-right: 0.5em /* separate table cells */
+}
+
+table > caption {
+  text-align: left;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+table.captionbelow {
+  caption-side: bottom;
+}
+
+/* Document Header and Footer */
+header { border-bottom: 1px solid black; }
+footer { border-top: 1px solid black; }
+
+/* Images are block-level by default in Docutils */
+/* New HTML5 block elements: set display for older browsers */
+img, header, footer, main, aside, nav, section, figure, video, details {
+  display: block;
+}
+/* inline images */
+p img, p video, figure img, figure video {
+  display: inline;
+}
+
+</style>
+<style type="text/css">
+
+/* CSS3_ style sheet for the output of Docutils HTML5 writer.  */
+/* Generic responsive design for all screen sizes.                         */
+/*                                                                         */
+/* :Author: Günter Milde                                                   */
+/*                                                                         */
+/* :Id: $Id$                                                               */
+/* :Copyright: © 2021 Günter Milde.                                        */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+/* .. _CSS3: https://www.w3.org/Style/CSS/                                 */
+
+/* Note:                                                                   */
+/* This style sheet is provisional:                                        */
+/* the API is not settled and may change with any minor Docutils version.  */
+
+
+
+/* General Settings */
+/* ================ */
+
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: #fafaf6;
+  margin: auto;
+  --field-indent: 6.6em; /* indent of fields in field lists */
+  --sidebar-margin-right: 0; /* adapted in media queries below */
+}
+main {
+  counter-reset: figure table;
+}
+body > * {
+  background-color: white;
+  line-height: 1.6;
+  padding: 0.5rem calc(29% - 7.2rem); /* go from 5% to 15% (8.15em/54em) */
+  margin: auto;
+  max-width: 100rem;
+}
+sup, sub { /* avoid additional inter-line space for lines with sup/sub */
+  line-height: 1;
+}
+
+/* Vertical Space (Parskip) */
+p, ol, ul, dl, li,
+div.line-block,
+.topic,
+.footnote, .citation,
+div > math,
+table {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+h1, h2, h3, h4, h5, h6,
+dl > dd, details > p:last-child {
+  margin-bottom: 0.5em;
+}
+
+/* Indented Blocks */
+blockquote, figure, .topic {
+  margin: 1em 2%;
+  padding-left: 1em;
+}
+div.line-block div.line-block,
+pre, dd, dl.option-list {
+  margin-left: calc(2% + 1em);
+}
+
+/* Object styling */
+/* ============== */
+
+footer, header {
+  font-size: small;
+}
+
+/* Frontmatter */
+div.dedication {
+  padding: 0;
+  margin: 1.4em 0;
+  font-style: italic;
+  font-size: large;
+}
+.dedication p.topic-title {
+  display: none;
+}
+
+blockquote p.attribution,
+.topic p.attribution {
+  text-align: right;
+}
+
+/* Table of Contents */
+nav.contents ul {
+  padding-left: 1em;
+}
+ul.auto-toc > li > p { /* hanging indent */
+  padding-left: 1em;
+  text-indent: -1em;
+}
+main > nav.contents  ul:not(.auto-toc) {
+  list-style-type: square;
+}
+main > nav.contents  ul ul:not(.auto-toc) {
+  list-style-type: disc;
+}
+main > nav.contents  ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B29\ ';
+}
+main > nav.contents  ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B1D\ ';
+}
+main > nav.contents  ul ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B2A\ ';
+}
+nav.contents ul > li::marker {
+  color: grey;
+}
+
+/* Transitions */
+hr {
+  margin: 1em 10%;
+}
+
+/* Lists */
+
+ul, ol {
+  padding-left: 1.1em; /* indent by bullet width (Firefox, DejaVu fonts) */
+}
+dl.field-list > dd,
+dl.docinfo > dd {
+  margin-left: var(--field-indent); /* adapted in media queries or HTML */
+}
+dl.option-list > dd {
+  margin-left: 20%;
+}
+/* run-in: start field-body on same line after long field names */
+dl.field-list.run-in > dd p {
+  display: block;
+}
+/* "description style" like in most dictionaries, encyclopedias etc. */
+dl.description {
+  display: flow-root;
+}
+dl.description > dt {
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.3em;
+  font-weight: bold;
+}
+dl.description > dd:after {
+  display: table;
+  content: "";
+  clear: left; /* clearfix for empty descriptions */
+}
+/* start lists nested in description/field lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+
+/* disclosures */
+details { padding-left: 1em; }
+summary { margin-left: -1em; }
+
+/* Footnotes and Citations */
+.footnote {
+  font-size: small;
+}
+
+/* Images, Figures, and Tables */
+img {
+  display: block;
+}
+p > img, p > a > img,
+figure > img, figure > a > img {
+  display: inline;
+}
+
+figcaption,
+table > caption {
+  /*   font-size: small; */
+  font-style: italic;
+}
+figcaption > .legend {
+  font-size: small;
+  font-style: initial;
+}
+figure.numbered > figcaption > p:before {
+  counter-increment: figure;
+  content: "Figure " counter(figure) ": ";
+  font-weight: bold;
+  font-style: initial;
+}
+
+table tr {
+  text-align: left;
+  vertical-align: baseline;
+}
+table.booktabs { /* "booktabs" style (no vertical lines) */
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+}
+table.booktabs * {
+  border: 0;
+}
+table.booktabs th {
+  border-bottom: thin solid;
+}
+table.numbered > caption:before {
+  counter-increment: table;
+  content: "Table " counter(table) ": ";
+  font-weight: bold;
+  font-style: initial;
+}
+
+/* Admonitions and System Messages */
+.admonition,
+div.system-message {
+  border: thin solid silver;
+  margin: 1em 2%;
+  padding: 0.5em 1em;
+}
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.warning p.admonition-title,
+div.error {
+  color: maroon;
+}
+div.system-message > p > span.literal {
+  overflow-wrap: break-word;
+}
+
+/* Literal and Code */
+pre.literal-block, pre.doctest{
+  padding: 0.2em;
+  overflow-x: auto;
+}
+.literal-block, .doctest, span.literal {
+  background-color: #f6f9f8;
+}
+.system-message span.literal {
+  background-color: inherit;
+}
+
+/* basic highlighting: for a complete scheme, see */
+/* https://docutils.sourceforge.io/sandbox/stylesheets/ */
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+/* Hyperlink References */
+a {
+  text-decoration: none; /* for chromium */
+  /* Wrap links at any place, if this is the only way to prevent overflow */
+  overflow-wrap: break-word;
+}
+.contents a, a.toc-backref, a.citation-reference {
+  overflow-wrap: inherit;
+}
+/* Undecorated Links (see also minimal.css) */
+/* a.citation-reference, */
+.citation a.fn-backref {
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+*:hover > a.toc-backref:after {
+  content: " \2191"; /* ↑ UPWARDS ARROW */
+  color: grey;
+}
+*:hover > a.self-link:after {
+  content: "\1F517"; /* LINK SYMBOL */
+  color: grey;
+  font-size: smaller;
+  margin-left: 0.2em;
+}
+/* highlight the target of the current URL */
+section:target > h2, section:target > h3, section:target > h4,
+section:target > h5, section:target > h6,
+.contents :target,
+.contents:target > .topic-title,
+[role="doc-biblioentry"]:target > .label,
+[role="doc-biblioref"]:target,
+[role="note"]:target, /* Docutils 0.18 ... 0.19 */
+[role="doc-footnote"]:target, /* Docutils >= 0.20 */
+[role="doc-noteref"]:target {
+  background-color: #d2e6ec;
+}
+
+/* Block Alignment */
+/* Let content flow to the side of aligned images and figures */
+
+/* no floats around this elements */
+footer, header, hr,
+h1, h2, h3 {
+  clear: both;
+}
+
+img.align-left,
+svg.align-left,
+video.align-left,
+figure.align-left,
+div.align-left,
+table.align-left {
+  margin-left: 0;
+  padding-left: 0;
+  margin-right: 0.5em;
+  clear: left;
+  float: left;
+}
+img.align-right,
+svg.align-right,
+video.align-right,
+figure.align-right,
+div.align-right,
+table.align-right {
+  margin-left: 0.5em;
+  margin-right: 0;
+  clear: right;
+  float: right;
+}
+
+/* Margin Elements */
+/* see below for screen size dependent rules */
+.sidebar,
+.marginal,
+.admonition.marginal {
+  max-width: 40%;
+  border: none;
+  background-color: #efefea;
+  margin: 0.5em var(--sidebar-margin-right) 0.5em 1em;
+  padding: 0.5em;
+  padding-left: 0.7em;
+  clear: right;
+  float: right;
+  font-size: small;
+}
+.sidebar {
+  width: 40%;
+}
+
+/* Math */
+/* for math-output=MathML (for math-output=HTML, see math.css) */
+math .boldsymbol {
+  font-weight: bold;
+}
+mstyle.mathscr, mi.mathscr {
+  font-family: STIX, XITSMathJax_Script, rsfs10,
+               "Asana Math", Garamond, cursive;
+}
+
+/* Adaptive page layout */
+/* ==================== */
+
+@media (max-width: 30em) {
+  /* Smaller margins and no floating elements for small screens */
+  /* (main text less than 40 characters/line) */
+  body > * {
+    padding: 0.5rem 5%;
+    line-height: 1.4
+  }
+  .sidebar,
+  .marginal,
+  .admonition.marginal {
+    width: auto;
+    max-width: 100%;
+    float: none;
+  }
+  dl.option-list,
+  pre {
+    margin-left: 0;
+  }
+  body {
+    --field-indent: 4em;
+  }
+  dl.field-list.narrow, dl.docinfo, dl.option-list {
+    --field-indent: 2.4em;
+  }
+  pre, pre * {
+  font-size: 0.9em;
+  /* overflow: auto; */
+  }
+}
+
+@media (min-width: 54em) {
+  /* Move ToC to the left */
+  /* Main text width before: 70% ≙ 35em ≙ 75…95 chrs (Dejavu/Times) */
+  /*                  after:      ≳ 30em ≙ 54…70 chrs (Dejavu/Times) */
+  body.with-toc {
+    padding-left: 8%;
+  }
+  body.with-toc > * {
+    margin-left: 0;
+    padding-left: 22rem; /* fallback for webkit */
+    padding-left: min(22%, 22rem);
+    padding-right: 7%;
+  }
+  main > nav.contents { /* global ToC */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(25%, 25em);
+    height: 100vh;
+    margin: 0;
+    background-color: #fafaf6;
+    padding: 1em 2% 0 2%;
+    overflow: auto;
+  }
+  main > nav.contents > * {
+    padding-left: 0;
+    line-height: 1.4;
+  }
+  main > nav.contents a {
+  color: inherit;
+  }
+}
+
+@media (min-width: 70em) {
+  body {
+    --field-indent: 9em;
+  }
+}
+
+@media (min-width: 77em) {
+  /* Move marginalia to 6rem from right border       */
+  /* .sidebar,                                       */
+  /* .marginal,                                      */
+  /* .admonition.marginal {                          */
+  /*   margin-right: calc(6rem - 15%);               */
+  /* }                                               */
+  /* BUG: margin is calculated for break point width */
+  /* workaround: variable + many breakpoints         */
+  body > * {
+    padding-left: 18%;
+    padding-right: 28%; /* fallback for webkit */
+    padding-right: min(28%, 28rem);
+    --sidebar-margin-right: -20rem;
+  }
+  /* limit main text to ~ 50em ≙ 85…100 characters DejaVu rsp. …120 Times */
+  body.with-toc > * {
+    padding-left: min(22%, 22rem);
+    padding-right: calc(78% - 50rem); /* fallback for webkit */
+    padding-right: min(78% - 50rem, 28rem);
+    --sidebar-margin-right: 0;
+  }
+}
+
+@media (min-width: 85em) {
+  body.with-toc > * {
+    --sidebar-margin-right: -9rem;
+  }
+}
+
+@media (min-width: 90em) {
+  /* move marginalia into the margin */
+  body > * {
+    padding-left: min(22%, 22rem);
+    --sidebar-margin-right: -23rem;
+  }
+  body.with-toc > * {
+    --sidebar-margin-right: -14rem;
+  }
+}
+
+@media (min-width: 99em) {
+  /* move marginalia out of main text area */
+  body.with-toc > * {
+    --sidebar-margin-right: -20rem;
+  }
+  body > *, body.with-toc > * { /* for webkit */
+    padding-left: 22rem;
+    padding-right: 28rem;
+  }
+  .admonition.marginal,
+  .marginal {
+    width: 40%; /* make marginal figures, ... "full width" */
+  }
+}
+
+@media (min-width: 104em) {
+  body.with-toc > * {
+    --sidebar-margin-right: -23rem;
+  }
+}
+
+</style>
+</head>
+<body class="with-toc">
+<main id="textalpha-sty">
+<h1 class="title">textalpha.sty</h1>
+<p class="subtitle" id="greek-symbols-in-text">Greek symbols in text</p>
+<dl class="docinfo">
+<dt class="version">Version<span class="colon">:</span></dt>
+<dd class="version">2.5 (<a class="reference internal" href="#changelog">changelog</a>)</dd>
+<dt class="copyright">Copyright<span class="colon">:</span></dt>
+<dd class="copyright">© 2010, 2023 Günter Milde</dd>
+<dt class="licence">Licence<span class="colon">:</span></dt>
+<dd class="licence"><p>This work may be distributed and/or modified under the
+conditions of the <a class="reference external" href="http://www.latex-project.org/lppl.txt">LaTeX Project Public License</a>, either
+version 1.3 of this license or any later version.</p>
+</dd>
+</dl>
+<div class="topic abstract" role="doc-abstract">
+<p class="topic-title">Abstract</p>
+<p>Provide a set of LICR macros for Greek characters in text mode.</p>
+</div>
+<nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#motivation" id="toc-entry-1">Motivation</a></p></li>
+<li><p><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></p></li>
+<li><p><a class="reference internal" href="#documentation" id="toc-entry-3">Documentation</a></p></li>
+<li><p><a class="reference internal" href="#implementation" id="toc-entry-4">Implementation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#identification" id="toc-entry-5">Identification</a></p></li>
+<li><p><a class="reference internal" href="#options" id="toc-entry-6">Options</a></p>
+<ul>
+<li><p><a class="reference internal" href="#normalize-symbols" id="toc-entry-7">normalize-symbols</a></p></li>
+<li><p><a class="reference internal" href="#keep-semicolon" id="toc-entry-8">keep-semicolon</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#symbol-macros-for-breathings" id="toc-entry-9">Symbol macros for breathings</a></p></li>
+<li><p><a class="reference internal" href="#font-encodings" id="toc-entry-10">Font encodings</a></p></li>
+<li><p><a class="reference internal" href="#default-declarations" id="toc-entry-11">Default declarations</a></p>
+<ul>
+<li><p><a class="reference internal" href="#greekscript-ensuregreek" id="toc-entry-12">greekscript, ensuregreek</a></p></li>
+<li><p><a class="reference internal" href="#greek-alphabet" id="toc-entry-13">Greek Alphabet</a></p></li>
+<li><p><a class="reference internal" href="#additional-greek-symbols" id="toc-entry-14">Additional Greek symbols</a></p>
+<ul>
+<li><p><a class="reference internal" href="#variant-shape-symbols" id="toc-entry-15">variant shape symbols</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#diacritics" id="toc-entry-16">Diacritics</a></p></li>
+<li><p><a class="reference internal" href="#auxiliary-macros" id="toc-entry-17">Auxiliary macros</a></p></li>
+<li><p><a class="reference internal" href="#semicolon-as-erotimatiko" id="toc-entry-18">semicolon as erotimatiko</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#todo" id="toc-entry-19">TODO</a></p></li>
+<li><p><a class="reference internal" href="#changelog" id="toc-entry-20">Changelog</a></p></li>
+</ul>
+</nav>
+<section id="motivation">
+<h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink">Motivation</a></h2>
+<p>By default, TeX macros for Greek letters are only valid in mathematical
+mode. This package sets up a suitable <a class="reference internal" href="#font-encoding">font encoding</a> and <cite>LaTeX internal
+character representations</cite> (LICR) definitions for Greek (<span class="docutils literal">\textalpha</span> –
+<span class="docutils literal">\textOmega</span>).</p>
+<p>To allow documents using Greek LICR macros without worrying about the TeX
+engine used to compile them, this package tests the declared font encodings
+and does “the right thing” to set up Greek text font support:</p>
+<ul class="simple">
+<li><p>If an Unicode font encoding is declared by <span class="docutils literal">fontspec</span>, add Greek LICR
+definitions.</p></li>
+<li><p>Otherwise, the <a class="reference external" href="README.html#lgr">LGR font encoding</a> is set as <cite>default font encoding</cite>
+(cf. <a class="citation-reference" href="#" id="citation-reference-1" role="doc-biblioref">[fntguide]</a> section 5.3) for Greek.</p></li>
+</ul>
+<p>Advantages:</p>
+<ul>
+<li><p>Symbols from a Greek text font (e.g. the <a class="reference external" href="https://ctan.org/pkg/cbgreek-complete">CB fonts</a>) can be accessed
+without the need for an explicite font-encoding switch anywhere in the
+text.</p></li>
+<li><p>Unicode input of Greek characters is supported</p>
+<ul>
+<li><p>via <span class="docutils literal"><span class="pre">\usepackage[utf8]{inputenc}</span></span> and <span class="docutils literal">lgrenc.dfu</span> from
+<a class="reference external" href="https://ctan.org/pkg/greek-inputenc">greek-inputenc</a> for 8-bit TeX or XeTeX/LuaTeX in 8-bit compatibility
+mode in any font encoding (see <a class="reference external" href="textalpha-doc.tex">textalpha-doc.tex</a>).</p></li>
+<li><p>natively by XeTeX/LuaTeX for Unicode fonts.</p>
+<p>If 8-bit font encodings like LGR are used alongside Unicode fonts, text
+input can be done via the Latin transliteration or LICR but <em>not via
+literal Unicode characters</em> (see <a class="reference external" href="test-tuenc-greek.tex">test-tuenc-greek.tex</a>).</p>
+</li>
+</ul>
+</li>
+</ul>
+<aside class="admonition attention" id="limitations">
+<p class="admonition-title">Attention!</p>
+<p>The macros work well in any font encoding for single symbols.
+However, with 8-bit TeX engines, the automatic font-encoding switches
+behind the doors interfere with kerning between letters and replacement
+of accent+character with a pre-composed character.</p>
+<p>Therefore, Greek text should be written with the help of <a class="reference external" href="https://ctan.org/pkg/babel">babel</a> or
+<a class="reference external" href="https://ctan.org/pkg/polyglossia">polyglossia</a> (setting the language to <span class="docutils literal">greek</span>) or wrapped in the
+provided <span class="docutils literal">ensuregreek</span> macro.  Using <a class="reference external" href="https://ctan.org/pkg/babel">babel</a> or <a class="reference external" href="https://ctan.org/pkg/polyglossia">polyglossia</a> also helps
+to ensure correct hyphenation and upcasing of Greek text.</p>
+</aside>
+</section>
+<section id="usage">
+<h2><a class="toc-backref" href="#toc-entry-2" role="doc-backlink">Usage</a></h2>
+<p>Ensure support for Greek characters in text mode with</p>
+<pre class="code latex literal-block"><code><span class="keyword">\usepackage</span><span class="name builtin">{</span>textalpha<span class="name builtin">}</span></code></pre>
+<p>eventually with the options to <a class="reference internal" href="#normalize-symbols-variants">normalize symbols variants</a></p>
+<pre class="code latex literal-block"><code><span class="keyword">\usepackage</span><span class="name attribute">[normalize-symbols]</span><span class="name builtin">{</span>textalpha<span class="name builtin">}</span></code></pre>
+<p>and/or to <a class="reference internal" href="#use-the-semicolon-as-erotimatiko">use the semicolon as erotimatiko</a> also in 8-bit TeX</p>
+<pre class="code latex literal-block"><code><span class="keyword">\usepackage</span><span class="name attribute">[normalize-symbols,keep-semicolon]</span><span class="name builtin">{</span>textalpha<span class="name builtin">}</span></code></pre>
+<p>To give <span class="docutils literal">textalpha.sty</span> a chance of finding out which <a class="reference internal" href="#font-encodings">font encodings</a>
+are used, load it after <a class="reference external" href="https://ctan.org/pkg/fontspec">fontspec</a> and/or <a class="reference external" href="https://ctan.org/pkg/fontenc">fontenc</a>.</p>
+</section>
+<section id="documentation">
+<h2><a class="toc-backref" href="#toc-entry-3" role="doc-backlink">Documentation</a></h2>
+<p>A HTML rendering of the literal source is available as
+<a class="reference external" href="textalpha.sty.html">textalpha.sty.html</a> (you may be reading it just now).</p>
+<p>For detailed examples see <a class="reference external" href="textalpha-doc.tex">textalpha-doc.tex</a> and <a class="reference external" href="textalpha-doc.pdf">textalpha-doc.pdf</a>
+(8-bit TeX and XeTeX/LuaTeX in 8-bit compatibility mode) as well as
+<a class="reference external" href="test-tuenc-greek.tex">test-tuenc-greek.tex</a> and <a class="reference external" href="test-tuenc-greek.pdf">test-tuenc-greek.pdf</a> (XeTeX/LuaTeX with
+Unicode fonts).</p>
+<p>With XeTeX or LuaTex, Unicode fonts and LGR encoded 8-bit fonts can be used
+in the same document (see <a class="reference external" href="test-tuenc-greek.tex">test-tuenc-greek.tex</a>).</p>
+</section>
+<section id="implementation">
+<h2><a class="toc-backref" href="#toc-entry-4" role="doc-backlink">Implementation</a></h2>
+<section id="identification">
+<h3><a class="toc-backref" href="#toc-entry-5" role="doc-backlink">Identification</a></h3>
+<pre class="literal-block">\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{textalpha}[2023-09-12 2.5 macros for Greek letters in text]</pre>
+</section>
+<section id="options">
+<h3><a class="toc-backref" href="#toc-entry-6" role="doc-backlink">Options</a></h3>
+<section id="normalize-symbols">
+<span id="normalize-symbols-variants"></span><h4><a class="toc-backref" href="#toc-entry-7" role="doc-backlink">normalize-symbols</a></h4>
+<p>The “variant shape” symbol characters like <span class="docutils literal">03D1 GREEK THETA SYMBOL</span> are
+mathematical charcters for mathematical use
+(similar to <span class="docutils literal">1D440 MATHEMATICAL ITALIC CAPITAL M</span>).
+Unfortunately, some Greek texts sources in Unicode encoding mix letter and
+symbol characters .</p>
+<p>The “normalize-symbols” option controls the handling of <a class="reference internal" href="#variant-shape-symbols">variant shape
+symbols</a> under 8-bit TeX:</p>
+<ul class="simple">
+<li><p>The option activates a simple “folding” mechanism that merges ϰ and κ to
+textkappa etc. for text copied from external sources which may use the
+GREEK SYMBOL characters in place of GREEK LETTERS,</p></li>
+<li><p>Without this option, variant shape symbols in the input are reported as
+errors to prevent information loss in cases where the distinction between
+ϰ and κ is intended (e.g. in mathematical or scientific context).</p></li>
+</ul>
+<p>With XeTeX/LuaTeX and Unicode fonts, this option is ignored.</p>
+<pre class="literal-block">\newif\iftextalpha&#64;normalizeSymbols
+\DeclareOption{normalize-symbols}{\textalpha&#64;normalizeSymbolstrue}</pre>
+</section>
+<section id="keep-semicolon">
+<span id="use-the-semicolon-as-erotimatiko"></span><h4><a class="toc-backref" href="#toc-entry-8" role="doc-backlink">keep-semicolon</a></h4>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Question_mark#Erotimatiko">erotimatiko</a> looks like a semicolon but is a
+<strong>Greek question mark</strong>:</p>
+<ul class="simple">
+<li><p>The <a class="reference external" href="README.html#lgr">LGR font encoding</a> uses the Latin question mark as input for the
+<cite>erotimatiko</cite> and maps the semicolon to a middle dot (<cite>ano teleia</cite>).</p></li>
+<li><p>The Unicode standard provides the code point <span class="docutils literal">037E GREEK QUESTION MARK</span>
+but says: “character <span class="docutils literal">003B SEMICOLON</span> (and not 037E) is the preferred
+character for Greek question mark”.</p></li>
+</ul>
+<p>The <span class="docutils literal"><span class="pre">keep-semicolon</span></span> option allows to use the <a class="reference internal" href="#semicolon-as-erotimatiko">semicolon as erotimatiko</a>
+in both, Xe/LuaTeX and 8-bit TeX. (The <cite>ano teleia</cite> can be input as
+<span class="docutils literal">\textanoteleia</span> or using character <span class="docutils literal">00B7 MIDDLE DOT</span>.)
+With XeTeX/LuaTeX and Unicode fonts, this option is ignored.</p>
+<pre class="literal-block">\newif\iftextalpha&#64;keepSemicolon
+\DeclareOption{keep-semicolon}{\textalpha&#64;keepSemicolontrue}
+
+\ProcessOptions\relax</pre>
+</section>
+</section>
+<section id="symbol-macros-for-breathings">
+<h3><a class="toc-backref" href="#toc-entry-9" role="doc-backlink">Symbol macros for breathings</a></h3>
+<p>In the Latin transliteration provided by LGR, breathing accents (Dasia and
+Psili) are input as &lt; and &gt;. Provide the corresponding NFSS macro accents.
+(Used below for LGR, TU, and PU, if these font encodings are defined):</p>
+<pre class="literal-block">\providecommand*{\IfFormatAtLeastTF}[3]{#3} % new in 2020
+
+\newcommand{\textalpha&#64;define&#64;breathings}[1]{
+  \DeclareTextCommand{\&lt;}{#1}{\accdasia}
+  \DeclareTextCommand{\&gt;}{#1}{\accpsili}
+  % Composite accents starting with the new-defined shortcuts:
+  \DeclareTextCompositeCommand{\&gt;}{#1}{'}{\accpsilioxia}
+  \DeclareTextCompositeCommand{\&gt;}{#1}{`}{\accpsilivaria}
+  \DeclareTextCompositeCommand{\&gt;}{#1}{~}{\accpsiliperispomeni}
+  \DeclareTextCompositeCommand{\&lt;}{#1}{'}{\accdasiaoxia}
+  \DeclareTextCompositeCommand{\&lt;}{#1}{`}{\accdasiavaria}
+  \DeclareTextCompositeCommand{\&lt;}{#1}{~}{\accdasiaperispomeni}
+
+  \IfFormatAtLeastTF{2022/06/01}{}{% else
+    \DeclareTextCompositeCommand{\&lt;}{#1}{^^9f}{\LGR&#64;hiatus}
+    \DeclareTextCompositeCommand{\&gt;}{#1}{^^9f}{\LGR&#64;hiatus}
+  }</pre>
+<p>Also define “mixed” composites (required due to the fix for
+<span class="docutils literal">\MakeUppercase</span> below:</p>
+<pre class="literal-block">  % \MakeUppercse: \&gt;~a, \&lt;~a
+  % \DeclareTextCompositeCommand{\accpsili}{#1}{~}{\accpsiliperispomeni}
+  % \DeclareTextCompositeCommand{\accdasia}{#1}{~}{\accdasiaperispomeni}
+}</pre>
+<p>Fix 2022 MakeUppercase:</p>
+<pre class="literal-block">\ifdefined\DeclareCaseChangeEquivalent % new in 2023
+  \DeclareCaseChangeEquivalent{\&lt;}{\CaseSwitch{\&lt;}{\LGR&#64;accdropped}{\&lt;}{\&lt;}}
+  \DeclareCaseChangeEquivalent{\&gt;}{\CaseSwitch{\&gt;}{\LGR&#64;hiatus}{\&gt;}{\&gt;}}
+\fi</pre>
+</section>
+<section id="font-encodings">
+<span id="font-encoding"></span><h3><a class="toc-backref" href="#toc-entry-10" role="doc-backlink">Font encodings</a></h3>
+<p>With 8-bit LaTeX, the <a class="reference external" href="README.html#lgr">LGR font encoding</a> is used for Greek characters. If
+no Greek-supporting font encoding (TU or LGR) is declared, LGR is
+loaded and set up as default Greek font encoding by this package.</p>
+<p>With XeTeX or LuaTeX, there is one common input and font encoding –
+Unicode. 8-bit TeX font encodings are only used in compatibility mode or for
+fonts not available otherwise. For compatibility with the LaTeX font
+selection system, <a class="reference external" href="https://ctan.org/pkg/fontspec">fontspec</a> defines the TU font encoding. However
+<cite>fontspec</cite> does not define Greek LICR macros. We therefore explicitely
+load Greek LICR definitions for XeTeX/LuaTeX from <a class="reference external" href="tuenc-greek.def.html">tuenc-greek.def</a> which in turn includes <a class="reference external" href="greek-fontenc.def.html">greek-fontenc.def</a>.</p>
+<p>Ensure a Greek-supporting font encoding exists and supports Greek LICR
+macros:</p>
+<pre class="literal-block">\ifdefined \UnicodeEncodingName % set by LaTeX for Unicode-aware engines
+  \input{tuenc-greek.def}
+  \textalpha&#64;define&#64;breathings{\UnicodeEncodingName}
+\else
+  \&#64;ifl&#64;aded{def}{lgrenc}
+    {}
+    {\input{lgrenc.def}
+  }
+\fi</pre>
+<p>LGR may also be used in a document compiled with Xe/LuaTeX
+(enables use of 8-bit TeX fonts and input via the Latin transliteration).
+Add setup for breathings:</p>
+<pre class="literal-block">\&#64;ifl&#64;aded{def}{lgrenc}
+  {\textalpha&#64;define&#64;breathings{LGR}}
+  {}</pre>
+<p>The package <a class="reference external" href="https://ctan.org/pkg/hyperref">hyperref</a> defines the PU font encoding and adds some
+LICR commands for monotonic Greek (in punenc-greekbasick.def).
+Add support for polytonic Greek, archaic symbols,
+and the <span class="docutils literal">\greekscript</span> and <span class="docutils literal">\ensuregreek</span> TextCommands:</p>
+<pre class="literal-block">\AtBeginDocument{
+  \&#64;ifl&#64;aded{def}{puenc}
+    {\&#64;ifl&#64;aded{def}{puenc-greek}
+      {}% already loaded (e.g. by babel-greek)
+      {\edef\RestoreAtCatcode{\catcode`&#64;=\the\catcode`&#64;\relax}%
+       \makeatletter
+       \input{puenc-greek.def}
+       \RestoreAtCatcode
+      }%
+     \textalpha&#64;define&#64;breathings{PU}
+     \pdfstringdefDisableCommands{\let\TextOrMath\&#64;firstoftwo}
+    }
+    {}
+}</pre>
+<p>The TS1 font encoding (available by default since 2022) provides a
+MICRO SIGN under the name <span class="docutils literal">\textmu</span> but we use this name for the
+GREEK SMALL LETTER MU.
+The new macro <span class="docutils literal">\textmicro</span> selects the character from TS1 fonts
+and is not capitalised with <span class="docutils literal">\MakeUppercase</span>:</p>
+<pre class="literal-block">\DeclareTextSymbol{\textmicro}{TS1}{181} % micro sign
+\DeclareTextSymbolDefault{\textmicro}{TS1}</pre>
+<p>Use it for the MICRO SIGN character:</p>
+<pre class="literal-block">\ifdefined\DeclareUnicodeCharacter
+  \DeclareUnicodeCharacter{00B5}{\textmicro} % micro sign
+\fi</pre>
+</section>
+<section id="default-declarations">
+<h3><a class="toc-backref" href="#toc-entry-11" role="doc-backlink">Default declarations</a></h3>
+<p>The following definitions ensure that the Greek LICR macros can be used
+anywhere in the document also with 8-bit TeX by declaring LGR as their
+default font encoding. Abort here, if the LGR font encoding is not defined:</p>
+<pre class="literal-block">\&#64;ifl&#64;aded{def}{lgrenc}{}{ % else return:
+  \expandafter\endinput
+}</pre>
+<section id="greekscript-ensuregreek">
+<h4><a class="toc-backref" href="#toc-entry-12" role="doc-backlink">greekscript, ensuregreek</a></h4>
+<p>The <span class="docutils literal">\greekscript</span> declaration ensures the current font encoding supports
+the Greek script. <span class="docutils literal"><span class="pre">greek-fontenc.def</span></span> sets this to the empty declaration
+for font encodings that do so. This is currently used by <span class="docutils literal">lgrenc.def</span>
+(LGR) and <span class="docutils literal"><span class="pre">tuenc-greek.def</span></span> (Greek LICR macros for TU, EU1, or EU2).</p>
+<p>We define LGR as default encoding for Greek text. We use
+<span class="docutils literal">\ProvideTextCommandDefault</span> to enable the author or other packages to use
+an alternative definition (see [<a class="reference external" href="https://mirrors.ctan.org/macros/latex/base/fntguide.pdf">fntguide</a>]):</p>
+<pre class="literal-block">\ProvideTextCommandDefault{\greekscript}{\fontencoding{LGR}\selectfont
+      \def\encodingdefault{LGR}}</pre>
+<p>The <span class="docutils literal">\ensuregreek</span> command can be used to ensure that its argument is set in
+a font encoding with support for Greek. Again the default is LGR:</p>
+<pre class="literal-block">\ProvideTextCommandDefault{\ensuregreek}[1]{\leavevmode{\greekscript #1}}</pre>
+<!-- The [fntguide_] writes
+
+  Note that ``\DeclareTextAccentDefault`` can be used on any
+  one-argument encoding-specific command, not just those defined with
+  ``\DeclareTextAccent``.
+
+However, the simpler alternative
+``\DeclareTextAccentDefault{\ensuregreek}{LGR}`` fails with the table of
+Unicode characters in the test document `<textalpha-doc.tex>`__:
+
+  ``! You can't use a prefix with `end-group character }'.`` -->
+<p>Eventually, all font encodings supporting Greek script (e.g. LGI, PU, TU)
+will declare <span class="docutils literal">\ensuregreek</span> as text command that passes the
+argument unchanged. This way, kerning and selection of precomposed glyphs
+would work also for cases like <span class="docutils literal"><span class="pre">\ensuregreek{\'A}U</span></span>.</p>
+</section>
+<section id="greek-alphabet">
+<h4><a class="toc-backref" href="#toc-entry-13" role="doc-backlink">Greek Alphabet</a></h4>
+<p>Define the <span class="docutils literal">text*</span> marcos as default for all font encodings:</p>
+<pre class="literal-block">\DeclareTextSymbolDefault{\textAlpha}{LGR}
+\DeclareTextSymbolDefault{\textBeta}{LGR}
+\DeclareTextSymbolDefault{\textGamma}{LGR}
+\DeclareTextSymbolDefault{\textDelta}{LGR}
+\DeclareTextSymbolDefault{\textEpsilon}{LGR}
+\DeclareTextSymbolDefault{\textZeta}{LGR}
+\DeclareTextSymbolDefault{\textEta}{LGR}
+\DeclareTextSymbolDefault{\textTheta}{LGR}
+\DeclareTextSymbolDefault{\textIota}{LGR}
+\DeclareTextSymbolDefault{\textKappa}{LGR}
+\DeclareTextSymbolDefault{\textLambda}{LGR}
+\DeclareTextSymbolDefault{\textMu}{LGR}
+\DeclareTextSymbolDefault{\textNu}{LGR}
+\DeclareTextSymbolDefault{\textXi}{LGR}
+\DeclareTextSymbolDefault{\textOmicron}{LGR}
+\DeclareTextSymbolDefault{\textPi}{LGR}
+\DeclareTextSymbolDefault{\textRho}{LGR}
+\DeclareTextSymbolDefault{\textSigma}{LGR}
+\DeclareTextSymbolDefault{\textTau}{LGR}
+\DeclareTextSymbolDefault{\textUpsilon}{LGR}
+\DeclareTextSymbolDefault{\textPhi}{LGR}
+\DeclareTextSymbolDefault{\textChi}{LGR}
+\DeclareTextSymbolDefault{\textPsi}{LGR}
+\DeclareTextSymbolDefault{\textOmega}{LGR}
+%
+\DeclareTextSymbolDefault{\textalpha}{LGR}
+\DeclareTextSymbolDefault{\textbeta}{LGR}
+\DeclareTextSymbolDefault{\textgamma}{LGR}
+\DeclareTextSymbolDefault{\textdelta}{LGR}
+\DeclareTextSymbolDefault{\textepsilon}{LGR}
+\DeclareTextSymbolDefault{\textzeta}{LGR}
+\DeclareTextSymbolDefault{\texteta}{LGR}
+\DeclareTextSymbolDefault{\texttheta}{LGR}
+\DeclareTextSymbolDefault{\textiota}{LGR}
+\DeclareTextSymbolDefault{\textkappa}{LGR}
+\DeclareTextSymbolDefault{\textlambda}{LGR}
+\DeclareTextSymbolDefault{\textmu}{LGR}
+\DeclareTextSymbolDefault{\textmugreek}{LGR}    % (puenc.def)
+\DeclareTextSymbolDefault{\textnu}{LGR}
+\DeclareTextSymbolDefault{\textxi}{LGR}
+\DeclareTextSymbolDefault{\textomicron}{LGR}
+\DeclareTextSymbolDefault{\textpi}{LGR}
+\DeclareTextSymbolDefault{\textrho}{LGR}
+\DeclareTextSymbolDefault{\textsigma}{LGR}
+\DeclareTextSymbolDefault{\textfinalsigma}{LGR}
+\DeclareTextSymbolDefault{\textvarsigma}{LGR}   % alias for \textfinalsigma
+\DeclareTextSymbolDefault{\textautosigma}{LGR}  % char 115 in LGR
+\DeclareTextSymbolDefault{\texttau}{LGR}
+\DeclareTextSymbolDefault{\textupsilon}{LGR}
+\DeclareTextSymbolDefault{\textphi}{LGR}
+\DeclareTextSymbolDefault{\textchi}{LGR}
+\DeclareTextSymbolDefault{\textpsi}{LGR}
+\DeclareTextSymbolDefault{\textomega}{LGR}</pre>
+</section>
+<section id="additional-greek-symbols">
+<h4><a class="toc-backref" href="#toc-entry-14" role="doc-backlink">Additional Greek symbols</a></h4>
+<p>Including alias names for compatibility with hyperref’s puenc.def.</p>
+<p>Ancient Greek Numbers (Athenian Numerals):</p>
+<pre class="literal-block">\DeclareTextSymbolDefault{\textpentedeka}{LGR}    % GREEK ACROPHONIC ATTIC FIFTY
+\DeclareTextSymbolDefault{\textpentehekaton}{LGR} % GREEK ACROPHONIC ATTIC FIVE HUNDRED
+\DeclareTextSymbolDefault{\textpenteqilioi}{LGR}  % GREEK ACROPHONIC ATTIC FIVE THOUSAND
+\DeclareTextSymbolDefault{\textpentemurioi}{LGR}  % GREEK ACROPHONIC ATTIC FIFTY THOUSAND</pre>
+<p>Archaic letters:</p>
+<pre class="literal-block">\DeclareTextSymbolDefault{\textstigma}{LGR}      % ϛ
+\DeclareTextSymbolDefault{\textstigmagreek}{LGR} % ϛ (puenc.def)
+\DeclareTextSymbolDefault{\textvarstigma}{LGR}   % stigma variant (no separate Unicode character)
+\DeclareTextSymbolDefault{\textkoppa}{LGR}       % ϟ Greek small letter koppa
+\DeclareTextSymbolDefault{\textkoppagreek}{LGR}  % ϟ (puenc.def)
+\DeclareTextSymbolDefault{\textKoppa}{LGR}       % ϟ Greek letter koppa (numeral koppa)
+\DeclareTextSymbolDefault{\textKoppagreek}{LGR}  % ϟ (puenc.def)
+\DeclareTextSymbolDefault{\textqoppa}{LGR}       % ϙ (archaic koppa)
+\DeclareTextSymbolDefault{\textQoppa}{LGR}       % Ϙ (archaic Koppa)
+\DeclareTextSymbolDefault{\textStigma}{LGR}      % Ϛ ϹΤ ligature in some fonts
+\DeclareTextSymbolDefault{\textStigmagreek}{LGR} % Ϛ (puenc.def)
+\DeclareTextSymbolDefault{\textSampi}{LGR}       % Ϡ
+\DeclareTextSymbolDefault{\textSampigreek}{LGR}  % Ϡ (puenc.def)
+\DeclareTextSymbolDefault{\textsampi}{LGR}       % ϡ
+\DeclareTextSymbolDefault{\textsampigreek}{LGR}  % ϡ (puenc.def)
+\DeclareTextSymbolDefault{\textanoteleia}{LGR}   % ·
+\DeclareTextSymbolDefault{\texterotimatiko}{LGR} % ; (003B is the preferred character)
+\DeclareTextSymbolDefault{\textdigamma}{LGR}     % ϝ
+\DeclareTextSymbolDefault{\textDigamma}{LGR}     % Ϝ
+\DeclareTextSymbolDefault{\textdigammagreek}{LGR} % ϝ (puenc.def)
+\DeclareTextSymbolDefault{\textDigammagreek}{LGR} % Ϝ (puenc.def)</pre>
+<p>numeral signs: <a class="reference external" href="http://en.wikipedia.org/wiki/Greek_numerals">http://en.wikipedia.org/wiki/Greek_numerals</a></p>
+<pre class="literal-block">\DeclareTextSymbolDefault{\textdexiakeraia}{LGR}      % ʹ (Dexia keraia)
+\DeclareTextSymbolDefault{\textnumeralsigngreek}{LGR} % (puenc.def)
+\DeclareTextSymbolDefault{\textaristerikeraia}{LGR}   % ͵ (Aristeri keraia)
+\DeclareTextSymbolDefault{\textnumeralsignlowergreek}{LGR} % (puenc.def)</pre>
+<section id="variant-shape-symbols">
+<h5><a class="toc-backref" href="#toc-entry-15" role="doc-backlink">variant shape symbols</a></h5>
+<p>Mathematical notation uses variant shapes of some Greek letters as
+additional symbols.  There are separate code points for the symbol variants
+in Unicode but not in the LGR font encoding used for Greek in 8-bit TeX.
+The variations have no syntactic meaning in Greek text.</p>
+<pre class="literal-block">\DeclareTextSymbolDefault{\textbetasymbol}{LGR}    % ϐ GREEK BETA SYMBOL
+\DeclareTextSymbolDefault{\textthetasymbol}{LGR}   % ϑ $\vartheta$ GREEK THETA SYMBOL
+\DeclareTextSymbolDefault{\textphisymbol}{LGR}     % ϕ $\phi$ GREEK PHI SYMBOL
+\DeclareTextSymbolDefault{\textpisymbol}{LGR}      % ϖ $\varpi$ GREEK PI SYMBOL
+\DeclareTextSymbolDefault{\textkappasymbol}{LGR}   % ϰ GREEK KAPPA SYMBOL
+\DeclareTextSymbolDefault{\textrhosymbol}{LGR}     % ϱ $\varrho$ GREEK RHO SYMBOL
+\DeclareTextSymbolDefault{\textThetasymbol}{LGR}   % ϴ GREEK CAPITAL THETA SYMBOL
+\DeclareTextSymbolDefault{\textepsilonsymbol}{LGR} % ϵ $\epsilon$ GREEK LUNATE EPSILON SYMBOL</pre>
+<p>Define compatibility mappings if the <a class="reference internal" href="#normalize-symbols">normalize-symbols</a> option is set:</p>
+<pre class="literal-block">\iftextalpha&#64;normalizeSymbols
+  \DeclareTextCommand{\textbetasymbol}   {LGR}{\textbeta}
+  \DeclareTextCommand{\textthetasymbol}  {LGR}{\texttheta}
+  \DeclareTextCommand{\textphisymbol}    {LGR}{\textphi}
+  \DeclareTextCommand{\textpisymbol}     {LGR}{\textpi}
+  \DeclareTextCommand{\textkappasymbol}  {LGR}{\textkappa}
+  \DeclareTextCommand{\textrhosymbol}    {LGR}{\textrho}
+  \DeclareTextCommand{\textThetasymbol}  {LGR}{\textTheta}
+  \DeclareTextCommand{\textepsilonsymbol}{LGR}{\textepsilon}
+\fi</pre>
+</section>
+</section>
+<section id="diacritics">
+<h4><a class="toc-backref" href="#toc-entry-16" role="doc-backlink">Diacritics</a></h4>
+<p>Greek diacritics via “named” macros:</p>
+<pre class="literal-block">\DeclareTextAccentDefault{\accdasia}{LGR}
+\DeclareTextAccentDefault{\accpsili}{LGR}
+\DeclareTextAccentDefault{\acctonos}{LGR}
+\DeclareTextAccentDefault{\accoxia}{LGR}
+\DeclareTextAccentDefault{\accvaria}{LGR}
+\DeclareTextAccentDefault{\accperispomeni}{LGR}
+\DeclareTextAccentDefault{\accdialytika}{LGR}
+%
+\DeclareTextAccentDefault{\accdasiaoxia}{LGR}
+\DeclareTextAccentDefault{\accdasiavaria}{LGR}
+\DeclareTextAccentDefault{\accdasiaperispomeni}{LGR}
+\DeclareTextAccentDefault{\accpsilioxia}{LGR}
+\DeclareTextAccentDefault{\accpsilivaria}{LGR}
+\DeclareTextAccentDefault{\accpsiliperispomeni}{LGR}
+\DeclareTextAccentDefault{\accdialytikatonos}{LGR}
+\DeclareTextAccentDefault{\accdialytikavaria}{LGR}
+\DeclareTextAccentDefault{\accdialytikaperispomeni}{LGR}</pre>
+<p>Symbol macros for the breathings:</p>
+<pre class="literal-block">\DeclareTextAccentDefault{\&lt;}{LGR}
+\DeclareTextAccentDefault{\&gt;}{LGR}</pre>
+<p>Postfix accents:</p>
+<pre class="literal-block">\DeclareTextSymbolDefault{\ypogegrammeni}{LGR} % subscript mute iota (combining)
+\DeclareTextSymbolDefault{\prosgegrammeni}{LGR}  % adscript mute iota (spacing)</pre>
+<p>Other accents in LGR:</p>
+<pre class="literal-block">\DeclareTextAccentDefault{\accinvertedbrevebelow}{LGR} % INVERTED BREVE BELOW
+\DeclareTextAccentDefault{\textsubarch}{LGR}           % tipa, Teubner name: ut
+\DeclareTextAccentDefault{\accbrevebelow}{LGR}         % BREVE BELOW</pre>
+</section>
+<section id="auxiliary-macros">
+<h4><a class="toc-backref" href="#toc-entry-17" role="doc-backlink">Auxiliary macros</a></h4>
+<p><span class="docutils literal">\MakeUppercase</span> requires four internal commands:</p>
+<pre class="literal-block">\DeclareTextAccentDefault{\LGR&#64;accdropped}{LGR}
+\DeclareTextAccentDefault{\LGR&#64;accDialytika}{LGR}
+\DeclareTextAccentDefault{\LGR&#64;hiatus}{LGR}
+\DeclareTextSymbolDefault{\LGR&#64;ypogegrammeni}{LGR}</pre>
+</section>
+<section id="semicolon-as-erotimatiko">
+<h4><a class="toc-backref" href="#toc-entry-18" role="doc-backlink">semicolon as erotimatiko</a></h4>
+<p>The text command <span class="docutils literal">\textsemicolon</span> inserts <span class="docutils literal">\texterotimatiko</span>
+in LGR font encoding and a “normal” semicolon else.
+In math mode, it inserts the “normal” semicolon also if the text font
+encoding is LGR:</p>
+<pre class="literal-block">\ProvideTextCommandDefault{\textsemicolon}{;}
+\ProvideTextCommand{\textsemicolon}{LGR}{\texterotimatiko}</pre>
+<p>The LGR font encoding maps “;” to a middle dot (ano teleia). With the
+<a class="reference internal" href="#keep-semicolon">keep-semicolon</a> option, the semicolon is made an active character and calls
+<span class="docutils literal">\textsemicolon</span>:</p>
+<pre class="literal-block">\iftextalpha&#64;keepSemicolon
+  \catcode`;=\active
+  \newcommand{;}{\TextOrMath{\textsemicolon}{\char59}}
+\fi</pre>
+</section>
+</section>
+</section>
+<section id="todo">
+<h2><a class="toc-backref" href="#toc-entry-19" role="doc-backlink">TODO</a></h2>
+<ul>
+<li><p>Load <span class="docutils literal">lgrenc.def</span> rsp. <span class="docutils literal"><span class="pre">tuenc-greek.def</span></span> after the common definitions
+and after <span class="docutils literal"><span class="pre">puenc-greek.def</span></span>?</p>
+<blockquote>
+<p>If an encoding-specific command is defined for more than one encoding,
+then it will execute fastest in the encoding in which it was defined
+last since its top-level definition will be set up to execute in that
+encoding without any overhead.</p>
+<p>…</p>
+<p>For the same reason default declarations should never come last since
+they are implemented as a special encoding themselves (with the name “?”).
+Specifying them last would simply mean to make those encoding-specific
+commands equally inefficient in all encodings.</p>
+<p class="attribution">—source2e.pdf, chapter “ltoutenc.dtx”,
+subsection “The order of declarations”.</p>
+</blockquote>
+</li>
+</ul>
+</section>
+<section id="changelog">
+<h2><a class="toc-backref" href="#toc-entry-20" role="doc-backlink">Changelog</a></h2>
+<table class="borderless">
+<tbody>
+<tr><td><p>0.1</p></td>
+<td><p>2010-06-16</p></td>
+<td><p>initial version</p></td>
+</tr>
+<tr><td><p>0.2</p></td>
+<td><p>2012-06-27</p></td>
+<td><p>support for compound Unicode definitions outside LGR</p></td>
+</tr>
+<tr><td><p>0.3</p></td>
+<td><p>2013-05-03</p></td>
+<td><p>new accent macro names with <span class="docutils literal">lgrxenc.def</span> 0.7</p></td>
+</tr>
+<tr><td><p>0.4</p></td>
+<td><p>2013-05-28</p></td>
+<td><p>use <span class="docutils literal">lgrenc.def</span> from greek-fontenc.</p></td>
+</tr>
+<tr><td><p>0.5</p></td>
+<td><p>2013-09-11</p></td>
+<td><p>move to <a class="reference external" href="https://ctan.org/pkg/greek-fontenc">greek-fontenc</a>,</p></td>
+</tr>
+<tr><td><!--  -->
+</td>
+<td></td>
+<td><p>support XeTeX/LuaTeX, add breve below accents.</p></td>
+</tr>
+<tr><td><p>0.11</p></td>
+<td><p>2013-11-28</p></td>
+<td><p>compatibility with Xe/LuaTeX in 8-bit mode.</p></td>
+</tr>
+<tr><td><p>0.12</p></td>
+<td><p>2014-12-12</p></td>
+<td><p>fix auxiliary macro names,
+define symbol macros for breathing accents.</p></td>
+</tr>
+<tr><td><p>0.13</p></td>
+<td><p>2015-09-04</p></td>
+<td><p>Option <a class="reference internal" href="#normalize-symbols">normalize-symbols</a>: support for symbol variants.</p></td>
+</tr>
+<tr><td><!--  -->
+</td>
+<td></td>
+<td><p>Option <a class="reference internal" href="#keep-semicolon">keep-semicolon</a>: use semicolon as erotimatiko
+in LGR.</p></td>
+</tr>
+<tr><td><p>0.13.2</p></td>
+<td><p>2016-02-05</p></td>
+<td><p>Support for standard Unicode text font encoding “TU”
+(new in fontspec v2.5a).</p></td>
+</tr>
+<tr><td><p>0.13.4</p></td>
+<td><p>2019-07-11</p></td>
+<td><p>Auxiliary command for subscript iota.</p></td>
+</tr>
+<tr><td><p>0.14</p></td>
+<td><p>2020-02-28</p></td>
+<td><p>Update test for Unicode fonts.
+Rename <span class="docutils literal"><span class="pre">greek-euenc</span></span> to <span class="docutils literal"><span class="pre">tuenc-greek</span></span>.
+Don’t use <span class="docutils literal">\LastDeclaredEncoding</span>.</p></td>
+</tr>
+<tr><td><p>1.0</p></td>
+<td><p>2020-09-25</p></td>
+<td><p>Also set <span class="docutils literal">\encodingdefault</span> with <span class="docutils literal">\greekscript</span>.</p></td>
+</tr>
+<tr><td><p>2.0</p></td>
+<td><p>2020-10-30</p></td>
+<td><p>Load <span class="docutils literal"><span class="pre">tuenc-greek.def</span></span> with Xe/LuaTeX by default.</p></td>
+</tr>
+<tr><td><!--  -->
+</td>
+<td></td>
+<td><p>Load <span class="docutils literal"><span class="pre">puenc-greek.def</span></span> if used with <a class="reference external" href="https://ctan.org/pkg/hyperref">hyperref</a>.</p></td>
+</tr>
+<tr><td><p>2.2</p></td>
+<td><p>2023-02-28</p></td>
+<td><p>Don’t use <span class="docutils literal">\makeatother</span> in <span class="docutils literal">\AtBeginDocument</span>.</p></td>
+</tr>
+<tr><td><p>2.2.1</p></td>
+<td><p>2023-03-08</p></td>
+<td><p>Documentation update.</p></td>
+</tr>
+<tr><td><p>2.2.2</p></td>
+<td><p>2023-03-17</p></td>
+<td><p>Don’t map active <cite>;</cite> to <span class="docutils literal">\textsemicolon</span> in math mode.</p></td>
+</tr>
+<tr><td><p>2.4</p></td>
+<td><p>2023-08-16</p></td>
+<td><p>Map character 00B5 MICRO SIGN to <span class="docutils literal">\textmicro</span>.</p></td>
+</tr>
+<tr><td><!--  -->
+</td>
+<td></td>
+<td><p>Fix upcasing of Greek letters with <span class="docutils literal">\&lt;</span> and <span class="docutils literal">\&gt;</span>.</p></td>
+</tr>
+<tr><td><p>2.5</p></td>
+<td><p>2023-09-12</p></td>
+<td><p>Support the <span class="docutils literal">\accoxia</span> alias.</p></td>
+</tr>
+</tbody>
+</table>
+<!-- References
+- - - - - - - - - - -->
+</section>
+</main>
+</body>
+</html>

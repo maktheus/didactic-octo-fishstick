@@ -3,6 +3,7 @@ export interface Agent {
   name: string;
   provider: string;
   endpoint: string;
+  image?: string; // New: Docker Image
   model?: string;
   systemPrompt?: string;
   authType: 'none' | 'bearer' | 'apikey';

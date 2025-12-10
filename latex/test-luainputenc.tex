@@ -1,0 +1,702 @@
+\documentclass[a4paper]{article}
+\usepackage[unicode,colorlinks=true,linkcolor=blue]{hyperref}
+% \usepackage{bookmark}
+% \usepackage{parskip}
+\usepackage{amssymb}
+
+% This file uses only ASCII input but we test the result of "inputenc" on
+% the Greek font setup for TU and PU:
+
+% test with different input encoding (before Greek font setup)
+\usepackage[latin1]{luainputenc}
+
+\ifdefined \UnicodeEncodingName % set by LaTeX for Unicode-aware engines
+  % Unicode font setup:
+  \usepackage{fontspec}
+  % The Harfbuzz renderer provides selection of pre-composed characters
+  % (NFC normalization) with LuaTeX
+  % \setmainfont[Renderer=Harfbuzz]{DejaVu Serif} # no YPOGEGRAMMENI
+  % \setsansfont[Renderer=Harfbuzz]{DejaVu Sans}
+  % \setmainfont[Renderer=Harfbuzz]{FreeSerif}
+  % \setmainfont{cmunrm.otf} % CMU Serif % many missing characters :(
+  \setmainfont[Renderer=Harfbuzz]{Linux Libertine O}
+  \setsansfont[Renderer=Harfbuzz]{Linux Biolinum O}
+\else
+  \usepackage[LGR,T1]{fontenc}
+  \usepackage{lmodern}
+\fi
+
+\usepackage[normalize-symbols]{textalpha}
+
+
+\ProvideTextCommandDefault{\textvarpi}{missing}
+\ProvideTextCommandDefault{\textvarrho}{missing}
+\ProvideTextCommandDefault{\textvartheta}{missing}
+\ProvideTextCommandDefault{\textvarTheta}{missing}
+\ProvideTextCommandDefault{\textvarepsilon}{missing}
+\ProvideTextCommandDefault{\textvarphi}{missing}
+\ProvideTextCommandDefault{\textvarbeta}{missing}
+\ProvideTextCommandDefault{\textvarkappa}{missing}
+\DeclareTextSymbolDefault{\textschwa}{LGR}
+
+\ProvideTextCommandDefault{\textmicro}{\textmu}
+
+% test with different input encoding (after Greek font setup)
+% \usepackage[latin1]{luainputenc}
+
+\begin{document}
+
+% place the hypersetup after the document start if extra Greek
+% characters are required:
+\hypersetup{pdfauthor=\textTau\'<\textepsilon\textsigma\textthetasymbol}
+
+\title{Test LICR macros in LuaTeX's 8-bit compatibility mode}
+\author{G\"unter Milde}
+\date{2023/03/08}
+\maketitle
+
+This document tests the compatibility of ``luainputenc'' and the Greek font
+setup for TU and PU. It uses only ASCII input.
+
+See the source \texttt{test-inputenc.tex} for the input used in the examples.
+
+\tableofcontents
+
+
+\section{LICR input%
+         \label{licr}}
+
+The LaTeX internal character representation (LICR) is a verbose, fail-safe
+7-bit ASCII encoding that can be used unaltered under both, 8-bit TeX (with
+any ASCII-compatible input encoding) and XeTeX/LuaTeX.
+Use cases are macro definitions and generated text.
+
+
+\subsection{Greek alphabet}
+
+Greek letters via LICR macros:
+\begin{quote}
+  \textAlpha{} \textBeta{} \textGamma{} \textDelta{} \textEpsilon{}
+  \textZeta{} \textEta{} \textTheta{} \textIota{} \textKappa{}
+  \textLambda{} \textMu{} \textNu{} \textXi{} \textOmicron{} \textPi{}
+  \textRho{} \textSigma{} \textTau{} \textUpsilon{} \textPhi{}
+  \textChi{} \textPsi{} \textOmega{}
+
+  \textalpha{} \textbeta{} \textgamma{} \textdelta{} \textepsilon{}
+  \textzeta{} \texteta{} \texttheta{} \textiota{} \textkappa{}
+  \textlambda{} \textmu{} \textnu{} \textxi{} \textomicron{} \textpi{}
+  \textrho{} \textsigma{} \texttau{} \textupsilon{}
+  \textphi{} \textchi{} \textpsi{} \textomega{}
+\end{quote}
+The small sigma is set with a different
+glyph if it ends a word:
+\begin{quote}
+  \textsigma{}       \verb|textsigma|\\
+  \textfinalsigma{}  \verb|textfinalsigma| or \verb|textvarsigma|
+\end{quote}
+%
+The \verb|\textautosigma| macro (which automatically chooses the glyph
+according to the position) does not work with Unicode fonts (Xe/LuaTeX, font
+encoding TU).
+
+
+\subsection{Diacritics}
+
+Greek accents are
+tonos = oxia, varia, psili, dasia, dialytika, and perispomeni.
+
+Greek diacritics can be input by named macro or symbol macro:
+\begin{quote}
+  \acctonos\textalpha       \'\textalpha{}  \acctonos       x\'x
+  \accvaria\textalpha       \`\textalpha{}  \accvaria       x\`x
+  \accdialytika\textiota{}  \"\textiota{}   \accdialytika   x\"x
+  \accperispomeni\textalpha \~\textalpha{}  \accperispomeni x\~x
+  \accpsili\textalpha       \>\textalpha{}  \accpsili       x\>x
+  \accdasia\textalpha       \<\textalpha{}  \accdasia       x\<x
+\end{quote}
+%
+Combining diacritics were misplaced with the 2021 version of LuaTeX in 8-bit
+compatibility mode. This can be solved by selecting the "Harfbuzz" renderer
+(see the source).
+\begin{quote}
+  \accdasia`\textepsilon{} \accpsili'\textepsilon{} \~>\textupsilon{}
+  \~>\textalpha\ypogegrammeni{} \~<\textalpha\ypogegrammeni
+\end{quote}
+%
+Diacritics as spacing characters:
+
+with empty argument:
+\ensuregreek{
+\acctonos{} \accoxia{} \accvaria{}
+\accpsili{} \accdasia{}
+\accdialytika{} \accperispomeni{}
+\accdialytikatonos{} \accdialytikavaria{} \accdialytikaperispomeni{}
+\accdasiaoxia{} \accdasiavaria{} \accdasiaperispomeni{}
+\accpsilioxia{} \accpsilivaria{} \accpsiliperispomeni{}
+}
+
+with space as argument:
+\ensuregreek{
+\acctonos{ } \accoxia{ } \accvaria{ }
+\accpsili{ } \accdasia{ }
+\accdialytika{ } \accperispomeni{ }
+\accdialytikatonos{ } \accdialytikavaria{ } \accdialytikaperispomeni{ }
+\accdasiaoxia{ } \accdasiavaria{ } \accdasiaperispomeni{ }
+\accpsilioxia{ } \accpsilivaria{ } \accpsiliperispomeni{ }
+}
+
+with protected space:
+\ensuregreek{
+\acctonos{\ } \accoxia{\ } \accvaria{\ }
+\accpsili{\ } \accdasia{\ }
+\accdialytika{\ } \accperispomeni{\ }
+\accdialytikatonos{\ }\ \accdialytikavaria{\ }\ \accdialytikaperispomeni{\ }\
+\accdasiaoxia{\ }\ \accdasiavaria{\ }\ \accdasiaperispomeni{\ }\
+\accpsilioxia{\ }\ \accpsilivaria{\ }\ \accpsiliperispomeni{\ }
+}
+
+with nobreakspace:
+\ensuregreek{
+\acctonos{\nobreakspace} \accoxia{\nobreakspace} \accvaria{\nobreakspace}
+\accpsili{\nobreakspace} \accdasia{\nobreakspace}
+\accdialytika{\nobreakspace} \accperispomeni{\nobreakspace}
+\accdialytikatonos{\nobreakspace}\ \accdialytikavaria{\nobreakspace}\
+\accdialytikaperispomeni{\nobreakspace}\ \accdasiaoxia{\nobreakspace}\
+\accdasiavaria{\nobreakspace}\ \accdasiaperispomeni{\nobreakspace}\
+\accpsilioxia{\nobreakspace}\ \accpsilivaria{\nobreakspace}\
+\accpsiliperispomeni{\nobreakspace}
+}
+
+\subsubsection{mute iota}
+
+The mute iota is input after the base letter.
+
+\begin{itemize}
+\item \verb|\ypogegrammeni| following a Greek letter sets a sub-iota
+  (corresponding to COMBINING GREEK YPOGEGRAMMENI),
+  e.g. \ensuregreek{\textalpha\ypogegrammeni{}}.
+
+  In Unicode, a GREEK CAPITAL LETTER ... followed by
+  COMBINING GREEK YPOGEGRAMMENI is normalized to
+  GREEK CAPITAL LETTER ... WITH [... AND] PROSGEGRAMMENI,
+  if a corresponding letter exists in the Unicode standard.
+  In LGR fonts, this is implemented via a ligature definition
+  (set the Babel language or wrap in \verb|\ensuregreek|):
+  \ensuregreek{\textAlpha\ypogegrammeni{}} but
+  \ensuregreek{\textLambda\ypogegrammeni{}}.
+
+  The shape and position of the mute iota with pre-composed capital letters
+  depends on the selected font, both sub-iota and adscript iota are possible.
+
+\item \verb|\prosgegrammeni| sets an adscript iota (GREEK PROSGEGRAMMENI),
+  e.g. \textAlpha\prosgegrammeni{}.
+  In Unicode fonts the prosgegrammeni is spaced similar to the letter iota.
+  In the CB Greek fonts, the only visible difference to the pre-composed
+  characters is a slightly increased spacing.
+
+  Copy/Paste may convert the adscript iota to a small letter iota!
+
+\end{itemize}
+Ypogegrammeni and prosgegrammeni following matching/not-matching base character
+(unchanged, lowercase, uppercase):
+\begin{quote}
+  \greekscript
+  \textAlpha\ypogegrammeni \textAlpha\prosgegrammeni{}
+  \MakeLowercase{\textAlpha\ypogegrammeni \textAlpha\prosgegrammeni}
+  \MakeUppercase{\textAlpha\ypogegrammeni \textAlpha\prosgegrammeni}
+
+  \textLambda\ypogegrammeni \textLambda\prosgegrammeni{}
+  \MakeLowercase{\textLambda\ypogegrammeni \textLambda\prosgegrammeni}
+  \MakeUppercase{\textLambda\ypogegrammeni \textLambda\prosgegrammeni}
+
+  \textalpha\ypogegrammeni \textalpha\prosgegrammeni{}
+  \MakeLowercase{\textalpha\ypogegrammeni \textalpha\prosgegrammeni}
+  \MakeUppercase{\textalpha\ypogegrammeni \textalpha\prosgegrammeni}
+\end{quote}
+
+Using \verb|\ypogegrammeni| for the mute iota with both, small and capital
+letters usually gives better results.
+
+
+\subsection{Additional Greek symbols}
+
+\subsubsection{symbols for Greek numbers}
+
+\begin{quote}
+\raggedright
+\textkoppa{}      textkoppa                 \\ % ϟ
+\textKoppa{}      textKoppa                 \\ % Ϟ
+\textqoppa{}      textqoppa (archaic koppa) \\ % ϙ
+\textQoppa{}      textQoppa (archaic Koppa) \\ % Ϙ
+\textstigma{}     textstigma                \\ % ϛ
+% \textvarstigma{}  textvarstigma \\ % no separate Unicode character
+\textStigma{}     textStigma (Sigma-Tau-Ligature in CB-fonts)%
+\footnote{the name ``stigma'' originally applied to a medieval sigma-tau
+         ligature, whose shape was confusingly similar to the cursive
+         digamma} \\ % Ϛ
+\textsampi{}      textsampi  \\ % ϡ
+\textSampi{}      textSampi  \\ % Ϡ
+\textdigamma{}    textdigamma  \\ % ϝ (\digamma used by amsmath!)
+\textDigamma{}    textDigamma  \\ % Ϝ
+% numeral signs: http://en.wikipedia.org/wiki/Greek_numerals
+\textdexiakeraia{}    textdexiakeraia  \\ % ʹ
+\textaristerikeraia{} textaristerikeraia \\ % ͵
+\end{quote}
+
+% \subsubsection{Ancient Greek Numbers}
+%
+% Ancient Greek Numbers are missing in most fonts (including Libertine and
+% Deja Vu). The “FreeSerif” font works fine:
+% \begin{quote}
+% \textpentedeka    % GREEK ACROPHONIC ATTIC FIFTY
+% \textpentehekaton % GREEK ACROPHONIC ATTIC FIVE HUNDRED
+% \textpenteqilioi  % GREEK ACROPHONIC ATTIC FIVE THOUSAND
+% \textpentemuria   % GREEK ACROPHONIC ATTIC FIFTY THOUSAND
+% \end{quote}
+
+\subsubsection{generic text symbols}
+
+LICR macros for some symbols from the 8-bit font encoding LGR that are not
+confined to Greek but not defined in \texttt{tuenc.def} [2018/08/11 v2.0j].
+
+\begin{quote}
+  \textsemicolon{} textsemicolon\\
+  \textmicro{} textmicro \\
+  \textschwa{} textschwa
+\end{quote}
+The SI unit prefix MICRO SIGN is not upcased with MakeUppercase:
+
+\begin{quote}
+  textmu: \textmu{} $\mapsto$ \MakeUppercase{\textmu} but
+  textmicro: \textmicro{} $\mapsto$ \MakeUppercase{\textmicro}.
+\end{quote}
+
+\section{Greek in section headings}
+
+The packages \emph{textalpha} and \emph{alphabeta} as well as
+\emph{babel-greek}, add hyperref support for LICR input with
+non-standard accents or combined diacritics.
+
+\subsection{Greek and Coptic}
+
+\subsubsection{\ensuregreek{
+  \textnumeralsigngreek{}
+  \textnumeralsignlowergreek{}
+  \ \ypogegrammeni{}
+  \texterotimatiko{}
+  \acctonos{}
+  \"'{}
+  \'\textAlpha
+  \textanoteleia
+  \'\textEpsilon
+  \'\textEta
+  \'\textIota
+  \'\textOmicron
+  \'\textUpsilon
+  \'\textOmega
+  \'"\textiota
+}}
+\subsubsection{\ensuregreek{
+  \textAlpha
+  \textBeta
+  \textGamma
+  \textDelta
+  \textEpsilon
+  \textZeta
+  \textEta
+  \textTheta
+  \textIota
+  \textKappa
+  \textLambda
+  \textMu
+  \textNu
+  \textXi
+  \textOmicron
+  \textPi
+  \textRho
+  \textSigma
+  \textTau
+  \textUpsilon
+  \textPhi
+  \textChi
+  \textPsi
+  \textOmega
+}}
+\subsubsection{\ensuregreek{
+  \"\textIota
+  \"\textUpsilon
+  \'\textalpha
+  \'\textepsilon
+  \'\texteta
+  \'\textiota
+  \"'\textupsilon
+}}
+\subsubsection{\ensuregreek{
+  \textalpha
+  \textbeta
+  \textgamma
+  \textdelta
+  \textepsilon
+  \textzeta
+  \texteta
+  \texttheta
+  \textiota
+  \textkappa
+  \textlambda
+  \textmu
+  \textnu
+  \textxi
+  \textomicron
+  \textpi
+  \textrho
+  \textvarsigma
+  \textsigma
+  \texttau
+  \textupsilon
+  \textphi
+  \textchi
+  \textpsi
+  \textomega
+}}
+\subsubsection{\ensuregreek{
+  \"\textiota
+  \"\textupsilon
+  \'\textomicron
+  \'\textupsilon
+  \'\textomega
+  \textbetasymbol
+  \textthetasymbol
+  \textphisymbol
+  \textpisymbol
+  \textQoppa
+  \textqoppa
+  \textStigma
+  \textstigma
+  \textDigamma
+  \textdigamma
+  \textKoppa
+  \textkoppa
+  \textSampi
+  \textsampi
+  \textkappasymbol
+  \textrhosymbol
+  \textThetasymbol
+  \textepsilonsymbol
+}}
+
+\subsection{Greek Extended}
+
+\subsubsection{\ensuregreek{
+  \accpsili\textalpha
+  \accdasia\textalpha
+  \accpsili`\textalpha
+  \accdasia`\textalpha
+  \accpsili'\textalpha
+  \accdasia'\textalpha
+  \~>\textalpha
+  \~<\textalpha
+  \accpsili\textAlpha
+  \accdasia\textAlpha
+  \accpsili`\textAlpha
+  \accdasia`\textAlpha
+  \accpsili'\textAlpha
+  \accdasia'\textAlpha
+  \~>\textAlpha
+  \~<\textAlpha
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\textepsilon
+  \accdasia\textepsilon
+  \accpsili`\textepsilon
+  \accdasia`\textepsilon
+  \accpsili'\textepsilon
+  \accdasia'\textepsilon
+  \accpsili\textEpsilon
+  \accdasia\textEpsilon
+  \accpsili`\textEpsilon
+  \accdasia`\textEpsilon
+  \accpsili'\textEpsilon
+  \accdasia'\textEpsilon
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\texteta
+  \accdasia\texteta
+  \accpsili`\texteta
+  \accdasia`\texteta
+  \accpsili'\texteta
+  \accdasia'\texteta
+  \~>\texteta
+  \~<\texteta
+  \accpsili\textEta
+  \accdasia\textEta
+  \accpsili`\textEta
+  \accdasia`\textEta
+  \accpsili'\textEta
+  \accdasia'\textEta
+  \~>\textEta
+  \~<\textEta
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\textiota
+  \accdasia\textiota
+  \accpsili`\textiota
+  \accdasia`\textiota
+  \accpsili'\textiota
+  \accdasia'\textiota
+  \~>\textiota
+  \~<\textiota
+  \accpsili\textIota
+  \accdasia\textIota
+  \accpsili`\textIota
+  \accdasia`\textIota
+  \accpsili'\textIota
+  \accdasia'\textIota
+  \~>\textIota
+  \~<\textIota
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\textomicron
+  \accdasia\textomicron
+  \accpsili`\textomicron
+  \accdasia`\textomicron
+  \accpsili'\textomicron
+  \accdasia'\textomicron
+  \accpsili\textOmicron
+  \accdasia\textOmicron
+  \accpsili`\textOmicron
+  \accdasia`\textOmicron
+  \accpsili'\textOmicron
+  \accdasia'\textOmicron
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\textupsilon
+  \accdasia\textupsilon
+  \accpsili`\textupsilon
+  \accdasia`\textupsilon
+  \accpsili'\textupsilon
+  \accdasia'\textupsilon
+  \~>\textupsilon
+  \~<\textupsilon
+  \accdasia\textUpsilon
+  \accdasia`\textUpsilon
+  \accdasia'\textUpsilon
+  \~<\textUpsilon
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\textomega
+  \accdasia\textomega
+  \accpsili`\textomega
+  \accdasia`\textomega
+  \accpsili'\textomega
+  \accdasia'\textomega
+  \~>\textomega
+  \~<\textomega
+  \accpsili\textOmega
+  \accdasia\textOmega
+  \accpsili`\textOmega
+  \accdasia`\textOmega
+  \accpsili'\textOmega
+  \accdasia'\textOmega
+  \~>\textOmega
+  \~<\textOmega
+}}
+\subsubsection{\ensuregreek{
+  \accvaria\textalpha
+  \accoxia\textalpha
+  \accvaria\textepsilon
+  \accoxia\textepsilon
+  \accvaria\texteta
+  \accoxia\texteta
+  \accvaria\textiota
+  \accoxia\textiota
+  \accvaria\textomicron
+  \accoxia\textomicron
+  \accvaria\textupsilon
+  \accoxia\textupsilon
+  \accvaria\textomega
+  \accoxia\textomega
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\textalpha\ypogegrammeni
+  \accdasia\textalpha\ypogegrammeni
+  \accpsili`\textalpha\ypogegrammeni
+  \accdasia`\textalpha\ypogegrammeni
+  \accpsili'\textalpha\ypogegrammeni
+  \accdasia'\textalpha\ypogegrammeni
+  \~>\textalpha\ypogegrammeni
+  \~<\textalpha\ypogegrammeni
+  \accpsili\textAlpha\ypogegrammeni
+  \accdasia\textAlpha\ypogegrammeni
+  \accpsili`\textAlpha\ypogegrammeni
+  \accdasia`\textAlpha\ypogegrammeni
+  \accpsili'\textAlpha\ypogegrammeni
+  \accdasia'\textAlpha\ypogegrammeni
+  \~>\textAlpha\ypogegrammeni
+  \~<\textAlpha\ypogegrammeni
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\texteta\ypogegrammeni
+  \accdasia\texteta\ypogegrammeni
+  \accpsili`\texteta\ypogegrammeni
+  \accdasia`\texteta\ypogegrammeni
+  \accpsili'\texteta\ypogegrammeni
+  \accdasia'\texteta\ypogegrammeni
+  \~>\texteta\ypogegrammeni
+  \~<\texteta\ypogegrammeni
+  \accpsili\textEta\ypogegrammeni
+  \accdasia\textEta\ypogegrammeni
+  \accpsili`\textEta\ypogegrammeni
+  \accdasia`\textEta\ypogegrammeni
+  \accpsili'\textEta\ypogegrammeni
+  \accdasia'\textEta\ypogegrammeni
+  \~>\textEta\ypogegrammeni
+  \~<\textEta\ypogegrammeni
+}}
+\subsubsection{\ensuregreek{
+  \accpsili\textomega\ypogegrammeni
+  \accdasia\textomega\ypogegrammeni
+  \accpsili`\textomega\ypogegrammeni
+  \accdasia`\textomega\ypogegrammeni
+  \accpsili'\textomega\ypogegrammeni
+  \accdasia'\textomega\ypogegrammeni
+  \~>\textomega\ypogegrammeni
+  \~<\textomega\ypogegrammeni
+  \accpsili\textOmega\ypogegrammeni
+  \accdasia\textOmega\ypogegrammeni
+  \accpsili`\textOmega\ypogegrammeni
+  \accdasia`\textOmega\ypogegrammeni
+  \accpsili'\textOmega\ypogegrammeni
+  \accdasia'\textOmega\ypogegrammeni
+  \~>\textOmega\ypogegrammeni
+  \~<\textOmega\ypogegrammeni
+}}
+\subsubsection{\ensuregreek{
+  \u\textalpha
+  \=\textalpha
+  \accvaria\textalpha\ypogegrammeni
+  \textalpha\ypogegrammeni
+  \accoxia\textalpha\ypogegrammeni
+  \~\textalpha
+  \~\textalpha\ypogegrammeni
+  \u\textAlpha
+  \=\textAlpha
+  \accvaria\textAlpha
+  \accoxia\textAlpha
+  \textAlpha\ypogegrammeni
+  \accpsili{ }
+  \prosgegrammeni
+  \accpsili{ }
+}}
+
+\subsubsection{\ensuregreek{
+  \accperispomeni{ }
+  \"\~{ }
+  \accvaria\texteta\ypogegrammeni
+  \texteta\ypogegrammeni
+  \accoxia\texteta\ypogegrammeni
+  \~\texteta
+  \~\texteta\ypogegrammeni
+  \accvaria\textEpsilon
+  \accoxia\textEpsilon
+  \accvaria\textEta
+  \accoxia\textEta
+  \textEta\ypogegrammeni
+  \accpsili`{ }
+  \accpsili'{ }
+  \~>{ }
+}}
+
+\subsubsection{\ensuregreek{
+  \u\textiota
+  \=\textiota
+  \`"\textiota
+  \'"\textiota
+  \~\textiota
+  \~"\textiota
+  \u\textIota
+  \=\textIota
+  \accvaria\textIota
+  \accoxia\textIota
+  \accdasia`{ }
+  \accpsili'{ }
+  \~<{ }
+}}
+\subsubsection{\ensuregreek{
+  \u\textupsilon
+  \=\textupsilon
+  \`"\textupsilon
+  \'"\textupsilon
+  \accpsili\textrho
+  \accdasia\textrho
+  \~\textupsilon
+  \~"\textupsilon
+  \u\textUpsilon
+  \=\textUpsilon
+  \accvaria\textUpsilon
+  \accoxia\textUpsilon
+  \accdasia\textRho
+  \`"{ }
+  \'"{ }
+  \accvaria{ }
+}}
+\subsubsection{\ensuregreek{
+  \accvaria\textomega\ypogegrammeni
+  \textomega\ypogegrammeni
+  \accoxia\textomega\ypogegrammeni
+  \~\textomega
+  \~\textomega\ypogegrammeni
+  \accvaria\textOmicron
+  \accoxia\textOmicron
+  \accvaria\textOmega
+  \accoxia\textOmega
+  \textOmega\ypogegrammeni
+  \accoxia{ }
+  \accdasia{ }
+}}
+
+
+\begin{table}[tbp]
+  \centering
+  \begin{tabular}{lclc}
+  \hline
+  \multicolumn{2}{c}{text} & \multicolumn{2}{c}{mathematics} \\
+  macro & output & macro & output \\
+  \hline
+  \verb$\textpi$            & \textpi            & \verb$\pi$         & $\pi$         \\
+  \verb$\textvarpi$         & \textvarpi         & \verb$\varpi$      & $\varpi$      \\
+  \verb$\textpisymbol$      & \textpisymbol      &                    & \\
+  \hline
+  \verb$\textrho$           & \textrho           & \verb$\rho$        & $\rho$        \\
+  \verb$\textvarrho$        & \textvarrho        & \verb$\varrho$     & $\varrho$     \\
+  \verb$\textrhosymbol$     & \textrhosymbol     &                    & \\
+  \hline
+  \verb$\texttheta$         & \texttheta         & \verb$\theta$      & $\theta$      \\
+  \verb$\textvartheta$      & \textvartheta      & \verb$\vartheta$   & $\vartheta$   \\
+  \verb$\textthetasymbol$   & \textthetasymbol   &                    & \\
+  \hline
+  \verb$\textepsilon$       & \textepsilon       & \verb$\epsilon$    & $\epsilon$    \\
+  \verb$\textvarepsilon$    & \textvarepsilon    & \verb$\varepsilon$ & $\varepsilon$ \\
+  \verb$\textepsilonsymbol$ & \textepsilonsymbol &                    & \\
+  \hline
+  \verb$\textphi$           & \textphi           & \verb$\phi$        & $\phi$        \\
+  \verb$\textvarphi$        & \textvarphi        & \verb$\varphi$     & $\varphi$     \\
+  \verb$\textphisymbol$     & \textphisymbol     &                    & \\
+  \hline
+  \verb$\textbeta$          & \textbeta          & \verb$\beta$       & $\beta$       \\
+  \verb$\textvarbeta$       & \textvarbeta       & \emph{missing}     & \\
+  \verb$\textbetasymbol$    & \textbetasymbol    &                    & \\
+  \hline
+  \verb$\textkappa$         & \textkappa         & \verb$\kappa$      & $\kappa$      \\
+  \verb$\textvarkappa$      & \textvarkappa      & \verb$\varkappa$   & $\varkappa$   \\
+  \verb$\textkappasymbol$   & \textkappasymbol   &                    & \\
+  \hline
+  \verb$\textTheta$         & \textTheta         & \verb$\Theta$      & $\Theta$      \\
+  \verb$\textvarTheta$      & \textvarTheta      & \emph{missing}     & \\
+  \verb$\textThetasymbol$   & \textThetasymbol   &                    & \\
+  \hline
+  \end{tabular}
+  \caption{Macros for Greek symbol variants}
+  \label{tab:symbol-variant-macros}
+\end{table}
+
+\end{document}

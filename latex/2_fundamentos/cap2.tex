@@ -1,11 +1,46 @@
 \chapter{Fundamentos}
 \label{cap:Fundamentos}
 
-\lettrine[lines=3]{E}{} ste capítulo apresenta o pano de fundo conceitual para discutir a avaliação de agentes baseados em modelos de linguagem, destacando o cenário de 2025, as definições consolidadas de agentic AI e as taxonomias que norteiam a mensuração de suas capacidades.
+\lettrine[lines=3]{E}{} ste capítulo apresenta o pano de fundo conceitual para discutir a avaliação de agentes baseados em modelos de linguagem, destacando o cenário de 2025, a evolução histórica dos modelos e agentes, as definições consolidadas de agentic AI e as taxonomias que norteiam a mensuração de suas capacidades.
 
 \section{Contexto: 2025 como o ano dos agentes de IA}
 
 O debate sobre modelos de linguagem migrou de comparações estáticas de LLMs para a discussão sobre quais agentes conseguem agir com segurança, eficiência e autonomia em domínios reais. O termo \textit{agentic AI} descreve sistemas que combinam modelos de linguagem, memória, ferramentas, acesso a ambientes corporativos e objetivos de longo prazo, assumindo a responsabilidade por sequências de ações ao invés de respostas isoladas \cite{Dynamiq2025}. Relatórios de mercado projetam 2025 como o ano em que agentes deixam de ser prova de conceito e passam a conduzir fluxos críticos, o que pressiona empresas e pesquisadores a construir métricas alinhadas a resultados de negócio e custos operacionais \cite{Investors2025}. Essa inflexão torna insuficientes benchmarks acadêmicos tradicionais e abre espaço para experimentos focados em uso correto de ferramentas, aderência a políticas e robustez adversarial, diretamente alinhados ao problema investigado neste trabalho. Compêndios produzidos por Evidently AI e Phil Schmid mapeiam pelo menos dez benchmarks ativos apenas no primeiro semestre de 2025, revelando um ecossistema fragmentado e ainda em busca de padronização \cite{Evidently2025,Schmid2025}.
+
+\section{Evolução dos Modelos de Aprendizado Profundo}
+
+A capacidade atual dos agentes de IA é sustentada por uma década de avanços acelerados em arquiteturas de redes neurais profundas. Esta seção traça brevemente a trajetória desde o ressurgimento das redes neurais até os Grandes Modelos de Linguagem (LLMs).
+
+\subsection{A Era da Visão Computacional e Convoluções}
+
+O marco inicial da era moderna do aprendizado profundo é frequentemente atribuído à competição ImageNet de 2012, onde a rede \textbf{AlexNet} \cite{krizhevsky2012imagenet} demonstrou uma redução drástica na taxa de erro de classificação de imagens utilizando Redes Neurais Convolucionais (CNNs) profundas treinadas em GPUs. Este sucesso catalisou o desenvolvimento de arquiteturas cada vez mais profundas e eficientes.
+
+Em 2014, a arquitetura \textbf{VGG} \cite{simonyan2014very} padronizou o uso de filtros de convolução pequenos ($3\times3$), permitindo redes mais profundas sem aumento excessivo de parâmetros. No entanto, o aumento da profundidade trouxe problemas de desvanecimento de gradiente, solucionados em 2016 pela \textbf{ResNet} (Residual Networks) \cite{he2016deep}, que introduziu conexões residuais ("skip connections"), permitindo o treinamento eficaz de redes com centenas de camadas.
+
+\subsection{A Revolução dos Transformers e LLMs}
+
+Enquanto a visão computacional avançava com CNNs, o processamento de linguagem natural (PLN) enfrentava limitações com Redes Neurais Recorrentes (RNNs) e LSTMs, que tinham dificuldade em modelar dependências de longo prazo e eram difíceis de paralelizar.
+
+Em 2017, Vaswani et al. publicaram o artigo seminal "Attention Is All You Need" \cite{vaswani2017attention}, introduzindo a arquitetura \textbf{Transformer}. Baseada inteiramente em mecanismos de atenção, essa arquitetura permitiu o processamento paralelo de sequências e a captura de dependências globais no texto, tornando-se a base para todos os LLMs modernos.
+
+A partir do Transformer, surgiram modelos pré-treinados em grandes corpora de texto. O \textbf{BERT} (Bidirectional Encoder Representations from Transformers) \cite{devlin2018bert} revolucionou tarefas de compreensão de linguagem ao utilizar um treinamento bidirecional. Paralelamente, a série GPT (Generative Pre-trained Transformer) da OpenAI focou na geração de texto autoregressiva. O \textbf{GPT-3} \cite{brown2020language}, com 175 bilhões de parâmetros, demonstrou que modelos de escala massiva poderiam realizar tarefas para as quais não foram explicitamente treinados (few-shot learning), pavimentando o caminho para os agentes generalistas.
+
+\section{Evolução dos Agentes de IA}
+
+A transição de modelos passivos (que apenas respondem a texto) para agentes ativos (que executam ações) representa a fronteira atual da pesquisa em IA.
+
+\subsection{Agentes baseados em Reforço e Regras}
+Antes da ascensão dos LLMs, agentes de IA eram predominantemente baseados em Aprendizado por Reforço (RL) operando em ambientes simulados restritos (como jogos de Atari ou Go) ou sistemas baseados em regras rígidas para automação de processos (RPA). Embora eficazes em seus domínios específicos, careciam de generalização e flexibilidade para lidar com instruções em linguagem natural e ambientes abertos.
+
+\subsection{O Surgimento dos Agentes baseados em LLM}
+Com a capacidade de raciocínio e instrução dos LLMs, surgiu o paradigma de usar o modelo de linguagem como o "cérebro" do agente. O trabalho \textbf{ReAct} (Reasoning and Acting) \cite{yao2022react} foi pioneiro ao propor que o modelo gerasse explicitamente passos de raciocínio ("pensamento") intercalados com ações no ambiente, melhorando significativamente a capacidade de resolver tarefas complexas.
+
+Para interagir com o mundo digital, os modelos precisavam aprender a usar ferramentas externas (calculadoras, APIs, buscadores). O \textbf{Toolformer} \cite{schick2023toolformer} demonstrou que LLMs poderiam aprender, de forma auto-supervisionada, quando e como chamar APIs externas para complementar seu conhecimento.
+
+\subsection{Agentes Autônomos e Sistemas Multi-Agente}
+Em 2023, projetos open-source como o \textbf{AutoGPT} \cite{agpt2023autogpt} popularizaram a ideia de agentes autônomos que, dado um objetivo de alto nível, criam suas próprias sub-tarefas, executam ações, navegam na web e iteram até atingir o objetivo, sem intervenção humana constante.
+
+Atualmente, em 2025, o foco se expandiu para sistemas multi-agente, onde múltiplos agentes especializados colaboram para resolver problemas complexos, e para a avaliação robusta desses sistemas, tema central deste trabalho.
 
 \section{Fundamentos teóricos da avaliação de agentes}
 
@@ -19,7 +54,7 @@ O artigo ``Evaluation and Benchmarking of LLM Agents: A Survey'', apresentado no
 
 \subsection{Implicações para este projeto}
 
-A combinação de pressões industriais e avanços acadêmicos evidencia a necessidade de benchmarks que capturem capacidades técnicas e salvaguardas de segurança em cenários próximos da produção. O trabalho proposto utiliza a taxonomia de Mohammadi et al. como referência conceitual e alinha suas métricas às preocupações levantadas por relatórios de mercado e guias técnicos de 2025, permitindo que os capítulos seguintes abordem, respectivamente, os benchmarks emergentes, a arquitetura da plataforma desenvolvida e sua implementação distribuída nos módulos \texttt{Back-End-Tcc}, \texttt{tcc-front-end} e \texttt{design}.
+A combinação de pressões industriais e avanços acadêmicos evidencia a necessidade de benchmarks que capturem capacidades técnicas e salvaguardas de segurança em cenários próximos da produção. O trabalho proposto utiliza a taxonomia de Mohammadi et al. como referência conceitual e alinha suas métricas às preocupações levantadas por relatórios de mercado e guias técnicos de 2025, permitindo que os capítulos seguintes abordem, respectivamente, os benchmarks emergentes, a arquitetura da plataforma desenvolvida e sua implementação distribuída nos módulos \texttt{backend}, \texttt{front-end} e \texttt{design}.
 
 \section{Componentes de um ecossistema de avaliação}
 
@@ -27,7 +62,7 @@ As diretrizes recentes para avaliação de agentes apontam três pilares complem
 
 \subsection{Instrumentação e rastreabilidade}
 
-Ambientes de avaliação precisam registrar cada decisão tomada por um agente, incluindo chamados de ferramentas, latências, parâmetros de custo e verificações de política. Na prática, isso se traduz em serviços de mensageria, armazenamentos de \textit{traces} e camadas de \textit{scoring} — elementos implementados no diretório \texttt{Back-End-Tcc} por meio de serviços Go independentes. A literatura destaca que a ausência de telemetria detalhada impede auditar violações ou reproduzir incidentes \cite{ART2025}. Portanto, o arcabouço desenvolvido combina filas (NATS/Kafka), banco relacional (Postgres) e armazenamento de objetos (S3/MinIO) para garantir observabilidade end-to-end.
+Ambientes de avaliação precisam registrar cada decisão tomada por um agente, incluindo chamados de ferramentas, latências, parâmetros de custo e verificações de política. Na prática, isso se traduz em serviços de mensageria, armazenamentos de \textit{traces} e camadas de \textit{scoring} — elementos implementados no diretório \texttt{backend} por meio de serviços Go independentes. A literatura destaca que a ausência de telemetria detalhada impede auditar violações ou reproduzir incidentes \cite{ART2025}. Portanto, o arcabouço desenvolvido combina filas (NATS/Kafka), banco relacional (Postgres) e armazenamento de objetos (S3/MinIO) para garantir observabilidade end-to-end.
 
 \subsection{Catálogo de cenários e ferramentas}
 

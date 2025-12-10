@@ -32,6 +32,10 @@ const statusConfig: Record<RunStatus, { label: string; className: string }> = {
     label: 'Pendente',
     className: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-400'
   },
+  queued: {
+    label: 'Na Fila',
+    className: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
+  },
 };
 
 export function Runs() {
@@ -56,8 +60,8 @@ export function Runs() {
   }, []);
 
   const filteredRuns = runs.filter(run =>
-    run.benchmarkName.toLowerCase().includes(search.toLowerCase()) ||
-    run.agentName.toLowerCase().includes(search.toLowerCase())
+    (run.benchmarkName || '').toLowerCase().includes(search.toLowerCase()) ||
+    (run.agentName || '').toLowerCase().includes(search.toLowerCase())
   );
 
   if (loading) return <div className="p-8 text-center">Loading runs...</div>;

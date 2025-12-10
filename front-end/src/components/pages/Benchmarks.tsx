@@ -46,7 +46,7 @@ export function Benchmarks() {
             Gerencie os benchmarks e cenários de teste
           </p>
         </div>
-        <Button>
+        <Button onClick={() => navigate('/benchmarks/new')}>
           <Plus className="w-4 h-4 mr-2" />
           Novo Benchmark
         </Button>
@@ -70,7 +70,7 @@ export function Benchmarks() {
             <p className="text-neutral-600 dark:text-neutral-400">
               Nenhum benchmark encontrado.
             </p>
-            <Button variant="outline" className="mt-4">
+            <Button variant="outline" className="mt-4" onClick={() => navigate('/benchmarks/new')}>
               <Plus className="w-4 h-4 mr-2" />
               Criar Primeiro Benchmark
             </Button>

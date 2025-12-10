@@ -104,7 +104,18 @@ Configuration values are loaded from environment variables:
 
 ## Testing
 
-Unit tests cover individual services such as orchestrator submission handling and scoring aggregation. Integration tests (`tests/integration/e2e_benchmark_flow_test.go`) exercise the full submission-to-scoring flow using the in-memory queue. Run the full suite with `go test ./...` or target folders like `go test ./tests/integration -run E2E`.
+Unit tests cover individual services such as orchestrator submission handling and scoring aggregation. Integration tests (`tests/integration/e2e_benchmark_flow_test.go`) exercise the full submission-to-scoring flow using the in-memory queue.
+
+To run the full suite locally:
+```bash
+go test ./...
+```
+
+To run tests using Docker (useful if you don't have Go installed):
+```bash
+docker run --rm -v $(pwd):/src -v /var/run/docker.sock:/var/run/docker.sock -w /src golang:1.24-bullseye sh -c "go mod download && go test -v ./..."
+```
+Note: The E2E tests require access to the Docker daemon to spin up sandbox containers, so mounting `/var/run/docker.sock` is necessary when running tests inside a container.
 
 ## Continuous integration
 

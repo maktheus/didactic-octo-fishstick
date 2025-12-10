@@ -15,6 +15,7 @@ export function AgentForm() {
     name: '',
     provider: '',
     endpoint: '',
+    image: '', // New
     model: '',
     systemPrompt: '',
     authType: 'none' as 'none' | 'bearer' | 'apikey',
@@ -77,28 +78,54 @@ export function AgentForm() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="provider">Provider</Label>
-              <Input
-                id="provider"
-                placeholder="Ex: OpenAI, Anthropic, Custom"
+              <Label htmlFor="provider">Provedor</Label>
+              <Select
                 value={formData.provider}
-                onChange={(e) => setFormData({ ...formData, provider: e.target.value })}
-                required
-              />
+                onValueChange={(value: string) => {
+                  let newEndpoint = formData.endpoint;
+                  if (value === 'OpenAI') newEndpoint = 'https://api.openai.com/v1/chat/completions';
+                  setFormData({ ...formData, provider: value, endpoint: newEndpoint });
+                }}
+              >
+                <SelectTrigger id="provider">
+                  <SelectValue placeholder="Selecione..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="OpenAI">OpenAI (GPT-4)</SelectItem>
+                  <SelectItem value="Anthropic">Anthropic (Claude)</SelectItem>
+                  <SelectItem value="Ollama">Ollama (Local)</SelectItem>
+                  <SelectItem value="Custom">Custom / Agent Protocol</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
+            {(formData.provider === 'Custom' || formData.provider === 'Ollama') && (
+              <div className="space-y-2">
+                <Label htmlFor="endpoint">Endpoint URL</Label>
+                <Input
+                  id="endpoint"
+                  type="url"
+                  placeholder={formData.provider === 'Ollama' ? "http://host.docker.internal:11434/v1/chat/completions" : "https://api.example.com/v1/chat"}
+                  value={formData.endpoint}
+                  onChange={(e) => setFormData({ ...formData, endpoint: e.target.value })}
+                  required
+                />
+                <p className="text-neutral-500 text-sm">
+                  {formData.provider === 'Ollama' ? 'Use host.docker.internal para acessar o Ollama rodando no host.' : 'URL completa do endpoint da API.'}
+                </p>
+              </div>
+            )}
+
             <div className="space-y-2">
-              <Label htmlFor="endpoint">Endpoint URL</Label>
+              <Label htmlFor="image">Docker Image (Opcional)</Label>
               <Input
-                id="endpoint"
-                type="url"
-                placeholder="https://api.example.com/v1/chat"
-                value={formData.endpoint}
-                onChange={(e) => setFormData({ ...formData, endpoint: e.target.value })}
-                required
+                id="image"
+                placeholder="Ex: ref-agent:latest"
+                value={formData.image}
+                onChange={(e) => setFormData({ ...formData, image: e.target.value })}
               />
-              <p className="text-neutral-500">
-                URL completa do endpoint da API do agente
+              <p className="text-neutral-500 text-sm">
+                Se preenchido, o sistema iniciará um container. Deixe em branco para usar APIs (OpenAI/Ollama).
               </p>
             </div>
 
@@ -106,32 +133,26 @@ export function AgentForm() {
               <Label htmlFor="model">Modelo</Label>
               <Input
                 id="model"
-                placeholder="Ex: gpt-4, llama3, mistral"
+                placeholder="Ex: gpt-4, llama3"
                 value={formData.model}
                 onChange={(e) => setFormData({ ...formData, model: e.target.value })}
                 required
               />
-              <p className="text-neutral-500">
-                Nome do modelo a ser utilizado (ex: gpt-4, llama3)
-              </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="systemPrompt">System Prompt (Persona)</Label>
+              <Label htmlFor="systemPrompt">System Prompt (Instruções)</Label>
               <textarea
                 id="systemPrompt"
                 className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Ex: Você é um assistente útil e conciso..."
+                placeholder="Você é um assistente útil..."
                 value={formData.systemPrompt}
                 onChange={(e) => setFormData({ ...formData, systemPrompt: e.target.value })}
               />
-              <p className="text-neutral-500">
-                Instruções iniciais para definir o comportamento do agente
-              </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="authType">Tipo de Autenticação</Label>
+              <Label htmlFor="authType">Autenticação</Label>
               <Select
                 value={formData.authType}
                 onValueChange={(value: 'none' | 'bearer' | 'apikey') =>
@@ -142,9 +163,9 @@ export function AgentForm() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="none">Nenhuma</SelectItem>
-                  <SelectItem value="bearer">Bearer Token</SelectItem>
-                  <SelectItem value="apikey">API Key</SelectItem>
+                  <SelectItem value="none">Nenhuma (Mock/Local)</SelectItem>
+                  <SelectItem value="bearer">Bearer Token (OpenAI)</SelectItem>
+                  <SelectItem value="apikey">API Key (Genérica)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -152,7 +173,7 @@ export function AgentForm() {
             {formData.authType !== 'none' && (
               <div className="space-y-2">
                 <Label htmlFor="authToken">
-                  {formData.authType === 'bearer' ? 'Bearer Token' : 'API Key'}
+                  {formData.authType === 'bearer' ? 'Bearer Token (sk-...)' : 'Chave de API'}
                 </Label>
                 <Input
                   id="authToken"
@@ -162,9 +183,6 @@ export function AgentForm() {
                   onChange={(e) => setFormData({ ...formData, authToken: e.target.value })}
                   required
                 />
-                <p className="text-neutral-500">
-                  Sua chave será armazenada de forma segura
-                </p>
               </div>
             )}
 

@@ -4,7 +4,7 @@ import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
-import { Plus, Search, MoreVertical, Bot, Globe } from 'lucide-react';
+import { Plus, Search, MoreVertical, Bot, Globe, Box } from 'lucide-react';
 import { fetchAgents } from '../../lib/api';
 import { Agent } from '../../lib/types';
 import {
@@ -143,6 +143,14 @@ export function Agents() {
                   {agent.systemPrompt && (
                     <div className="text-xs text-neutral-400 mt-2 line-clamp-2 italic">
                       "{agent.systemPrompt}"
+                    </div>
+                  )}
+                  {agent.image && (
+                    <div className="flex items-center gap-2 text-sm text-neutral-500 mt-1">
+                      <Box className="w-4 h-4" />
+                      <span className="truncate max-w-[200px] font-mono text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">
+                        {agent.image}
+                      </span>
                     </div>
                   )}
                 </div>

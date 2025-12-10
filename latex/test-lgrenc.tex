@@ -1,0 +1,596 @@
+\documentclass{article}
+
+% Test with various LGR-encoded fonts:
+\usepackage%
+{lmodern}  % uses CB Fonts for Greek
+% {gfsartemisia}
+% {gfsbaskerville}
+% [default]{gfsbodoni}
+% [default]{gfscomplutum}
+% {gfsdidot}
+% [default]{gfsneohellenic}
+% {lmodern} \usepackage{gfsporson} \renewcommand*\rmdefault{porson}
+% [default]{gfssolomos}
+% {kerkis} % lacks some chars (\Stigma, \Sampi, double quotes)
+% {teubner}
+% \renewcommand{\ttdefault}{txtt}
+
+\usepackage{parskip}
+
+\usepackage{amssymb}
+
+\usepackage[LGR,T1]{fontenc}
+
+% Shortcut accent macros \< and \>:
+%
+% The Symbol macros for the breathings were
+% moved to ``textalpha.sty`` to avoid clashes with possible local
+% definitions of these macros.
+%
+% Local definition and setup:
+\DeclareTextCommand{\<}{LGR}{\accdasia}
+\DeclareTextCommand{\>}{LGR}{\accpsili}
+\DeclareTextCompositeCommand{\>}{LGR}{'}{\accpsilioxia}
+\DeclareTextCompositeCommand{\>}{LGR}{`}{\accpsilivaria}
+\DeclareTextCompositeCommand{\>}{LGR}{~}{\accpsiliperispomeni}
+\DeclareTextCompositeCommand{\<}{LGR}{'}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\<}{LGR}{`}{\accdasiavaria}
+\DeclareTextCompositeCommand{\<}{LGR}{~}{\accdasiaperispomeni}
+
+
+% With XeTeX/LuaTeX, use Unicode for Latin script:
+% This is experimental. The general advise is not to mix fontenc and fontspec.
+% Problems:
+% * Letter µ missing in Latin Modern
+% * xunicode makes \nobreakspace font encoding specific -> provide default:
+\ifdefined \UnicodeEncodingName % set by LaTeX for Unicode-aware engines
+  \usepackage{fontspec}
+\else
+  \usepackage[utf8]{inputenc}
+\fi
+\DeclareTextCommandDefault{\nobreakspace}{\leavevmode\nobreak\ }
+
+% PDF hyperlinks:
+\usepackage[pdfencoding=auto]{hyperref}
+\usepackage{bookmark}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,pdfencoding=auto}
+
+% font encoding switch declarations:
+\newcommand{\LGR}{\fontencoding{LGR}\selectfont}
+\newcommand{\Latin}{\fontencoding{T1}\selectfont}
+\ProvideTextCommandDefault{\ensuregreek}[1]{\leavevmode{\LGR #1}}
+
+% Auxiliary macros:
+
+\newcommand*{\missing}{\ensuremath{\oslash}}
+% varkappa, only defined with amssymb and similar
+\providecommand*{\varkappa}{\missing}
+% varbeta and varTheta only defined with unicode-math
+\providecommand*{\varbeta}{\missing}
+
+\newcommand{\cs}[1]{\texttt{\textbackslash#1}}
+\newcommand{\cssample}[1]{\LGR\csname#1\endcsname{} \Latin \cs{#1}}
+
+\IfFormatAtLeastTF{2022/06/01}
+  {\newcommand{\IsNewMakeUppercase}{}}
+  {}
+
+\begin{document}
+
+\title{Test LGR font encoding definitions}
+\author{Günter Milde}
+\date{2020/10/30}
+\maketitle
+
+The file lgrenc.def provides a comprehensive set of macros to typeset Greek
+with LGR encoded fonts. It works for both, monotonic and polytonic Greek,
+independent of the \emph{Babel} package.
+
+The example from \texttt{usage.tex} in \emph{babel-greek} input
+using the LICR macros:
+
+\begin{quote}
+  \LGR
+  \textTau\'\textiota{}
+  \textphi\'\texteta\textiota\textfinalsigma\texterotimatiko{}
+  \<\textIota\textdelta\`\textomega\textnu{}
+  \>\textepsilon\textnu\texttheta\'\textepsilon\textdelta\textepsilon{}
+  \textpi\textalpha\~\textiota\textdelta\'\'
+  \>\textepsilon\textlambda\textepsilon\textupsilon\texttheta\'\textepsilon\textrho\textalpha\textnu\\
+  \texttau\`\textalpha\textfinalsigma{}
+  \textpi\textlambda\texteta\textautosigma\'\textiota\textomicron\textnu{}
+  \textNu\'\textupsilon\textmu\textphi\textalpha\textfinalsigma{}
+  \textautosigma\texttau\textepsilon\textphi\textalpha\textnu\textomicron\~\textupsilon\textautosigma\textalpha\textnu{},
+  \textSigma\'\textomega\textautosigma\texttau\textrho\textalpha\texttau\textepsilon{},\\
+  \>\textepsilon\textrho\~\textomega\textnu{}
+  \'\textalpha\textpi\~\texteta\textlambda\texttheta\textepsilon\textfinalsigma{}
+  \textepsilon\>\textupsilon\texttheta\'\textupsilon\textfinalsigma\texterotimatiko{}
+\end{quote}
+
+\tableofcontents
+
+\section{Symbols}
+
+See the source file \href{lgrenc-test.tex}{lgrenc-test.tex} for the macros
+used to access the symbols.
+
+\subsection{Generic text symbols}
+
+Direct input:
+
+Latin:
++ - = < > -- --- [ () ]
+
+LGR: \LGR
++ - = < > -- --- [ () ]
+\Latin
+Less than and greater than characters are mapped to breathing marks, use
+LICRs.
+
+Character macros:
+
+\newcommand{\sample}{%
+  \begin{quote}
+    \raggedright
+    \cssample{textless} \\
+    \cssample{textgreater} \\
+    \cssample{textbraceleft} \\
+    \cssample{textbraceright} \\
+    %
+    \cssample{textbackslash} \\
+    \cssample{textbar} \\
+    \cssample{textperthousand} \\
+    \cssample{textpertenthousand} \\
+    \cssample{textvisiblespace}
+  \end{quote}
+}
+Latin: \sample
+LGR: (per-tenthousand sign is missing in LGR, LaTeX selects the global default)
+\LGR \sample
+\Latin
+
+
+%
+Quotes:\footnote{%
+  Single quotes need special attention to prevent conversion to accents.
+  Test the input conventions:
+  \LGR \textquoteleft{}a\textquoteright{} ``a'' \``a\'' \`\`a\'\'
+  \Latin but not \LGR `a' 'e' "i"\Latin
+}
+%
+\Latin \guillemetleft{}a\guillemetright{}
+\LGR \guillemetleft{}a\guillemetright{},
+%
+\Latin \textquoteleft{}a\textquoteright{}
+\LGR \textquoteleft{}a\textquoteright{},
+%
+\Latin \textquotedblleft{}a\textquotedblright{}
+\LGR \textquotedblleft{}a\textquotedblright{}
+\Latin (double quotes wrong with Kerkis fonts)
+
+Single guillemets and base-quotes
+  (\guilsinglleft{}a\guilsinglright{}
+   \quotedblbase{}a\textquotedblright{}
+   \quotesinglbase{}a\textquoteright{})
+  are missing in LGR.
+
+Suppress ligatures and kerning with \verb|\textcompwordmark|:
+AY fi \LGR AU "i $\mapsto$
+\Latin A\textcompwordmark Y f\textcompwordmark i
+\LGR   A\textcompwordmark U "\textcompwordmark i
+
+
+\Latin Spacing accent chars:
+%
+\Latin \textasciicircum a
+\LGR \textasciicircum a \textasciicircum i % using textsym glyph
+%
+\Latin \textasciitilde a
+\LGR \textasciitilde a \textasciitilde i
+%
+\Latin \textasciibreve a
+\LGR \textasciibreve a \textasciibreve i
+%
+\Latin \textasciimacron a
+\LGR \textasciimacron a \textasciimacron i
+%
+\Latin \textasciidieresis a
+\LGR \textasciidieresis a \textasciidieresis i
+%
+\Latin \textasciiacute a
+\LGR \textasciiacute a \textasciiacute i
+%
+\Latin \textasciigrave a
+\LGR \textasciigrave a \textasciigrave i
+
+\Latin Letter schwa and Euro symbol: % \textschwa (needs e.g. T3)
+\cssample{textschwa}, \cssample{texteuro}
+
+
+Some ASCII symbols are replaced by different symbols in LGR encoding
+other symbols are composed from Latin letters and show Greek letters in LGR.
+\emph{babel-greek} redefines some affected macros to use a standard font
+encoding, however this cannot be done in a font encoding definition file.
+
+Beware that " \# \& ' ; < > ? @ becomes
+\LGR " \# \& ' ; < > ? @%
+\Latin !
+
+The \emph{textcomp} package\footnote{loaded by default in not too old LaTeX}
+provides pre-composed coyright \textcopyright{},
+registered \textregistered{} and trademark \texttrademark{} symbols that
+work in all font encodings.
+Up-to-date LaTeX installations load \emph{textcomp} by default.
+The legacy composite fallback definitions showed Greek letters if used in LGR:
+\LGR
+\cssample{textcopyright}, \cssample{textregistered}, \cssample{texttrademark}.
+\Latin
+
+\emph{textcomp} also provides the upright MICRO SIGN and OHM SIGN for SI
+units: R = 5\,\textmu\textohm
+
+In LGR, \cs{textmicro} and \cs{textohm} are aliases to \cs{textmu} and
+\cs{textOmega} that do not change case:
+\LGR Αντίσταση = 5\,\textmu\textohm{},
+     \MakeUppercase{αντίσταση = 5\,\textmicro \textohm{}},
+     \MakeLowercase{αντίσταση = 5\,\textmicro \textohm{}}.
+\Latin
+
+
+\subsection{Greek alphabet}
+
+Greek letters via Latin transliteration and LICR macros:
+
+\begin{quote}
+  \LGR
+  \MakeUppercase{a b g d e z h j i k l m n x o p r s t u f q y w}
+
+  a b g d e z h j i k l m n x o p r sv s t u f q y w
+
+  \textAlpha{} \textBeta{} \textGamma{} \textDelta{} \textEpsilon{}
+  \textZeta{} \textEta{} \textTheta{} \textIota{} \textKappa{}
+  \textLambda{} \textMu{} \textNu{} \textXi{} \textOmicron{} \textPi{}
+  \textRho{} \textSigma{} \textTau{} \textUpsilon{} \textPhi{}
+  \textChi{} \textPsi{} \textOmega{}
+
+  \textalpha{} \textbeta{} \textgamma{} \textdelta{} \textepsilon{}
+  \textzeta{} \texteta{} \texttheta{} \textiota{} \textkappa{}
+  \textlambda{} \textmu{} \textnu{} \textxi{} \textomicron{} \textpi{}
+  \textrho{} \textsigma{} \textfinalsigma{} \texttau{} \textupsilon{}
+  \textphi{} \textchi{} \textpsi{} \textomega{}
+\end{quote}
+
+The small sigma is set with a different glyph if it ends a word:
+
+\begin{quote}
+  \cssample{textsigma} \\
+  \cssample{textfinalsigma}
+\end{quote}
+
+In the Latin transliteration, the letter `s' stands for \verb|\textautosigma|
+which automatically chooses the glyph according to the position.
+
+\subsection{additional Greek symbols}
+
+\begin{quote}
+  \raggedright
+  \cssample{textkoppa} (numeral koppa = 90) \\ % ϟ
+  \cssample{textKoppa} (numeral Koppa = 90)%   % Ϟ
+  \footnote{In LGR, there is  no separate code point for uppercase koppa.} \\
+  \cssample{textqoppa} (archaic koppa)      \\ % ϙ
+  \cssample{textQoppa} (archaic Koppa)      \\ % Ϙ
+  \cssample{textstigma}                     \\ % ϛ
+  \cssample{textvarstigma} \\ % no separate Unicode character
+  \cssample{textStigma} (Sigma-Tau-Ligature in CB-fonts)%
+  \footnote{the name ``stigma'' originally applied to a medieval sigma-tau
+            ligature, whose shape was confusingly similar to the cursive
+            digamma}                        \\ % Ϛ
+  \cssample{textsampi}                      \\ % ϡ
+  \cssample{textSampi}                      \\ % Ϡ
+  \cssample{textdigamma}                    \\ % ϝ (\digamma used by amsmath!)
+  \cssample{textDigamma}                    \\ % Ϝ
+  % numeral signs: http://en.wikipedia.org/wiki/Greek_numerals
+  \cssample{textdexiakeraia} (dexia keraia) \\ % ʹ
+  \cssample{textaristerikeraia} (aristeri keraia)\\ % ͵
+
+\end{quote}
+
+Up/Downcasing of the additional Symbols from the Greek And Coptic Unicode
+block:
+
+% see test-tuenc-greek.tex
+\newcommand{\greekandcoptic}{
+\textnumeralsigngreek{}
+\textnumeralsignlowergreek{}
+{ }\ypogegrammeni{}
+\texterotimatiko{}
+\acctonos{ }{}
+\"'{ }{}
+\'\textAlpha{}
+\textanoteleia{}
+\'\textEpsilon{}
+\'\textEta{}
+\'\textIota{}
+\'\textOmicron{}
+\'\textUpsilon{}
+\'\textOmega{}
+\'"\textiota{}
+\"\textIota{}
+\"\textUpsilon{}
+\'\textalpha{}
+\'\textepsilon{}
+\'\texteta{}
+\'\textiota{}
+\"'\textupsilon{}
+\"\textiota{}
+\"\textupsilon{}
+\'\textomicron{}
+\'\textupsilon{}
+\'\textomega{}
+\textQoppa{}
+\textqoppa{}
+\textStigma{}
+\textstigma{}
+\textDigamma{}
+\textdigamma{}
+\textKoppa{}
+\textkoppa{}
+\textSampi{}
+\textsampi{}
+}
+
+\LGR \greekandcoptic \Latin
+
+MakeUppercase: \\
+\LGR \MakeUppercase{\greekandcoptic} \Latin
+
+MakeLowercase: \\
+\LGR \MakeLowercase{\greekandcoptic} \Latin
+
+
+\subsection{aliases}
+
+Aliases are defined in the included file
+\href{greek-fontenc.def.html}{greek-fontenc.def}.
+
+Names matching mathematical variant symbols:
+
+\begin{quote}
+  \raggedright
+  \cssample{textvarepsilon} = \cssample{textepsilon}   \\   % ε
+  \cssample{textvarphi} = \cssample{textphi}           \\   % φ
+  \cssample{textvarsigma} = \cssample{textfinalsigma}  \\   % ς
+\end{quote}
+Compatibility aliases for hyperref’s puenc.def:
+\begin{quote}
+  \raggedright
+    \cssample{textmugreek} = \cssample{textmu}           \\
+  \cssample{textkoppagreek} = \cssample{textkoppa}     \\
+  \cssample{textKoppagreek} = \cssample{textKoppa}     \\
+  \cssample{textStigmagreek} = \cssample{textStigma}   \\
+  \cssample{textstigmagreek} = \cssample{textstigma}   \\
+  \cssample{textSampigreek} = \cssample{textSampi}     \\
+  \cssample{textsampigreek} = \cssample{textsampi}     \\
+  \cssample{textdigammagreek} = \cssample{textdigamma} \\
+  \cssample{textDigammagreek} = \cssample{textDigamma} \\
+  \cssample{textnumeralsigngreek} = \cssample{textdexiakeraia} \\
+  \cssample{textnumeralsignlowergreek} = \cssample{textaristerikeraia}
+\end{quote}
+Two Unicode code points and names for one character:
+\begin{quote}
+  \cssample{accoxia} = \cssample{acctonos} \\
+  \cssample{acckoronis} = \cssample{accpsili}
+\end{quote}
+
+\subsection{symbol variants}
+
+Mathematical notation distinguishes variant shapes for pi ($\pi|\varpi$),
+rho ($\rho|\varrho$), theta ($\theta|\vartheta$), beta ($\beta|\varbeta$),
+and kappa ($\kappa|\varkappa$) (characters for the last two variant symbols
+are not included in TeX's standard math fonts).
+These variations have no semantic significance in Greek text and are not
+given code-points in the LGR encoding. Greek text fonts use the shape
+variants interchangeably.
+
+\section{Diacritics}
+
+Capital Greek letters have breathings and accents (except dialytika) to
+the left (instead of above) and drop them if text is set in UPPERCASE.%
+\footnote{The word \ensuregreek{Ἢ} (``or'', monotonic \ensuregreek{Ή}),
+          is an exception to this rule because of the need to distinguish
+	  it from the nominative feminine article \ensuregreek{Η}.}
+This is implemented for all combinations that are used in Greek texts
+(i.e. for which pre-composed Unicode character exist), but not for,
+e.g., \LGR\~W\Latin). Since 2022, LaTeX's \cs{MakeUppercase} uses the
+Greek upcasing rules only if the text language (locale) is set to ``greek''
+with Babel (i.e.\ not in this document).
+See \href{char-list.pdf}{char-list.pdf} for a comprehensive
+example using the Greek language.
+
+Different conventions exist for the treatment of the sub-iota with uppercase
+letters. The CB-Fonts use a capital Iota ``index'' (\LGR A|, H|, W|\Latin).
+
+LaTeX standard accents%
+\footnote{The ogonek (\emph{little hook}) accent \k{ } (\textbackslash k)
+does not work in LGR.}
+(Latin, Greek, Greek Capitals $\mapsto$ UPPERCASE)
+
+\begin{quote}
+  \`{a} \'{a} \~{a} \"{a} \^{a} \={a} \H{a} \.{a} \r{a} \u{a} \v{a}
+  \b{a} \c{a} \d{a} \k{a}
+  $\mapsto$ \MakeUppercase{%
+  \`{a} \'{a} \~{a} \"{a} \^{a} \={a} \H{a} \.{a} \r{a} \u{a} \v{a}
+  \b{a} \c{a} \d{a} \k{a}
+  }
+
+  \LGR
+  \`{a} \'{a} \~{a} \"{a} \^{a} \={a} \H{a} \.{a} \r{a} \u{a} \v{a}
+  \b{a} \c{a} \d{a}
+  $\mapsto$ \MakeUppercase{%
+  \`{a} \'{a} \~{a} \"{a} \^{a} \={a} \H{a} \.{a} \r{a} \u{a} \v{a}
+  \b{a} \c{a} \d{a}
+  }
+
+  \`{A}\'{A}\~{A}\"{A} \^{A}\={A}\H{A}\.{A}\r{A}\u{A}\v{A}
+  \b{A} \c{A} \d{A}
+  $\mapsto$ \MakeUppercase{%
+  \`{A}\'{A}\~{A}\"{A} \^{A}\={A}\H{A}\.{A}\r{A}\u{A}\v{A}
+  \b{A} \c{A} \d{A}
+  }
+\end{quote}
+
+Additional Greek diacritics
+(Greek, Greek Capitals%
+\footnote{The dialytika is not used on initial letters.}
+          % (\LGR \"'I \"`I \~"I)
+$\mapsto$ UPPERCASE)
+
+\begin{quote}
+  \LGR
+  \<{a} \>{e} \<\`{i} \'"i \`"i \~"i \`\>{h} \'<{o}  \'>{o} \~\<{u} \~\>{w} a|
+  $\mapsto$ \MakeUppercase{%
+  \<{a} \>{e} \<\`{i} \'"i \`"i \~"i \`\>{h} \'<{o}  \'>{o} \~\<{u} \~\>{w} a|
+  }
+
+  \<{A} \>{E} \<\`{I} \`\>{H} \'<{O}  \'>{O} \~\<{U} \~\>{W} A|
+  $\mapsto$ \MakeUppercase{%
+  \<{A} \>{E} \<\`{I} \`\>{H} \'<{O}  \'>{O} \~\<{U} \~\>{W} A|
+  }
+\end{quote}
+
+\Latin Input variants and their conversion with \cs{MakeUppercase}:\footnote{
+  With the 2022 \cs{MakeUppercase} implementation, there are issues like
+  wrongly placed diacritics or \texttt{~} leading to a NBSP with
+  letters/diacritics that are never used in an initial position because this
+  document does not set the text language to ``greek''. However, there
+  should not be any compiling errors.}
+
+\begin{quote}
+\LGR
+\~>a \>\~a \~\>{a}, \~<a \<\~a \<~a \~\<a \~<a,
+\>\~{h} \~>h \>~h \>\~h \~>h \~>h|, \~<h \<\~h,
+\>\~i \~>i, \~<i \<\~i, \~"i \"\~i \"~i →\\
+\MakeUppercase{
+\~>a \>\~a \~\>{a}, \~<a \<\~a \<~a \~\<a \~<a,
+\>\~{h} \~>h \>~h \>\~h \~>h \~>h|, \~<h \<\~h,
+\>\~i \~>i, \~<i \<\~i, \~"i \"\~i % for \"~i, see below
+}
+
+\>\~u \~>u, \~<u \<\~u, \~"u \"\~u,
+\>w, \<w, \>\~w \~>w, \~<w \<\~w, a| a\ypogegrammeni{} → \\
+\MakeUppercase{
+\>\~u \~>u, \~<u \<\~u, \~"u \"\~u,
+\>w, \<w, \>\~w \~>w, \~<w \<\~w, a| a\ypogegrammeni{}
+}
+
+\<{\textalpha} \>{\textepsilon} \"'{\textiota} \`>\texteta{}
+\accvaria\accpsili\texteta{}
+\'<{\textomicron} \~<{\textupsilon} \~>{\textomega}
+\<{\textAlpha} \>{\textEpsilon} \"{\textIota} \`>\textEta{}
+\'<{\textOmicron} \~<{\textUpsilon} \~>{\textOmega},
+\textalpha| \textalpha\ypogegrammeni{} →
+\\
+\MakeUppercase{%
+  \<{\textalpha} \>{\textepsilon} \"'{\textiota} \`\>\texteta{}
+  \accvaria\accpsili\texteta{}
+  \'<{\textomicron} \~<{\textupsilon} \~>{\textomega}
+  \<{\textAlpha} \>{\textEpsilon} \"{\textIota} \`>\textEta{}
+  \'<{\textOmicron} \~<{\textUpsilon} \~>{\textOmega},
+  \textalpha| \textalpha\ypogegrammeni{}
+}
+
+ \<'A \<\'A \'<A \'\<A → \MakeUppercase{\<'A \<\'A \'<A \'\<A}.
+
+\end{quote}
+
+\Latin Input variants and their conversion with MakeLowercase:%
+
+\begin{quote}
+\LGR
+
+\~>A \>\~A \~\>{A}, \~<A \<\~A \~\<A \~<A,
+\>\~{H} \~>H \>\~H \~>H \~>H|, \~<H \<\~H,
+\>\~I \~>I, \~<I \<\~I
+\\
+\MakeLowercase{%
+  \~>A \>\~A \~\>{A}, \~<A \<\~A \~\<A \~<A,
+  \>\~{H} \~>H \>\~H \~>H \~>H|, \~<H \<\~H,
+  \>\~I \~>I, \~<I \<\~I
+}
+
+\~<U \<\~U,
+\>W, \<W, \>\~W \~>W, \~<W \<\~W,
+A| A\ypogegrammeni{} A\prosgegrammeni{}.
+\\
+\MakeLowercase{%
+  \~<U \<\~U,
+  \>W, \<W, \>\~W \~>W, \~<W \<\~W,
+  A| A\ypogegrammeni{} A\prosgegrammeni{}.
+}
+
+\<{\textalpha} \>{\textepsilon} \"'{\textiota} \`>\texteta{}
+\'<{\textomicron} \~<{\textupsilon} \~>{\textomega}
+\<{\textAlpha} \>{\textEpsilon} \"{\textIota} \`>\textEta{}
+\'<{\textOmicron} \~<{\textUpsilon} \~>{\textOmega}
+\textAlpha| \textAlpha\ypogegrammeni{} \textAlpha\prosgegrammeni{}
+\\
+\MakeLowercase{%
+  \<{\textalpha} \>{\textepsilon} \"'{\textiota} \`\>\texteta{}
+  \'<{\textomicron} \~<{\textupsilon} \~>{\textomega}
+  \<{\textAlpha} \>{\textEpsilon} \"{\textIota} \`>\textEta{}
+  \'<{\textOmicron} \~<{\textUpsilon} \~>{\textOmega}
+  \textAlpha| \textAlpha\ypogegrammeni{} \textAlpha\prosgegrammeni{}
+}
+
+ \<'A \<\'A \'<A \'\<A $\mapsto$ \MakeLowercase{\<'A \<\'A \'<A \'\<A}
+
+\end{quote}
+
+The tilde character can be used in combined accents.
+However, in documents not defining the Babel language \emph{greek},
+the tilde character produces a no-break space if converted
+with \verb|\MakeUppercase| or \verb|\MakeLowercase|:
+\begin{quote}
+  combined accent with tilde character:\\
+  \LGR \"~i \<~i \"~u \<~u \`>u $\mapsto$
+  \LGR \MakeUppercase{\"~i \<~i \"~u \<~u \`>u}\\
+  \LGR \"~I \<~I \"~U \<~U \`>U $\mapsto$
+  \LGR \MakeLowercase{\"~I \<~I \"~U \<~U \`>U}
+
+  \Latin combined accent with tilde-accent macro:\\
+  \LGR \"\~i \~"u $\mapsto$ \MakeUppercase{\"\~i \~"u}\\
+  \LGR \"\~I \~"U $\mapsto$ \MakeLowercase{\"\~I \~"U}
+\end{quote}
+
+\Latin
+Accents input via the Latin transliteration are not dropped with
+MakeUppercase, unless Babel is loaded and the current language is Greek
+(because the required local re-definitions are done in
+\texttt{greek.ldf} from the \emph{babel-greek} package).
+
+\begin{quote} \LGR
+  'a "i `a >a <a a| $\mapsto$ \MakeUppercase{'a "i `a >a <a a|}
+\end{quote}
+
+
+\Latin Accent macros can start with \verb|\a| instead of \verb|\| when the
+short form is redefined, e.\,g. inside a \emph{tabbing} environment.
+This also works for the locally defined dasia and psili shortcuts \verb|\<|
+and \verb|\>|:
+\begin{quote}
+  \begin{tabbing}
+       COL1\quad \= COL2\quad \= COL3\quad \= COL4\quad \\
+       COL1      \>           \> COL3 \\
+       Viele     \> Gr\a"u\ss e \> \LGR \a<\textalpha{} \> \LGR \a>\textomega
+  \end{tabbing}
+\end{quote}
+
+
+\Latin Combinations with named accents:
+\LGR \accdasia'a \accdasia`a \accdasia\~a.
+
+% \Latin Comprehensive error message for missing symbol variants:
+% \LGR \textbeta\textbetasymbol
+%      \texttheta\textthetasymbol
+
+\end{document}

@@ -1,0 +1,571 @@
+\documentclass[a4paper]{article}
+
+\ifdefined \UnicodeEncodingName
+  \usepackage{fontspec}
+  % The Harfbuzz renderer provides selection of pre-composed characters
+  % (NFC normalization) with LuaTeX
+  \setmainfont[Renderer=Harfbuzz]{FreeSerif}
+  % \setmainfont[Renderer=Harfbuzz]{Linux Libertine O}
+  \ifdefined\luatexversion
+    \newcommand*{\texengine}{LuaTeX}
+  \else
+    \newcommand*{\texengine}{XeTeX}
+  \fi
+  \newcommand*{\ux}[2]{#1}
+\else
+  \usepackage[LGR,T1]{fontenc}
+  \usepackage{lmodern}
+  \newcommand*{\texengine}{pdfTeX}
+  \newcommand*{\ux}[2]{#2}
+\fi
+
+
+% Load encoding definitions
+\usepackage[normalize-symbols]{alphabeta}  % "Greek in text and maths"
+
+% With TL22, the special handling of Greek UPPERCASE is only triggered
+% if the text language is set to "greek" with Babel:
+\usepackage[greek,english]{babel}  % babel-greek
+\languageattribute{greek}{polutoniko}  % "modern" polytonic Greek
+% \languageattribute{greek}{ancient}
+
+\usepackage[unicode,colorlinks,linkcolor=blue]{hyperref}
+\usepackage{bookmark}
+
+\usepackage{longtable}
+\setcounter{LTchunksize}{60}
+
+% don't lowercase the font encoding names (T1, LGR, ...)
+\ifdefined \AddToNoCaseChangeList % new in 2022
+  \AddToNoCaseChangeList{\fontencoding}
+\fi
+
+% Auxiliary commands
+
+\ifdefined \extrasgreek % babel-greek loaded
+  \newcommand*{\Greek}{\foreignlanguage{greek}}
+\else
+  \newcommand*{\Greek}{\ensuregreek}
+  \newcommand*{\lgrfont}{\fontencoding{LGR}\selectfont}
+\fi
+
+\providecommand*{\greekfontencoding}{undefined}
+
+\newcommand{\cs}[1]{\texttt{\textbackslash#1}}
+\newcommand{\pkgref}[1]{\emph{\href{https://ctan.org/pkg/#1}{#1}}}
+
+% print the selected language variant
+\newcommand*{\GreekLanguageVariant}{%
+  \ifx\captionsgreek\captionsancientgreek
+    ancient%
+  \else
+    \ifx\captionsgreek\captionspolutonikogreek
+      polutoniko%
+    \else
+      monotoniko%
+    \fi
+  \fi
+}
+
+% one line in a case-change test table
+\newcommand*{\Cases}[1]{%
+  & \Greek{#1} & \Greek{\MakeUppercase{#1}} & \Greek{\MakeLowercase{#1}}
+}
+
+\newcommand*{\TestUppercase}[1]{%
+  \Greek{#1 → \MakeUppercase{#1}}%
+}
+
+
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+\title{Greek characters supported by \emph{alphabeta}}
+\author{Günter Milde}
+\maketitle
+
+\abstract{ \noindent This document lists all Greek characters that are
+supported by \emph{alphabeta}. It also tests the outcome of
+\cs{MakeUppercase} and \cs{MakeLowercase}.
+
+\makeatletter
+The document is compiled with \texengine,
+format version \fmtversion{} patch-level \patch@level{},
+and the L3 programming layer from \ExplFileDate{}.
+\makeatother
+\ifdefined \extrasgreek % babel-greek loaded
+  The \emph{babel-greek} version is ``\csname ver@greek.ldf\endcsname''.
+\fi
+
+The \verb|\greekfontencoding| is \greekfontencoding{} and
+the current language variant is \emph\GreekLanguageVariant.
+} % end abstract
+
+\tableofcontents
+
+
+\section{Input Variants}
+
+The columns represent the following input variants:
+
+\begin{enumerate}
+  \item literal character
+  \item named accent macro + LICR
+  \item short accent macro + LICR / alias
+  \item short accent macro (reversed order) + LICR (only composite diacritics)
+\end{enumerate}
+
+
+\section{Greek and Coptic}
+
+Characters from the Greek and Coptic Unicode block that use the macros
+defined in \emph{alphabeta}:
+
+\begin{longtable}{llll}
+  x0386 \Cases{ Ά  \acctonos\Alpha{}             \'{\Alpha}                   } \\
+
+  x0388 \Cases{ Έ  \acctonos{\Epsilon}           \'{\Epsilon}                 } \\
+  x0389 \Cases{ Ή  \acctonos\Eta{}               \'{\Eta}                     } \\
+  x038A \Cases{ Ί  \acctonos\Iota{}              \'{\Iota}                    } \\
+  x038C \Cases{ Ό  \acctonos\Omicron{}           \'{\Omicron}                 } \\
+  x038E \Cases{ Ύ  \acctonos{\Upsilon}           \'{\Upsilon}                 } \\
+  x038F \Cases{ Ώ  \acctonos{\Omega}             \'{\Omega}                   } \\
+                                                                                \\
+  x0390 \Cases{ ΐ  \accdialytikatonos{\iota}     \"'{\iota}     \'"{\iota}    } \\
+  x0391 \Cases{ Α  \Alpha{}                                                   } \\
+  x0392 \Cases{ Β  \Beta{}                                                    } \\
+  x0393 \Cases{ Γ  \Gamma{}                                                   } \\
+  x0394 \Cases{ Δ  \Delta{}                                                   } \\
+  x0395 \Cases{ Ε  \Epsilon{}                                                 } \\
+  x0396 \Cases{ Ζ  \Zeta{}                                                    } \\
+  x0397 \Cases{ Η  \Eta{}                                                     } \\
+  x0398 \Cases{ Θ  \Theta{}                                                   } \\
+  x0399 \Cases{ Ι  \Iota{}                                                    } \\
+  x039A \Cases{ Κ  \Kappa{}                                                   } \\
+  x039B \Cases{ Λ  \Lambda{}                                                  } \\
+  x039C \Cases{ Μ  \Mu{}                                                      } \\
+  x039D \Cases{ Ν  \Nu{}                                                      } \\
+  x039E \Cases{ Ξ  \Xi{}                                                      } \\
+  x039F \Cases{ Ο  \Omicron{}                                                 } \\
+                                                                                \\
+  x03A0 \Cases{ Π  \Pi{}                                                      } \\
+  x03A1 \Cases{ Ρ  \Rho{}                                                     } \\
+  x03A3 \Cases{ Σ  \Sigma{}                                                   } \\
+  x03A4 \Cases{ Τ  \Tau{}                                                     } \\
+  x03A5 \Cases{ Υ  \Upsilon{}                                                 } \\
+  x03A6 \Cases{ Φ  \Phi{}                                                     } \\
+  x03A7 \Cases{ Χ  \Chi{}                                                     } \\
+  x03A8 \Cases{ Ψ  \Psi{}                                                     } \\
+  x03A9 \Cases{ Ω  \Omega{}                                                   } \\
+  x03AA \Cases{ Ϊ  \accdialytika{\Iota}          \"{\Iota}                    } \\
+  x03AB \Cases{ Ϋ  \accdialytika{\Upsilon}       \"{\Upsilon}                 } \\
+  x03AC \Cases{ ά  \acctonos{\alpha}             \'{\alpha}                   } \\
+  x03AD \Cases{ έ  \acctonos{\epsilon}           \'{\epsilon}                 } \\
+  x03AE \Cases{ ή  \acctonos{\eta}               \'{\eta}                     } \\
+  x03AF \Cases{ ί  \acctonos{\iota}              \'{\iota}                    } \\
+                                                                                \\
+  x03B0 \Cases{ ΰ  \accdialytikatonos{\upsilon}  \"'{\upsilon}  \'"{\upsilon} } \\
+  x03B1 \Cases{ α  \alpha{}                                                   } \\
+  x03B2 \Cases{ β  \beta{}                                                    } \\
+  x03B3 \Cases{ γ  \gamma{}                                                   } \\
+  x03B4 \Cases{ δ  \delta{}                                                   } \\
+  x03B5 \Cases{ ε  \epsilon{}                                                 } \\
+  x03B6 \Cases{ ζ  \zeta{}                                                    } \\
+  x03B7 \Cases{ η  \eta{}                                                     } \\
+  x03B8 \Cases{ θ  \theta{}                                                   } \\
+  x03B9 \Cases{ ι  \iota{}                                                    } \\
+  x03BA \Cases{ κ  \kappa{}                                                   } \\
+  x03BB \Cases{ λ  \lambda{}                                                  } \\
+  x03BC \Cases{ μ  \mu{}                                                      } \\
+  x03BD \Cases{ ν  \nu{}                                                      } \\
+  x03BE \Cases{ ξ  \xi{}                                                      } \\
+  x03BF \Cases{ ο  \omicron{}                                                 } \\
+                                                                                \\
+  x03C0 \Cases{ π  \pi{}                                                      } \\
+  x03C1 \Cases{ ρ  \rho{}                                                     } \\
+  x03C2 \Cases{ ς  \finalsigma{}                 \varsigma{}                  } \\
+  x03C3 \Cases{ σ  \sigma{}                                                   } \\
+  x03C4 \Cases{ τ  \tau{}                                                     } \\
+  x03C5 \Cases{ υ  \upsilon{}                                                 } \\
+  x03C6 \Cases{ φ  \phi{}                                                     } \\
+  x03C7 \Cases{ χ  \chi{}                                                     } \\
+  x03C8 \Cases{ ψ  \psi{}                                                     } \\
+  x03C9 \Cases{ ω  \omega{}                                                   } \\
+  x03CA \Cases{ ϊ  \accdialytika{\iota}          \"{\iota}                    } \\
+  x03CB \Cases{ ϋ  \accdialytika{\upsilon}       \"{\upsilon}                 } \\
+  x03CC \Cases{ ό  \acctonos{\omicron}           \'{\omicron}                 } \\
+  x03CD \Cases{ ύ  \acctonos{\upsilon}           \'{\upsilon}                 } \\
+  x03CE \Cases{ ώ  \acctonos{\omega}             \'{\omega}                   } \\
+                                                                                \\
+  x03D0 \Cases{ ϐ  \betasymbol                                                } \\
+  x03D1 \Cases{ ϑ  \thetasymbol                                               } \\
+  x03D5 \Cases{ ϕ  \phisymbol                                                 } \\
+  x03D6 \Cases{ ϖ  \pisymbol                                                  } \\
+  x03D8 \Cases{ Ϙ  \Qoppa{}                                                   } \\
+  x03D9 \Cases{ ϙ  \qoppa{}                                                   } \\
+  x03DA \Cases{ Ϛ  \Stigma{}                                                  } \\
+  x03DB \Cases{ ϛ  \stigma{}                                                  } \\
+  x03DC \Cases{ Ϝ  \Digamma{}                                                 } \\
+  x03DD \Cases{ ϝ  \digamma{}                                                 } \\
+  x03DE \Cases{ Ϟ  \Koppa{}                                                   } \\
+  x03DF \Cases{ ϟ  \koppa{}                                                   } \\
+                                                                                \\
+  x03E0 \Cases{ Ϡ  \Sampi{}                                                   } \\
+  x03E1 \Cases{ ϡ  \sampi{}                                                   } \\
+                                                                                \\
+  x03F0 \Cases{ ϰ  \kappasymbol                                               } \\
+  x03F1 \Cases{ ϱ  \rhosymbol                                                 } \\
+  x03F4 \Cases{ ϴ  \Thetasymbol                                               } \\
+  x03F5 \Cases{ ϵ  \epsilonsymbol } \\
+\end{longtable}
+
+
+% -------------------------------------------------------------------------------------------------------------------------
+\section{Greek extended}
+
+\begin{longtable}{llll}
+  x1F00 \Cases{ ἀ  \accpsili{\alpha}                            \>{\alpha}                                             } \\
+  x1F01 \Cases{ ἁ  \accdasia{\alpha}                            \<{\alpha}                                             } \\
+  x1F02 \Cases{ ἂ  \accpsilivaria{\alpha}                       \>`{\alpha}                 \`>{\alpha}                } \\
+  x1F03 \Cases{ ἃ  \accdasiavaria{\alpha}                       \<`{\alpha}                 \`<{\alpha}                } \\
+  x1F04 \Cases{ ἄ  \accpsilioxia{\alpha}                        \>'{\alpha}                 \'>{\alpha}                } \\
+  x1F05 \Cases{ ἅ  \accdasiaoxia{\alpha}                        \<'{\alpha}                 \'<{\alpha}                } \\
+  x1F06 \Cases{ ἆ  \accpsiliperispomeni{\alpha}                 \~>{\alpha}                 \>~{\alpha}                } \\
+  x1F07 \Cases{ ἇ  \accdasiaperispomeni{\alpha}                 \~<{\alpha}                 \<~{\alpha}                } \\
+  x1F08 \Cases{ Ἀ  \accpsili{\Alpha}                            \>{\Alpha}                                             } \\
+  x1F09 \Cases{ Ἁ  \accdasia{\Alpha}                            \<{\Alpha}                                             } \\
+  x1F0A \Cases{ Ἂ  \accpsilivaria{\Alpha}                       \>`{\Alpha}                 \`>{\Alpha}                } \\
+  x1F0B \Cases{ Ἃ  \accdasiavaria{\Alpha}                       \<`{\Alpha}                 \`<{\Alpha}                } \\
+  x1F0C \Cases{ Ἄ  \accpsilioxia{\Alpha}                        \>'{\Alpha}                 \'>{\Alpha}                } \\
+  x1F0D \Cases{ Ἅ  \accdasiaoxia{\Alpha}                        \<'{\Alpha}                 \'<{\Alpha}                } \\
+  x1F0E \Cases{ Ἆ  \accpsiliperispomeni{\Alpha}                 \~>{\Alpha}                 \>~{\Alpha}                } \\
+  x1F0F \Cases{ Ἇ  \accdasiaperispomeni{\Alpha}                 \~<{\Alpha}                 \<~{\Alpha}                } \\
+                                                                                                                         \\
+  x1F10 \Cases{ ἐ  \accpsili{\epsilon}                          \>{\epsilon}                                           } \\
+  x1F11 \Cases{ ἑ  \accdasia{\epsilon}                          \<{\epsilon}                                           } \\
+  x1F12 \Cases{ ἒ  \accpsilivaria{\epsilon}                     \>`{\epsilon}               \`>{\epsilon}              } \\
+  x1F13 \Cases{ ἓ  \accdasiavaria{\epsilon}                     \<`{\epsilon}               \`<{\epsilon}              } \\
+  x1F14 \Cases{ ἔ  \accpsilioxia{\epsilon}                      \>'{\epsilon}               \'>{\epsilon}              } \\
+  x1F15 \Cases{ ἕ  \accdasiaoxia{\epsilon}                      \<'{\epsilon}               \'<{\epsilon}              } \\
+  x1F18 \Cases{ Ἐ  \accpsili{\Epsilon}                          \>{\Epsilon}                                           } \\
+  x1F19 \Cases{ Ἑ  \accdasia{\Epsilon}                          \<{\Epsilon}                                           } \\
+  x1F1A \Cases{ Ἒ  \accpsilivaria{\Epsilon}                     \>`{\Epsilon}               \`>{\Epsilon}              } \\
+  x1F1B \Cases{ Ἓ  \accdasiavaria{\Epsilon}                     \<`{\Epsilon}               \`<{\Epsilon}              } \\
+  x1F1C \Cases{ Ἔ  \accpsilioxia{\Epsilon}                      \>'{\Epsilon}               \'>{\Epsilon}              } \\
+  x1F1D \Cases{ Ἕ  \accdasiaoxia{\Epsilon}                      \<'{\Epsilon}               \'<{\Epsilon}              } \\
+                                                                                                                         \\
+  x1F20 \Cases{ ἠ  \accpsili{\eta}                              \>{\eta}                                               } \\
+  x1F21 \Cases{ ἡ  \accdasia{\eta}                              \<{\eta}                                               } \\
+  x1F22 \Cases{ ἢ  \accpsilivaria{\eta}                         \>`{\eta}                   \`>{\eta}                  } \\
+  x1F23 \Cases{ ἣ  \accdasiavaria{\eta}                         \<`{\eta}                   \`<{\eta}                  } \\
+  x1F24 \Cases{ ἤ  \accpsilioxia{\eta}                          \>'{\eta}                   \'>{\eta}                  } \\
+  x1F25 \Cases{ ἥ  \accdasiaoxia{\eta}                          \<'{\eta}                   \'<{\eta}                  } \\
+  x1F26 \Cases{ ἦ  \accpsiliperispomeni{\eta}                   \~>{\eta}                   \>~{\eta}                  } \\
+  x1F27 \Cases{ ἧ  \accdasiaperispomeni{\eta}                   \~<{\eta}                   \<~{\eta}                  } \\
+  x1F28 \Cases{ Ἠ  \accpsili{\Eta}                              \>{\Eta}                                               } \\
+  x1F29 \Cases{ Ἡ  \accdasia{\Eta}                              \<{\Eta}                                               } \\
+  x1F2A \Cases{ Ἢ  \accpsilivaria{\Eta}                         \>`{\Eta}                   \`>{\Eta}                  } \\
+  x1F2B \Cases{ Ἣ  \accdasiavaria{\Eta}                         \<`{\Eta}                   \`<{\Eta}                  } \\
+  x1F2C \Cases{ Ἤ  \accpsilioxia{\Eta}                          \>'{\Eta}                   \'>{\Eta}                  } \\
+  x1F2D \Cases{ Ἥ  \accdasiaoxia{\Eta}                          \<'{\Eta}                   \'<{\Eta}                  } \\
+  x1F2E \Cases{ Ἦ  \accpsiliperispomeni{\Eta}                   \~>{\Eta}                   \>~{\Eta}                  } \\
+  x1F2F \Cases{ Ἧ  \accdasiaperispomeni{\Eta}                   \~<{\Eta}                   \<~{\Eta}                  } \\
+                                                                                                                         \\
+  x1F30 \Cases{ ἰ  \accpsili{\iota}                             \>{\iota}                                              } \\
+  x1F31 \Cases{ ἱ  \accdasia{\iota}                             \<{\iota}                                              } \\
+  x1F32 \Cases{ ἲ  \accpsilivaria{\iota}                        \>`{\iota}                  \`>{\iota}                 } \\
+  x1F33 \Cases{ ἳ  \accdasiavaria{\iota}                        \<`{\iota}                  \`<{\iota}                 } \\
+  x1F34 \Cases{ ἴ  \accpsilioxia{\iota}                         \>'{\iota}                  \'>{\iota}                 } \\
+  x1F35 \Cases{ ἵ  \accdasiaoxia{\iota}                         \<'{\iota}                  \'<{\iota}                 } \\
+  x1F36 \Cases{ ἶ  \accpsiliperispomeni{\iota}                  \~>{\iota}                  \>~{\iota}                 } \\
+  x1F37 \Cases{ ἷ  \accdasiaperispomeni{\iota}                  \~<{\iota}                  \<~{\iota}                 } \\
+  x1F38 \Cases{ Ἰ  \accpsili{\Iota}                             \>{\Iota}                                              } \\
+  x1F39 \Cases{ Ἱ  \accdasia{\Iota}                             \<{\Iota}                                              } \\
+  x1F3A \Cases{ Ἲ  \accpsilivaria{\Iota}                        \>`{\Iota}                  \`>{\Iota}                 } \\
+  x1F3B \Cases{ Ἳ  \accdasiavaria{\Iota}                        \<`{\Iota}                  \`<{\Iota}                 } \\
+  x1F3C \Cases{ Ἴ  \accpsilioxia{\Iota}                         \>'{\Iota}                  \'>{\Iota}                 } \\
+  x1F3D \Cases{ Ἵ  \accdasiaoxia{\Iota}                         \<'{\Iota}                  \'<{\Iota}                 } \\
+  x1F3E \Cases{ Ἶ  \accpsiliperispomeni{\Iota}                  \~>{\Iota}                  \>~{\Iota}                 } \\
+  x1F3F \Cases{ Ἷ  \accdasiaperispomeni{\Iota}                  \~<{\Iota}                  \<~{\Iota}                 } \\
+                                                                                                                         \\
+  x1F40 \Cases{ ὀ  \accpsili{\omicron}                          \>{\omicron}                                           } \\
+  x1F41 \Cases{ ὁ  \accdasia{\omicron}                          \<{\omicron}                                           } \\
+  x1F42 \Cases{ ὂ  \accpsilivaria{\omicron}                     \>`{\omicron}               \`>{\omicron}              } \\
+  x1F43 \Cases{ ὃ  \accdasiavaria{\omicron}                     \<`{\omicron}               \`<{\omicron}              } \\
+  x1F44 \Cases{ ὄ  \accpsilioxia{\omicron}                      \>'{\omicron}               \'>{\omicron}              } \\
+  x1F45 \Cases{ ὅ  \accdasiaoxia{\omicron}                      \<'{\omicron}               \'<{\omicron}              } \\
+  x1F48 \Cases{ Ὀ  \accpsili{\Omicron}                          \>{\Omicron}                                           } \\
+  x1F49 \Cases{ Ὁ  \accdasia{\Omicron}                          \<{\Omicron}                                           } \\
+  x1F4A \Cases{ Ὂ  \accpsilivaria{\Omicron}                     \>`{\Omicron}               \`>{\Omicron}              } \\
+  x1F4B \Cases{ Ὃ  \accdasiavaria{\Omicron}                     \<`{\Omicron}               \`<{\Omicron}              } \\
+  x1F4C \Cases{ Ὄ  \accpsilioxia{\Omicron}                      \>'{\Omicron}               \'>{\Omicron}              } \\
+  x1F4D \Cases{ Ὅ  \accdasiaoxia{\Omicron}                      \<'{\Omicron}               \'<{\Omicron}              } \\
+                                                                                                                         \\
+  x1F50 \Cases{ ὐ  \accpsili{\upsilon}                          \>{\upsilon}                                           } \\
+  x1F51 \Cases{ ὑ  \accdasia{\upsilon}                          \<{\upsilon}                                           } \\
+  x1F52 \Cases{ ὒ  \accpsilivaria{\upsilon}                     \>`{\upsilon}               \`>{\upsilon}              } \\
+  x1F53 \Cases{ ὓ  \accdasiavaria{\upsilon}                     \<`{\upsilon}               \`<{\upsilon}              } \\
+  x1F54 \Cases{ ὔ  \accpsilioxia{\upsilon}                      \>'{\upsilon}               \'>{\upsilon}              } \\
+  x1F55 \Cases{ ὕ  \accdasiaoxia{\upsilon}                      \<'{\upsilon}               \'<{\upsilon}              } \\
+  x1F56 \Cases{ ὖ  \accpsiliperispomeni{\upsilon}               \~>{\upsilon}               \>~{\upsilon}              } \\
+  x1F57 \Cases{ ὗ  \accdasiaperispomeni{\upsilon}               \~<{\upsilon}               \<~{\upsilon}              } \\
+  x1F59 \Cases{ Ὑ  \accdasia{\Upsilon}                          \<{\Upsilon}                                           } \\
+  x1F5B \Cases{ Ὓ  \accdasiavaria{\Upsilon}                     \<`{\Upsilon}               \`<{\Upsilon}              } \\
+  x1F5D \Cases{ Ὕ  \accdasiaoxia{\Upsilon}                      \<'{\Upsilon}               \'<{\Upsilon}              } \\
+  x1F5F \Cases{ Ὗ  \accdasiaperispomeni{\Upsilon}               \~<{\Upsilon}               \<~{\Upsilon}              } \\
+                                                                                                                         \\
+  x1F60 \Cases{ ὠ  \accpsili{\omega}                            \>{\omega}                                             } \\
+  x1F61 \Cases{ ὡ  \accdasia{\omega}                            \<{\omega}                                             } \\
+  x1F62 \Cases{ ὢ  \accpsilivaria{\omega}                       \>`{\omega}                 \`>{\omega}                } \\
+  x1F63 \Cases{ ὣ  \accdasiavaria{\omega}                       \<`{\omega}                 \`<{\omega}                } \\
+  x1F64 \Cases{ ὤ  \accpsilioxia{\omega}                        \>'{\omega}                 \'>{\omega}                } \\
+  x1F65 \Cases{ ὥ  \accdasiaoxia{\omega}                        \<'{\omega}                 \'<{\omega}                } \\
+  x1F66 \Cases{ ὦ  \accpsiliperispomeni{\omega}                 \~>{\omega}                 \>~{\omega}                } \\
+  x1F67 \Cases{ ὧ  \accdasiaperispomeni{\omega}                 \~<{\omega}                 \<~{\omega}                } \\
+  x1F68 \Cases{ Ὠ  \accpsili{\Omega}                            \>{\Omega}                                             } \\
+  x1F69 \Cases{ Ὡ  \accdasia{\Omega}                            \<{\Omega}                                             } \\
+  x1F6A \Cases{ Ὢ  \accpsilivaria{\Omega}                       \>`{\Omega}                 \`>{\Omega}                } \\
+  x1F6B \Cases{ Ὣ  \accdasiavaria{\Omega}                       \<`{\Omega}                 \`<{\Omega}                } \\
+  x1F6C \Cases{ Ὤ  \accpsilioxia{\Omega}                        \>'{\Omega}                 \'>{\Omega}                } \\
+  x1F6D \Cases{ Ὥ  \accdasiaoxia{\Omega}                        \<'{\Omega}                 \'<{\Omega}                } \\
+  x1F6E \Cases{ Ὦ  \accpsiliperispomeni{\Omega}                 \~>{\Omega}                 \>~{\Omega}                } \\
+  x1F6F \Cases{ Ὧ  \accdasiaperispomeni{\Omega}                 \~<{\Omega}                 \<~{\Omega}                } \\
+                                                                                                                       \\
+  x1F70 \Cases{ ὰ  \accvaria{\alpha}                            \`{\alpha}                                             } \\
+  x1F71 \Cases{ ά  \accoxia{\alpha}                             \'{\alpha}                                             } \\
+  x1F72 \Cases{ ὲ  \accvaria{\epsilon}                          \`{\epsilon}                                           } \\
+  x1F73 \Cases{ έ  \accoxia{\epsilon}                           \'{\epsilon}                                           } \\
+  x1F74 \Cases{ ὴ  \accvaria{\eta}                              \`{\eta}                                               } \\
+  x1F75 \Cases{ ή  \accoxia{\eta}                               \'{\eta}                                               } \\
+  x1F76 \Cases{ ὶ  \accvaria{\iota}                             \`{\iota}                                              } \\
+  x1F77 \Cases{ ί  \accoxia{\iota}                              \'{\iota}                                              } \\
+  x1F78 \Cases{ ὸ  \accvaria{\omicron}                          \`{\omicron}                                           } \\
+  x1F79 \Cases{ ό  \accoxia{\omicron}                           \'{\omicron}                                           } \\
+  x1F7A \Cases{ ὺ  \accvaria{\upsilon}                          \`{\upsilon}                                           } \\
+  x1F7B \Cases{ ύ  \accoxia{\upsilon}                           \'{\upsilon}                                           } \\
+  x1F7C \Cases{ ὼ  \accvaria{\omega}                            \`{\omega}                                             } \\
+  x1F7D \Cases{ ώ  \accoxia{\omega}                             \'{\omega}                                             } \\
+                                                                                                                         \\
+  x1F80 \Cases{ ᾀ  \accpsili{\alpha}\ypogegrammeni{}            \>{\alpha}\ypogegrammeni{}                             } \\
+  x1F81 \Cases{ ᾁ  \accdasia{\alpha}\ypogegrammeni{}            \<{\alpha}\ypogegrammeni{}                             } \\
+  x1F82 \Cases{ ᾂ  \accpsilivaria{\alpha}\ypogegrammeni{}       \>`{\alpha}\ypogegrammeni{} \`>{\alpha}\ypogegrammeni{}} \\
+  x1F83 \Cases{ ᾃ  \accdasiavaria{\alpha}\ypogegrammeni{}       \<`{\alpha}\ypogegrammeni{} \`<{\alpha}\ypogegrammeni{}} \\
+  x1F84 \Cases{ ᾄ  \accpsilioxia{\alpha}\ypogegrammeni{}        \>'{\alpha}\ypogegrammeni{} \'>{\alpha}\ypogegrammeni{}} \\
+  x1F85 \Cases{ ᾅ  \accdasiaoxia{\alpha}\ypogegrammeni{}        \<'{\alpha}\ypogegrammeni{} \'<{\alpha}\ypogegrammeni{}} \\
+  x1F86 \Cases{ ᾆ  \accpsiliperispomeni{\alpha}\ypogegrammeni{} \~>{\alpha}\ypogegrammeni{} \>~{\alpha}\ypogegrammeni{}} \\
+  x1F87 \Cases{ ᾇ  \accdasiaperispomeni{\alpha}\ypogegrammeni{} \~<{\alpha}\ypogegrammeni{} \<~{\alpha}\ypogegrammeni{}} \\
+  x1F88 \Cases{ ᾈ  \accpsili{\Alpha}\ypogegrammeni{}            \>{\Alpha}\ypogegrammeni{}                             } \\
+  x1F89 \Cases{ ᾉ  \accdasia{\Alpha}\ypogegrammeni{}            \<{\Alpha}\ypogegrammeni{}                             } \\
+  x1F8A \Cases{ ᾊ  \accpsilivaria{\Alpha}\ypogegrammeni{}       \>`{\Alpha}\ypogegrammeni{} \`>{\Alpha}\ypogegrammeni{}} \\
+  x1F8B \Cases{ ᾋ  \accdasiavaria{\Alpha}\ypogegrammeni{}       \<`{\Alpha}\ypogegrammeni{} \`<{\Alpha}\ypogegrammeni{}} \\
+  x1F8C \Cases{ ᾌ  \accpsilioxia{\Alpha}\ypogegrammeni{}        \>'{\Alpha}\ypogegrammeni{} \'>{\Alpha}\ypogegrammeni{}} \\
+  x1F8D \Cases{ ᾍ  \accdasiaoxia{\Alpha}\ypogegrammeni{}        \<'{\Alpha}\ypogegrammeni{} \'<{\Alpha}\ypogegrammeni{}} \\
+  x1F8E \Cases{ ᾎ  \accpsiliperispomeni{\Alpha}\ypogegrammeni{} \~>{\Alpha}\ypogegrammeni{} \>~{\Alpha}\ypogegrammeni{}} \\
+  x1F8F \Cases{ ᾏ  \accdasiaperispomeni{\Alpha}\ypogegrammeni{} \~<{\Alpha}\ypogegrammeni{} \<~{\Alpha}\ypogegrammeni{}} \\
+                                                                                                                         \\
+  x1F90 \Cases{ ᾐ  \accpsili{\eta}\ypogegrammeni{}              \>{\eta}\ypogegrammeni{}                               } \\
+  x1F91 \Cases{ ᾑ  \accdasia{\eta}\ypogegrammeni{}              \<{\eta}\ypogegrammeni{}                               } \\
+  x1F92 \Cases{ ᾒ  \accpsilivaria{\eta}\ypogegrammeni{}         \>`{\eta}\ypogegrammeni{}   \`>{\eta}\ypogegrammeni{}  } \\
+  x1F93 \Cases{ ᾓ  \accdasiavaria{\eta}\ypogegrammeni{}         \<`{\eta}\ypogegrammeni{}   \`<{\eta}\ypogegrammeni{}  } \\
+  x1F94 \Cases{ ᾔ  \accpsilioxia{\eta}\ypogegrammeni{}          \>'{\eta}\ypogegrammeni{}   \'>{\eta}\ypogegrammeni{}  } \\
+  x1F95 \Cases{ ᾕ  \accdasiaoxia{\eta}\ypogegrammeni{}          \<'{\eta}\ypogegrammeni{}   \'<{\eta}\ypogegrammeni{}  } \\
+  x1F96 \Cases{ ᾖ  \accpsiliperispomeni{\eta}\ypogegrammeni{}   \~>{\eta}\ypogegrammeni{}   \>~{\eta}\ypogegrammeni{}  } \\
+  x1F97 \Cases{ ᾗ  \accdasiaperispomeni{\eta}\ypogegrammeni{}   \~<{\eta}\ypogegrammeni{}   \<~{\eta}\ypogegrammeni{}  } \\
+  x1F98 \Cases{ ᾘ  \accpsili{\Eta}\ypogegrammeni{}              \>{\Eta}\ypogegrammeni{}                               } \\
+  x1F99 \Cases{ ᾙ  \accdasia{\Eta}\ypogegrammeni{}              \<{\Eta}\ypogegrammeni{}                               } \\
+  x1F9A \Cases{ ᾚ  \accpsilivaria{\Eta}\ypogegrammeni{}         \>`{\Eta}\ypogegrammeni{}   \`>{\Eta}\ypogegrammeni{}  } \\
+  x1F9B \Cases{ ᾛ  \accdasiavaria{\Eta}\ypogegrammeni{}         \<`{\Eta}\ypogegrammeni{}   \`<{\Eta}\ypogegrammeni{}  } \\
+  x1F9C \Cases{ ᾜ  \accpsilioxia{\Eta}\ypogegrammeni{}          \>'{\Eta}\ypogegrammeni{}   \'>{\Eta}\ypogegrammeni{}  } \\
+  x1F9D \Cases{ ᾝ  \accdasiaoxia{\Eta}\ypogegrammeni{}          \<'{\Eta}\ypogegrammeni{}   \'<{\Eta}\ypogegrammeni{}  } \\
+  x1F9E \Cases{ ᾞ  \accpsiliperispomeni{\Eta}\ypogegrammeni{}   \~>{\Eta}\ypogegrammeni{}   \>~{\Eta}\ypogegrammeni{}  } \\
+  x1F9F \Cases{ ᾟ  \accdasiaperispomeni{\Eta}\ypogegrammeni{}   \~<{\Eta}\ypogegrammeni{}   \<~{\Eta}\ypogegrammeni{}  } \\
+                                                                                                                         \\
+  x1FA0 \Cases{ ᾠ  \accpsili{\omega}\ypogegrammeni{}            \>{\omega}\ypogegrammeni{}                             } \\
+  x1FA1 \Cases{ ᾡ  \accdasia{\omega}\ypogegrammeni{}            \<{\omega}\ypogegrammeni{}                             } \\
+  x1FA2 \Cases{ ᾢ  \accpsilivaria{\omega}\ypogegrammeni{}       \>`{\omega}\ypogegrammeni{} \`>{\omega}\ypogegrammeni{}} \\
+  x1FA3 \Cases{ ᾣ  \accdasiavaria{\omega}\ypogegrammeni{}       \<`{\omega}\ypogegrammeni{} \`<{\omega}\ypogegrammeni{}} \\
+  x1FA4 \Cases{ ᾤ  \accpsilioxia{\omega}\ypogegrammeni{}        \>'{\omega}\ypogegrammeni{} \'>{\omega}\ypogegrammeni{}} \\
+  x1FA5 \Cases{ ᾦ  \accdasiaoxia{\omega}\ypogegrammeni{}        \<'{\omega}\ypogegrammeni{} \'<{\omega}\ypogegrammeni{}} \\
+  x1FA6 \Cases{ ᾧ  \accpsiliperispomeni{\omega}\ypogegrammeni{} \~>{\omega}\ypogegrammeni{} \>~{\omega}\ypogegrammeni{}} \\
+  x1FA7 \Cases{ ᾥ  \accdasiaperispomeni{\omega}\ypogegrammeni{} \~<{\omega}\ypogegrammeni{} \<~{\omega}\ypogegrammeni{}} \\
+  x1FA8 \Cases{ ᾨ  \accpsili{\Omega}\ypogegrammeni{}            \>{\Omega}\ypogegrammeni{}                             } \\
+  x1FA9 \Cases{ ᾩ  \accdasia{\Omega}\ypogegrammeni{}            \<{\Omega}\ypogegrammeni{}                             } \\
+  x1FAA \Cases{ ᾪ  \accpsilivaria{\Omega}\ypogegrammeni{}       \>`{\Omega}\ypogegrammeni{} \`>{\Omega}\ypogegrammeni{}} \\
+  x1FAB \Cases{ ᾫ  \accdasiavaria{\Omega}\ypogegrammeni{}       \<`{\Omega}\ypogegrammeni{} \`<{\Omega}\ypogegrammeni{}} \\
+  x1FAC \Cases{ ᾬ  \accpsilioxia{\Omega}\ypogegrammeni{}        \>'{\Omega}\ypogegrammeni{} \'>{\Omega}\ypogegrammeni{}} \\
+  x1FAD \Cases{ ᾭ  \accdasiaoxia{\Omega}\ypogegrammeni{}        \<'{\Omega}\ypogegrammeni{} \'<{\Omega}\ypogegrammeni{}} \\
+  x1FAE \Cases{ ᾮ  \accpsiliperispomeni{\Omega}\ypogegrammeni{} \~>{\Omega}\ypogegrammeni{} \>~{\Omega}\ypogegrammeni{}} \\
+  x1FAF \Cases{ ᾯ  \accdasiaperispomeni{\Omega}\ypogegrammeni{} \~<{\Omega}\ypogegrammeni{} \<~{\Omega}\ypogegrammeni{}} \\
+                                                                                                                         \\
+  x1FB0 \Cases{ ᾰ  \u{\alpha}                                   \u{\alpha}                                             } \\
+  x1FB1 \Cases{ ᾱ  \={\alpha}                                   \={\alpha}                                             } \\
+  x1FB2 \Cases{ ᾲ  \accvaria{\alpha}\ypogegrammeni{}            \`{\alpha}\ypogegrammeni{}                             } \\
+  x1FB3 \Cases{ ᾳ  \alpha\ypogegrammeni{}                       \alpha\ypogegrammeni{}                                 } \\
+  x1FB4 \Cases{ ᾴ  \accoxia{\alpha}\ypogegrammeni{}             \'{\alpha}\ypogegrammeni{}                             } \\
+  x1FB6 \Cases{ ᾶ  \accperispomeni{\alpha}                      \~{\alpha}                                             } \\
+  x1FB7 \Cases{ ᾷ  \accperispomeni{\alpha}\ypogegrammeni{}      \~{\alpha}\ypogegrammeni{}                             } \\
+  x1FB8 \Cases{ Ᾰ  \u{\Alpha}                                   \u{\Alpha}                                             } \\
+  x1FB9 \Cases{ Ᾱ  \={\Alpha}                                   \={\Alpha}                                             } \\
+  x1FBA \Cases{ Ὰ  \accvaria{\Alpha}                            \`{\Alpha}                                             } \\
+  x1FBB \Cases{ Ά  \accoxia{\Alpha}                             \'{\Alpha}                                             } \\
+  x1FBC \Cases{ ᾼ  \Alpha\ypogegrammeni{}                       \Alpha\ypogegrammeni{}                                 } \\
+                                                                                                                         \\
+  x1FC2 \Cases{ ῂ  \accvaria{\eta}\ypogegrammeni{}              \`{\eta}\ypogegrammeni{}                               } \\
+  x1FC3 \Cases{ ῃ  \eta\ypogegrammeni{}                         \eta\ypogegrammeni{}                                   } \\
+  x1FC4 \Cases{ ῄ  \accoxia{\eta}\ypogegrammeni{}               \'{\eta}\ypogegrammeni{}                               } \\
+  x1FC6 \Cases{ ῆ  \accperispomeni{\eta}                        \~{\eta}                                               } \\
+  x1FC7 \Cases{ ῇ  \accperispomeni{\eta}\ypogegrammeni{}        \~{\eta}\ypogegrammeni{}                               } \\
+  x1FC8 \Cases{ Ὲ  \accvaria{\Epsilon}                          \`{\Epsilon}                                           } \\
+  x1FC9 \Cases{ Έ  \accoxia{\Epsilon}                           \'{\Epsilon}                                           } \\
+  x1FCA \Cases{ Ὴ  \accvaria{\Eta}                              \`{\Eta}                                               } \\
+  x1FCB \Cases{ Ή  \accoxia{\Eta}                               \'{\Eta}                                               } \\
+  x1FCC \Cases{ ῌ  \Eta\ypogegrammeni{}                         \Eta\ypogegrammeni{}                                   } \\
+                                                                                                                         \\
+  x1FD0 \Cases{ ῐ  \u{\iota}                                    \u{\iota}                                              } \\
+  x1FD1 \Cases{ ῑ  \={\iota}                                    \={\iota}                                              } \\
+  x1FD2 \Cases{ ῒ  \accdialytikavaria{\iota}                    \`"{\iota}    \"`{\iota}    \"\`{\iota}    \`\"{\iota} } \\
+  x1FD3 \Cases{ ΐ  \accdialytikatonos{\iota}                    \'"{\iota}    \"'{\iota}    \"\'{\iota}    \'\"{\iota} } \\
+  x1FD6 \Cases{ ῖ  \accperispomeni{\iota}                       \~{\iota}                                              } \\
+  x1FD7 \Cases{ ῗ  \accdialytikaperispomeni{\iota}              \~"{\iota}    \"~{\iota}    \"\~{\iota}    \~\"{\iota} } \\
+  x1FD8 \Cases{ Ῐ  \u{\Iota}                                    \u{\Iota}                                              } \\
+  x1FD9 \Cases{ Ῑ  \={\Iota}                                    \={\Iota}                                              } \\
+  x1FDA \Cases{ Ὶ  \accvaria{\Iota}                             \`{\Iota}                                              } \\
+  x1FDB \Cases{ Ί  \accoxia{\Iota}                              \'{\Iota}                                              } \\
+                                                                                                                         \\
+  x1FE0 \Cases{ ῠ  \u{\upsilon}                                 \u{\upsilon}                                           } \\
+  x1FE1 \Cases{ ῡ  \={\upsilon}                                 \={\upsilon}                                           } \\
+  x1FE2 \Cases{ ῢ  \accdialytikavaria{\upsilon}                 \`"{\upsilon} \"`{\upsilon} \"\`{\upsilon} \`\"{\upsilon}} \\
+  x1FE3 \Cases{ ΰ  \accdialytikatonos{\upsilon}                 \'"{\upsilon} \"'{\upsilon} \"\'{\upsilon} \'\"{\upsilon}} \\
+  x1FE4 \Cases{ ῤ  \accpsili{\rho}                              \>{\rho}                                                 } \\
+  x1FE5 \Cases{ ῥ  \accdasia{\rho}                              \<{\rho}                                                 } \\
+  x1FE6 \Cases{ ῦ  \accperispomeni{\upsilon}                    \~{\upsilon}                                             } \\
+  x1FE7 \Cases{ ῧ  \accdialytikaperispomeni{\upsilon}           \~"{\upsilon} \"~{\upsilon} \"\~{\upsilon} \~\"{\upsilon}} \\
+  x1FE8 \Cases{ Ῠ  \u{\Upsilon}                                 \u{\Upsilon}                                             } \\
+  x1FE9 \Cases{ Ῡ  \={\Upsilon}                                 \={\Upsilon}                                             } \\
+  x1FEA \Cases{ Ὺ  \accvaria{\Upsilon}                          \`{\Upsilon}                                             } \\
+  x1FEB \Cases{ Ύ  \accoxia{\Upsilon}                           \'{\Upsilon}                                             } \\
+  x1FEC \Cases{ Ῥ  \accdasia{\Rho}                              \<{\Rho}                                                 } \\
+                                                                                                                           \\
+  x1FF2 \Cases{ ῲ  \accvaria{\omega}\ypogegrammeni{}            \`{\omega}\ypogegrammeni{}                               } \\
+  x1FF3 \Cases{ ῳ  \omega\ypogegrammeni{}                       \omega\ypogegrammeni{}                                   } \\
+  x1FF4 \Cases{ ῴ  \accoxia{\omega}\ypogegrammeni{}             \'{\omega}\ypogegrammeni{}                               } \\
+  x1FF6 \Cases{ ῶ  \accperispomeni{\omega}                      \~{\omega}                                               } \\
+  x1FF7 \Cases{ ῷ  \accperispomeni{\omega}\ypogegrammeni{}      \~{\omega}\ypogegrammeni{}                               } \\
+  x1FF8 \Cases{ Ὸ  \accvaria{\Omicron}                          \`{\Omicron}                                             } \\
+  x1FF9 \Cases{ Ό  \accoxia{\Omicron}                           \'{\Omicron}                                             } \\
+  x1FFA \Cases{ Ὼ  \accvaria{\Omega}                            \`{\Omega}                                               } \\
+  x1FFB \Cases{ Ώ  \accoxia{\Omega}                             \'{\Omega}                                               } \\
+  x1FFC \Cases{ ῼ  \Omega\ypogegrammeni{}                       \Omega\ypogegrammeni{}                                   } \\
+\end{longtable}
+
+
+\section{Discussion}
+
+This section only discusses differences and limitations due to the
+(re)definitions of the \emph{alphabeta} package.
+For a general discussion of characters supported by \pkgref{greek-fontenc},
+see \href{char-list.pdf}{char-list.pdf}.
+
+
+\subsection{Pre-composed vs. combining characters}
+
+All input variants select pre-composed characters if such a character exists.%
+  \footnote{ With LuaTeX, this document selects the Harfbuzz renderer to
+  enable the NFC normalization (see source \texttt{char-list-alphabeta.tex}).}
+
+
+\subsection{Symbol variants}
+
+For several Greek letters, there are alternative glyphs which may
+have a different semantic in a mathematical context.
+Unicode reserves code points for the alternative glyphs
+(naming them SYMBOL as opposed to LETTER).
+Some of these symbols are available as \cs{var<name>} macros in TeX's
+mathematical mode. \emph{alphabeta} makes them available in text mode, too.
+A full list of symbol-variant macros is in Table~1 in
+\href{alphabeta-doc.pdf}{alphabeta-doc.pdf}.
+
+In text, the alternative glyphs are considered typographical variants
+without special meaning. The 8-bit LGR font encoding does not allocate
+code points for them. \emph{Babel-greek}, \emph{%
+\href{http://mirrors.ctan.org/language/greek/greek-fontenc/textalpha-doc.pdf}
+{textalpha}} and \emph{alphabeta} provide the \texttt{normalize-symbols} option
+(ignored with Xe/LuaTeX) that is also used in this test document.
+
+\smallskip\noindent
+Test the handling of symbol variants in text
+
+literal letter, LICR, \cs{var<name>}, \cs{<name>symbol}, literal symbol
+
+\newcommand{\symbolvariants}{
+  β\beta    \varbeta    \betasymbol    ϐ
+  ε\epsilon \varepsilon \epsilonsymbol ϵ
+  θ\theta   \vartheta   \thetasymbol   ϑ
+  Θ\Theta   \varTheta   \Thetasymbol   ϴ
+  κ\kappa   \varkappa   \kappasymbol   ϰ
+  π\pi      \varpi      \pisymbol      ϖ
+  ρ\rho     \varrho     \rhosymbol     ϱ
+  φ\phi     \varphi     \phisymbol     ϕ
+}
+
+\noindent
+No case change
+\begin{quote}
+  \Greek{\symbolvariants}
+\end{quote}
+%
+MakeUppercase selects the matching capital letter:
+
+\begin{center}
+  \Greek{\MakeUppercase{\symbolvariants}}
+\end{center}
+
+\noindent
+MakeLowercase selects the lowercase letter (not the symbol):
+\begin{quote}
+ \Greek{
+  \MakeLowercase{\Beta Β \Epsilon Ε
+                  \Theta Θ \Thetasymbol ϴ
+                  \Kappa Κ \Pi Π \Rho Ρ \Phi Φ}}.
+\end{quote}
+\ifdefined \UnicodeEncodingName
+\else
+  LGR provides two lowercase variants of the archaic letter \emph{stigma}.
+  Both map to GREEK LETTER STIGMA \ensuregreek{Ϛ}.
+
+  The lowercase of \ensuregreek{Ϛ} is \ensuregreek{\MakeLowercase{Ϛ}}
+  (\verb|\stigma|), not \verb|\varstigma|  (\ensuregreek\varstigma).
+\fi
+
+
+\subsection{Hiatus}
+
+Tonos and psili mark a \emph{hiatus} (break-up) if placed on
+the first of two vowels that would otherwise form a diphthong.
+A dialytika must be placed on the second vowel if they are dropped:
+
+\begin{quote}
+  \TestUppercase{άι άυ έι ἄι ἄυ ἔι ἀυ} (literal)
+
+  \TestUppercase{\acctonos\alpha\iota{}
+                 \acctonos\alpha\upsilon{}
+                 \acctonos\epsilon\iota{}
+                 \accpsilioxia\alpha\iota{}
+                 \accpsilioxia\alpha\upsilon{}
+                 \accpsilioxia\epsilon\iota{}
+                 \accpsili\alpha\upsilon
+                 } (named+LICR)
+
+  \TestUppercase{\'{\alpha}\iota{}     \'{\alpha}\upsilon{}
+                 \'{\epsilon}\iota{}   \>'{\alpha}\iota{}
+                 \>'{\alpha}\upsilon{} \>'{\epsilon}\iota{}
+                 \>{\alpha}\upsilon
+                 } (short+LICR)
+\end{quote}
+
+The hiatus feature does not work correctly with the pre-2022
+\cs{MakeUppercase}.
+
+
+\end{document}

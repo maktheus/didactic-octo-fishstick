@@ -64,6 +64,8 @@ The project is a monorepo structured as follows:
 ### 1. Creating an Agent
 Navigate to the **Agents** page and click "Novo Agente".
 *   **Real Agent**: Set Model to `gpt-4` (requires API Key).
+*   **Real Agent**: Set Model to `gpt-4` (requires API Key).
+*   **Containerized Agent (New)**: Provide a `Docker Image` (e.g., `ref-agent:latest`). The Runner will spin up a dedicated container for this agent and communicate via the [Agent Protocol](./AGENT_PROTOCOL.md).
 *   **Mock Agent**: Set Model to `mock` (for testing without API Key).
 
 ### 2. Running a Benchmark

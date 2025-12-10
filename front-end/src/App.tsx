@@ -4,6 +4,7 @@ import { Dashboard } from './components/pages/Dashboard';
 import { Agents } from './components/pages/Agents';
 import { AgentForm } from './components/pages/AgentForm';
 import { Benchmarks } from './components/pages/Benchmarks';
+import { BenchmarkForm } from './components/pages/BenchmarkForm';
 import { BenchmarkDetail } from './components/pages/BenchmarkDetail';
 import { BenchmarkRun } from './components/pages/BenchmarkRun';
 import { Runs } from './components/pages/Runs';
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/agents" element={<Agents />} />
           <Route path="/agents/new" element={<AgentForm />} />
           <Route path="/benchmarks" element={<Benchmarks />} />
+          <Route path="/benchmarks/new" element={<BenchmarkForm />} />
           <Route path="/benchmarks/:id" element={<BenchmarkDetail />} />
           <Route path="/benchmarks/:id/run" element={<BenchmarkRun />} />
           <Route path="/runs" element={<Runs />} />

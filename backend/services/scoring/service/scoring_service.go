@@ -70,7 +70,7 @@ func (s *Service) handleSubmission(ctx context.Context, msg queue.Message) error
 		Calculated: submission.ScoreSummary.Calculated,
 	}
 	s.repo.Save(submission.ID, summary)
-	if err := s.publisher.Publish(ctx, queue.Message{Type: "leaderboard.updated", Data: summary}); err != nil {
+	if err := s.publisher.Publish(ctx, queue.Message{Type: "leaderboard.updated", Data: submission}); err != nil {
 		if s.log != nil {
 			s.log.Printf("scoring: failed to publish summary for submission %s: %v", submission.ID, err)
 		}

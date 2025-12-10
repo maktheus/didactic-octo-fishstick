@@ -56,16 +56,17 @@ func (s *Service) Start() {
 
 func (s *Service) handleScore(ctx context.Context, msg queue.Message) error {
 	start := time.Now()
-	summary, ok := msg.Data.(models.ScoreSummary)
-	if !ok {
+	submission, ok := msg.Data.(models.Submission)
+	if !ok || submission.ScoreSummary == nil {
 		s.observe("ignored", start, 0)
 		return nil
 	}
 	entry := models.LeaderboardEntry{
-		SubmissionID: summary.Calculated.Format("20060102150405"),
-		BenchmarkID:  "default",
-		AgentID:      "agent",
-		Score:        summary.Score,
+		SubmissionID: submission.ID,
+		BenchmarkID:  submission.BenchmarkID,
+		AgentID:      submission.AgentID,
+		AgentName:    submission.AgentName, // Populate name too
+		Score:        submission.ScoreSummary.Score,
 	}
 	entries := append(s.repo.List(), entry)
 	sort.Slice(entries, func(i, j int) bool { return entries[i].Score > entries[j].Score })
@@ -74,9 +75,9 @@ func (s *Service) handleScore(ctx context.Context, msg queue.Message) error {
 		s.repo.Save(entries[idx])
 	}
 	if s.log != nil {
-		s.log.Printf("leaderboard: updated with score %.2f", summary.Score)
+		s.log.Printf("leaderboard: updated with score %.2f", submission.ScoreSummary.Score)
 	}
-	s.observe("ok", start, summary.Score)
+	s.observe("ok", start, submission.ScoreSummary.Score)
 	return nil
 }
 

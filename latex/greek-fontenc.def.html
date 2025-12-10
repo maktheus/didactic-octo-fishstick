@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="Docutils 0.21b.dev: https://docutils.sourceforge.io/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="dcterms.rights" content="© 2013 – 2023 Günter Milde" />
+<title>greek-fontenc.def</title>
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/"/>
+<style type="text/css">
+
+/* Minimal style sheet for the HTML output of Docutils.                    */
+/*                                                                         */
+/* :Author: Günter Milde, based on html4css1.css by David Goodger          */
+/* :Id: $Id$                                                               */
+/* :Copyright: © 2015, 2021 Günter Milde.                                  */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+
+/* This CSS3 stylesheet defines rules for Docutils elements without        */
+/* HTML equivalent. It is required to make the document semantics visible. */
+/*                                                                         */
+/* .. _validates: http://jigsaw.w3.org/css-validator/validator$link        */
+
+/* titles */
+p.topic-title,
+p.admonition-title,
+p.system-message-title {
+  font-weight: bold;
+}
+p.sidebar-title,
+p.rubric {
+  font-weight: bold;
+  font-size: larger;
+}
+p.rubric {
+  color: maroon;
+}
+p.subtitle,
+p.section-subtitle,
+p.sidebar-subtitle {
+  font-weight: bold;
+  margin-top: -0.5em;
+}
+h1 + p.subtitle {
+  font-size: 1.6em;
+}
+a.toc-backref {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Warnings, Errors */
+.system-messages h2,
+.system-message-title,
+span.problematic {
+  color: red;
+}
+
+/* Inline Literals */
+.docutils.literal {
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+/* do not wrap at hyphens and similar: */
+.literal > span.pre { white-space: nowrap; }
+
+/* Lists */
+
+/* compact and simple lists: no margin between items */
+.simple  li, .simple  ul, .simple  ol,
+.compact li, .compact ul, .compact ol,
+.simple  > li p, dl.simple  > dd,
+.compact > li p, dl.compact > dd {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Nested Paragraphs */
+p:first-child { margin-top: 0; }
+p:last-child { margin-bottom: 0; }
+details > p:last-child { margin-bottom: 1em; }
+
+/* Table of Contents */
+.contents ul.auto-toc { /* section numbers present */
+  list-style-type: none;
+}
+
+/* Enumerated Lists */
+ol.arabic     { list-style: decimal }
+ol.loweralpha { list-style: lower-alpha }
+ol.upperalpha { list-style: upper-alpha }
+ol.lowerroman { list-style: lower-roman }
+ol.upperroman { list-style: upper-roman }
+
+/* Definition Lists and Derivatives */
+dt .classifier { font-style: italic }
+dt .classifier:before {
+  font-style: normal;
+  margin: 0.5em;
+  content: ":";
+}
+/* Field Lists and similar */
+/* bold field name, content starts on the same line */
+dl.field-list,
+dl.option-list,
+dl.docinfo {
+  display: flow-root;
+}
+dl.field-list > dt,
+dl.option-list > dt,
+dl.docinfo > dt {
+  font-weight: bold;
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.2em;
+}
+/* Offset for field content (corresponds to the --field-name-limit option) */
+dl.field-list > dd,
+dl.option-list > dd,
+dl.docinfo > dd {
+  margin-left:  9em; /* ca. 14 chars in the test examples, fit all Docinfo fields */
+}
+/* start nested lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+/* start field-body on a new line after long field names */
+dl.field-list > dd > *:first-child,
+dl.option-list > dd > *:first-child
+{
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+}
+
+/* Bibliographic Fields (docinfo) */
+dl.docinfo pre.address {
+  font: inherit;
+  margin: 0.5em 0;
+}
+dl.docinfo > dd.authors > p { margin: 0; }
+
+/* Option Lists */
+dl.option-list > dt { font-weight: normal; }
+span.option { white-space: nowrap; }
+
+/* Footnotes and Citations  */
+
+.footnote, .citation { margin: 1em 0; } /* default paragraph skip (Firefox) */
+/* hanging indent */
+.citation { padding-left: 2em; }
+.footnote { padding-left: 1.7em; }
+.footnote.superscript { padding-left: 1.0em; }
+.citation > .label { margin-left: -2em; }
+.footnote > .label { margin-left: -1.7em; }
+.footnote.superscript > .label { margin-left: -1.0em; }
+
+.footnote > .label + *,
+.citation > .label + * {
+  display: inline-block;
+  margin-top: 0;
+  vertical-align: top;
+}
+.footnote > .backrefs + *,
+.citation > .backrefs + * {
+  margin-top: 0;
+}
+.footnote > .label + p, .footnote > .backrefs + p,
+.citation > .label + p, .citation > .backrefs + p {
+  display: inline;
+  vertical-align: inherit;
+}
+
+.backrefs { user-select: none; }
+.backrefs > a { font-style: italic; }
+
+/* superscript footnotes */
+a[role="doc-noteref"].superscript,
+.footnote.superscript > .label,
+.footnote.superscript > .backrefs {
+  vertical-align: super;
+  font-size: smaller;
+  line-height: 1;
+}
+a[role="doc-noteref"].superscript > .fn-bracket,
+.footnote.superscript > .label > .fn-bracket {
+  /* hide brackets in display but leave for copy/paste */
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+}
+[role="doc-noteref"].superscript + [role="doc-noteref"].superscript {
+  padding-left: 0.15em; /* separate consecutive footnote references */
+  /* TODO: unfortunately, "+" also selects with text between the references. */
+}
+
+/* Alignment */
+.align-left   {
+  text-align: left;
+  margin-right: auto;
+}
+.align-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.align-right  {
+  text-align: right;
+  margin-left: auto;
+}
+.align-top    { vertical-align: top; }
+.align-middle { vertical-align: middle; }
+.align-bottom { vertical-align: bottom; }
+
+/* reset inner alignment in figures and tables */
+figure.align-left, figure.align-right,
+table.align-left, table.align-center, table.align-right {
+  text-align: inherit;
+}
+
+/* Text Blocks */
+.topic { margin: 1em 2em; }
+.sidebar,
+.admonition,
+.system-message {
+  margin: 1em 2em;
+  border: thin solid;
+  padding: 0.5em 1em;
+}
+div.line-block { display: block; }
+div.line-block div.line-block, pre { margin-left: 2em; }
+
+/* Code line numbers: dropped when copying text from the page */
+pre.code .ln { display: none; }
+pre.code code:before {
+  content: attr(data-lineno); /* …, none) fallback not supported by any browser */
+  color: gray;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+}
+td, th {
+  border: thin solid silver;
+  padding: 0 1ex;
+}
+.borderless td, .borderless th {
+  border: 0;
+  padding: 0;
+  padding-right: 0.5em /* separate table cells */
+}
+
+table > caption {
+  text-align: left;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+table.captionbelow {
+  caption-side: bottom;
+}
+
+/* Document Header and Footer */
+header { border-bottom: 1px solid black; }
+footer { border-top: 1px solid black; }
+
+/* Images are block-level by default in Docutils */
+/* New HTML5 block elements: set display for older browsers */
+img, header, footer, main, aside, nav, section, figure, video, details {
+  display: block;
+}
+/* inline images */
+p img, p video, figure img, figure video {
+  display: inline;
+}
+
+</style>
+<style type="text/css">
+
+/* CSS3_ style sheet for the output of Docutils HTML5 writer.  */
+/* Generic responsive design for all screen sizes.                         */
+/*                                                                         */
+/* :Author: Günter Milde                                                   */
+/*                                                                         */
+/* :Id: $Id$                                                               */
+/* :Copyright: © 2021 Günter Milde.                                        */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+/* .. _CSS3: https://www.w3.org/Style/CSS/                                 */
+
+/* Note:                                                                   */
+/* This style sheet is provisional:                                        */
+/* the API is not settled and may change with any minor Docutils version.  */
+
+
+
+/* General Settings */
+/* ================ */
+
+
+* { box-sizing: border-box; }
+
+body {
+  background-color: #fafaf6;
+  margin: auto;
+  --field-indent: 6.6em; /* indent of fields in field lists */
+  --sidebar-margin-right: 0; /* adapted in media queries below */
+}
+main {
+  counter-reset: figure table;
+}
+body > * {
+  background-color: white;
+  line-height: 1.6;
+  padding: 0.5rem calc(29% - 7.2rem); /* go from 5% to 15% (8.15em/54em) */
+  margin: auto;
+  max-width: 100rem;
+}
+sup, sub { /* avoid additional inter-line space for lines with sup/sub */
+  line-height: 1;
+}
+
+/* Vertical Space (Parskip) */
+p, ol, ul, dl, li,
+div.line-block,
+.topic,
+.footnote, .citation,
+div > math,
+table {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+h1, h2, h3, h4, h5, h6,
+dl > dd, details > p:last-child {
+  margin-bottom: 0.5em;
+}
+
+/* Indented Blocks */
+blockquote, figure, .topic {
+  margin: 1em 2%;
+  padding-left: 1em;
+}
+div.line-block div.line-block,
+pre, dd, dl.option-list {
+  margin-left: calc(2% + 1em);
+}
+
+/* Object styling */
+/* ============== */
+
+footer, header {
+  font-size: small;
+}
+
+/* Frontmatter */
+div.dedication {
+  padding: 0;
+  margin: 1.4em 0;
+  font-style: italic;
+  font-size: large;
+}
+.dedication p.topic-title {
+  display: none;
+}
+
+blockquote p.attribution,
+.topic p.attribution {
+  text-align: right;
+}
+
+/* Table of Contents */
+nav.contents ul {
+  padding-left: 1em;
+}
+ul.auto-toc > li > p { /* hanging indent */
+  padding-left: 1em;
+  text-indent: -1em;
+}
+main > nav.contents  ul:not(.auto-toc) {
+  list-style-type: square;
+}
+main > nav.contents  ul ul:not(.auto-toc) {
+  list-style-type: disc;
+}
+main > nav.contents  ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B29\ ';
+}
+main > nav.contents  ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B1D\ ';
+}
+main > nav.contents  ul ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B2A\ ';
+}
+nav.contents ul > li::marker {
+  color: grey;
+}
+
+/* Transitions */
+hr {
+  margin: 1em 10%;
+}
+
+/* Lists */
+
+ul, ol {
+  padding-left: 1.1em; /* indent by bullet width (Firefox, DejaVu fonts) */
+}
+dl.field-list > dd,
+dl.docinfo > dd {
+  margin-left: var(--field-indent); /* adapted in media queries or HTML */
+}
+dl.option-list > dd {
+  margin-left: 20%;
+}
+/* run-in: start field-body on same line after long field names */
+dl.field-list.run-in > dd p {
+  display: block;
+}
+/* "description style" like in most dictionaries, encyclopedias etc. */
+dl.description {
+  display: flow-root;
+}
+dl.description > dt {
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.3em;
+  font-weight: bold;
+}
+dl.description > dd:after {
+  display: table;
+  content: "";
+  clear: left; /* clearfix for empty descriptions */
+}
+/* start lists nested in description/field lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+
+/* disclosures */
+details { padding-left: 1em; }
+summary { margin-left: -1em; }
+
+/* Footnotes and Citations */
+.footnote {
+  font-size: small;
+}
+
+/* Images, Figures, and Tables */
+img {
+  display: block;
+}
+p > img, p > a > img,
+figure > img, figure > a > img {
+  display: inline;
+}
+
+figcaption,
+table > caption {
+  /*   font-size: small; */
+  font-style: italic;
+}
+figcaption > .legend {
+  font-size: small;
+  font-style: initial;
+}
+figure.numbered > figcaption > p:before {
+  counter-increment: figure;
+  content: "Figure " counter(figure) ": ";
+  font-weight: bold;
+  font-style: initial;
+}
+
+table tr {
+  text-align: left;
+  vertical-align: baseline;
+}
+table.booktabs { /* "booktabs" style (no vertical lines) */
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+}
+table.booktabs * {
+  border: 0;
+}
+table.booktabs th {
+  border-bottom: thin solid;
+}
+table.numbered > caption:before {
+  counter-increment: table;
+  content: "Table " counter(table) ": ";
+  font-weight: bold;
+  font-style: initial;
+}
+
+/* Admonitions and System Messages */
+.admonition,
+div.system-message {
+  border: thin solid silver;
+  margin: 1em 2%;
+  padding: 0.5em 1em;
+}
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.warning p.admonition-title,
+div.error {
+  color: maroon;
+}
+div.system-message > p > span.literal {
+  overflow-wrap: break-word;
+}
+
+/* Literal and Code */
+pre.literal-block, pre.doctest{
+  padding: 0.2em;
+  overflow-x: auto;
+}
+.literal-block, .doctest, span.literal {
+  background-color: #f6f9f8;
+}
+.system-message span.literal {
+  background-color: inherit;
+}
+
+/* basic highlighting: for a complete scheme, see */
+/* https://docutils.sourceforge.io/sandbox/stylesheets/ */
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+/* Hyperlink References */
+a {
+  text-decoration: none; /* for chromium */
+  /* Wrap links at any place, if this is the only way to prevent overflow */
+  overflow-wrap: break-word;
+}
+.contents a, a.toc-backref, a.citation-reference {
+  overflow-wrap: inherit;
+}
+/* Undecorated Links (see also minimal.css) */
+/* a.citation-reference, */
+.citation a.fn-backref {
+  color: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+*:hover > a.toc-backref:after {
+  content: " \2191"; /* ↑ UPWARDS ARROW */
+  color: grey;
+}
+*:hover > a.self-link:after {
+  content: "\1F517"; /* LINK SYMBOL */
+  color: grey;
+  font-size: smaller;
+  margin-left: 0.2em;
+}
+/* highlight the target of the current URL */
+section:target > h2, section:target > h3, section:target > h4,
+section:target > h5, section:target > h6,
+.contents :target,
+.contents:target > .topic-title,
+[role="doc-biblioentry"]:target > .label,
+[role="doc-biblioref"]:target,
+[role="note"]:target, /* Docutils 0.18 ... 0.19 */
+[role="doc-footnote"]:target, /* Docutils >= 0.20 */
+[role="doc-noteref"]:target {
+  background-color: #d2e6ec;
+}
+
+/* Block Alignment */
+/* Let content flow to the side of aligned images and figures */
+
+/* no floats around this elements */
+footer, header, hr,
+h1, h2, h3 {
+  clear: both;
+}
+
+img.align-left,
+svg.align-left,
+video.align-left,
+figure.align-left,
+div.align-left,
+table.align-left {
+  margin-left: 0;
+  padding-left: 0;
+  margin-right: 0.5em;
+  clear: left;
+  float: left;
+}
+img.align-right,
+svg.align-right,
+video.align-right,
+figure.align-right,
+div.align-right,
+table.align-right {
+  margin-left: 0.5em;
+  margin-right: 0;
+  clear: right;
+  float: right;
+}
+
+/* Margin Elements */
+/* see below for screen size dependent rules */
+.sidebar,
+.marginal,
+.admonition.marginal {
+  max-width: 40%;
+  border: none;
+  background-color: #efefea;
+  margin: 0.5em var(--sidebar-margin-right) 0.5em 1em;
+  padding: 0.5em;
+  padding-left: 0.7em;
+  clear: right;
+  float: right;
+  font-size: small;
+}
+.sidebar {
+  width: 40%;
+}
+
+/* Math */
+/* for math-output=MathML (for math-output=HTML, see math.css) */
+math .boldsymbol {
+  font-weight: bold;
+}
+mstyle.mathscr, mi.mathscr {
+  font-family: STIX, XITSMathJax_Script, rsfs10,
+               "Asana Math", Garamond, cursive;
+}
+
+/* Adaptive page layout */
+/* ==================== */
+
+@media (max-width: 30em) {
+  /* Smaller margins and no floating elements for small screens */
+  /* (main text less than 40 characters/line) */
+  body > * {
+    padding: 0.5rem 5%;
+    line-height: 1.4
+  }
+  .sidebar,
+  .marginal,
+  .admonition.marginal {
+    width: auto;
+    max-width: 100%;
+    float: none;
+  }
+  dl.option-list,
+  pre {
+    margin-left: 0;
+  }
+  body {
+    --field-indent: 4em;
+  }
+  dl.field-list.narrow, dl.docinfo, dl.option-list {
+    --field-indent: 2.4em;
+  }
+  pre, pre * {
+  font-size: 0.9em;
+  /* overflow: auto; */
+  }
+}
+
+@media (min-width: 54em) {
+  /* Move ToC to the left */
+  /* Main text width before: 70% ≙ 35em ≙ 75…95 chrs (Dejavu/Times) */
+  /*                  after:      ≳ 30em ≙ 54…70 chrs (Dejavu/Times) */
+  body.with-toc {
+    padding-left: 8%;
+  }
+  body.with-toc > * {
+    margin-left: 0;
+    padding-left: 22rem; /* fallback for webkit */
+    padding-left: min(22%, 22rem);
+    padding-right: 7%;
+  }
+  main > nav.contents { /* global ToC */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(25%, 25em);
+    height: 100vh;
+    margin: 0;
+    background-color: #fafaf6;
+    padding: 1em 2% 0 2%;
+    overflow: auto;
+  }
+  main > nav.contents > * {
+    padding-left: 0;
+    line-height: 1.4;
+  }
+  main > nav.contents a {
+  color: inherit;
+  }
+}
+
+@media (min-width: 70em) {
+  body {
+    --field-indent: 9em;
+  }
+}
+
+@media (min-width: 77em) {
+  /* Move marginalia to 6rem from right border       */
+  /* .sidebar,                                       */
+  /* .marginal,                                      */
+  /* .admonition.marginal {                          */
+  /*   margin-right: calc(6rem - 15%);               */
+  /* }                                               */
+  /* BUG: margin is calculated for break point width */
+  /* workaround: variable + many breakpoints         */
+  body > * {
+    padding-left: 18%;
+    padding-right: 28%; /* fallback for webkit */
+    padding-right: min(28%, 28rem);
+    --sidebar-margin-right: -20rem;
+  }
+  /* limit main text to ~ 50em ≙ 85…100 characters DejaVu rsp. …120 Times */
+  body.with-toc > * {
+    padding-left: min(22%, 22rem);
+    padding-right: calc(78% - 50rem); /* fallback for webkit */
+    padding-right: min(78% - 50rem, 28rem);
+    --sidebar-margin-right: 0;
+  }
+}
+
+@media (min-width: 85em) {
+  body.with-toc > * {
+    --sidebar-margin-right: -9rem;
+  }
+}
+
+@media (min-width: 90em) {
+  /* move marginalia into the margin */
+  body > * {
+    padding-left: min(22%, 22rem);
+    --sidebar-margin-right: -23rem;
+  }
+  body.with-toc > * {
+    --sidebar-margin-right: -14rem;
+  }
+}
+
+@media (min-width: 99em) {
+  /* move marginalia out of main text area */
+  body.with-toc > * {
+    --sidebar-margin-right: -20rem;
+  }
+  body > *, body.with-toc > * { /* for webkit */
+    padding-left: 22rem;
+    padding-right: 28rem;
+  }
+  .admonition.marginal,
+  .marginal {
+    width: 40%; /* make marginal figures, ... "full width" */
+  }
+}
+
+@media (min-width: 104em) {
+  body.with-toc > * {
+    --sidebar-margin-right: -23rem;
+  }
+}
+
+</style>
+</head>
+<body class="with-toc">
+<main id="greek-fontenc-def">
+<h1 class="title">greek-fontenc.def</h1>
+<p class="subtitle" id="common-greek-font-encoding-definitions">Common Greek font encoding definitions</p>
+<dl class="docinfo">
+<dt class="version">Version<span class="colon">:</span></dt>
+<dd class="version">2.5 (<a class="reference internal" href="#changelog">changelog</a>)</dd>
+<dt class="copyright">Copyright<span class="colon">:</span></dt>
+<dd class="copyright">© 2013 – 2023 Günter Milde</dd>
+<dt class="licence">Licence<span class="colon">:</span></dt>
+<dd class="licence"><p>This work may be distributed and/or modified under the
+conditions of the <a class="reference external" href="http://www.latex-project.org/lppl.txt">LaTeX Project Public License</a>, either
+version 1.3 of this license or any later version.</p>
+</dd>
+</dl>
+<div class="topic abstract" role="doc-abstract">
+<p class="topic-title">Abstract</p>
+<p>This file provides definitions that are shared between
+font encodings providing Greek characters.</p>
+</div>
+<nav class="contents" id="contents" role="doc-toc">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#usage" id="toc-entry-1">Usage</a></p></li>
+<li><p><a class="reference internal" href="#implementation" id="toc-entry-2">Implementation</a></p>
+<ul>
+<li><p><a class="reference internal" href="#identification" id="toc-entry-3">Identification</a></p></li>
+<li><p><a class="reference internal" href="#ensuregreek-greekscript" id="toc-entry-4">ensuregreek, greekscript</a></p></li>
+<li><p><a class="reference internal" href="#aliases" id="toc-entry-5">Aliases</a></p></li>
+<li><p><a class="reference internal" href="#composite-diacritics" id="toc-entry-6">Composite diacritics</a></p></li>
+<li><p><a class="reference internal" href="#case-changing" id="toc-entry-7">Case changing</a></p>
+<ul>
+<li><p><a class="reference internal" href="#uclclist-extension" id="toc-entry-8">&#64;uclclist extension</a></p></li>
+<li><p><a class="reference internal" href="#substitution-macros" id="toc-entry-9">Substitution macros</a></p></li>
+<li><p><a class="reference internal" href="#hiatus" id="toc-entry-10">Hiatus</a></p></li>
+<li><p><a class="reference internal" href="#test-next-character" id="toc-entry-11">Test next character</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#changelog" id="toc-entry-12">Changelog</a></p></li>
+<li><p><a class="reference internal" href="#references" id="toc-entry-13">References</a></p></li>
+</ul>
+</nav>
+<section id="usage">
+<h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink">Usage</a></h2>
+<p>This file is input by the font encoding definition files <a class="reference external" href="lgrenc.def.html">lgrenc.def</a>. and
+<a class="reference external" href="tuenc-greek.def.html">tuenc-greek.def</a>.</p>
+</section>
+<section id="implementation">
+<h2><a class="toc-backref" href="#toc-entry-2" role="doc-backlink">Implementation</a></h2>
+<section id="identification">
+<h3><a class="toc-backref" href="#toc-entry-3" role="doc-backlink">Identification</a></h3>
+<pre class="literal-block">\ProvidesFile{greek-fontenc.def}
+  [2023-09-12 2.5 Common Greek font encoding definitions]</pre>
+</section>
+<section id="ensuregreek-greekscript">
+<h3><a class="toc-backref" href="#toc-entry-4" role="doc-backlink">ensuregreek, greekscript</a></h3>
+<p>Provide “empty” encoding-specific definitions for <span class="docutils literal">\ensuregreek</span> and
+<span class="docutils literal">\greekscript</span>. The definitions in this file make the font encoding fit
+for use with the Greek script. (See <span class="docutils literal">textalpha.sty</span> for default
+definitions.)</p>
+<p>The <span class="docutils literal">\ensuregreek</span> macro can be used to ensure that its argument is set
+in a font encoding with support for Greek. If the active font encoding
+supports it, kerning between adjacent command calls (e.g.
+<span class="docutils literal"><span class="pre">\ensuregreek{A}\ensuregreek{\Upsilon}</span></span>) is preserved. This allows, e.g.,
+wrapping of compound Unicode character definitions.</p>
+<pre class="literal-block">\ProvideTextCommand{\ensuregreek}{\LastDeclaredEncoding}{\&#64;firstofone}</pre>
+<p>The <span class="docutils literal">\greekscript</span> declaration switches to a font encoding supporting
+the Greek script, if required. The following definition announces the
+<span class="docutils literal">\LastDeclaredEncoding</span> as Greek-supporting:</p>
+<pre class="literal-block">\ProvideTextCommand{\greekscript}{\LastDeclaredEncoding}{}</pre>
+</section>
+<section id="aliases">
+<h3><a class="toc-backref" href="#toc-entry-5" role="doc-backlink">Aliases</a></h3>
+<p>Aliases are defined via <cite>DeclareTextCommand</cite> so that up/downcasing works
+without the need for additional &#64;uclclist_ entries.</p>
+<p>Names matching mathematical variant symbols:</p>
+<pre class="literal-block">% \var... matching GREEK ... SYMBOL
+\DeclareTextCommand{\textvarbeta}{\LastDeclaredEncoding}{\textbetasymbol}   % ϐ
+\DeclareTextCommand{\textvarkappa}{\LastDeclaredEncoding}{\textkappasymbol} % ϰ
+\DeclareTextCommand{\textvartheta}{\LastDeclaredEncoding}{\textthetasymbol} % ϑ
+\DeclareTextCommand{\textvarpi}{\LastDeclaredEncoding}{\textpisymbol}       % ϖ
+\DeclareTextCommand{\textvarrho}{\LastDeclaredEncoding}{\textrhosymbol}     % ϱ
+% \var... matching GREEK LETTER ...
+\DeclareTextCommand{\textvarTheta}{\LastDeclaredEncoding}{\textTheta}       % Θ
+\DeclareTextCommand{\textvarepsilon}{\LastDeclaredEncoding}{\textepsilon}   % ε
+\DeclareTextCommand{\textvarphi}{\LastDeclaredEncoding}{\textphi}           % φ
+\DeclareTextCommand{\textvarsigma}{\LastDeclaredEncoding}{\textfinalsigma}  % ς</pre>
+<p>Compatibility aliases for <a class="reference external" href="https://ctan.org/pkg/hyperref">hyperref</a>’s puenc.def:</p>
+<pre class="literal-block">\DeclareTextCommand{\textnumeralsigngreek}{\LastDeclaredEncoding}{\textdexiakeraia}
+\DeclareTextCommand{\textnumeralsignlowergreek}{\LastDeclaredEncoding}{\textaristerikeraia}
+
+\DeclareTextCommand{\textmugreek}{\LastDeclaredEncoding}{\textmu}
+\DeclareTextCommand{\textStigmagreek}{\LastDeclaredEncoding}{\textStigma}
+\DeclareTextCommand{\textstigmagreek}{\LastDeclaredEncoding}{\textstigma}
+\DeclareTextCommand{\textDigammagreek}{\LastDeclaredEncoding}{\textDigamma}
+\DeclareTextCommand{\textdigammagreek}{\LastDeclaredEncoding}{\textdigamma}
+\DeclareTextCommand{\textKoppagreek}{\LastDeclaredEncoding}{\textKoppa}
+\DeclareTextCommand{\textkoppagreek}{\LastDeclaredEncoding}{\textkoppa}
+\DeclareTextCommand{\textSampigreek}{\LastDeclaredEncoding}{\textSampi}
+\DeclareTextCommand{\textsampigreek}{\LastDeclaredEncoding}{\textsampi}</pre>
+<p>Names from <a class="reference external" href="https://ctan.org/pkg/babel">babel</a> and <a class="reference external" href="https://ctan.org/pkg/teubner">teubner</a> (do we want to define them here as alias?)</p>
+<pre class="code latex literal-block"><code><span class="keyword">\DeclareTextCommand</span><span class="name builtin">{</span><span class="keyword">\anwtonos</span><span class="name builtin">}{</span><span class="keyword">\LastDeclaredEncoding</span><span class="name builtin">}{</span><span class="keyword">\textdexiakeraia</span><span class="name builtin">}</span>     <span class="comment">% ʹ
+</span><span class="keyword">\DeclareTextCommand</span><span class="name builtin">{</span><span class="keyword">\katwtonos</span><span class="name builtin">}{</span><span class="keyword">\LastDeclaredEncoding</span><span class="name builtin">}{</span><span class="keyword">\textaristerikeraia</span><span class="name builtin">}</span> <span class="comment">% ͵</span></code></pre>
+<p>Two Unicode code points and names for one character:</p>
+<pre class="literal-block">\DeclareTextCommand{\accoxia}{\LastDeclaredEncoding}{\acctonos}
+\DeclareTextCommand{\accdialytikaoxia}{\LastDeclaredEncoding}{\accdialytikatonos}
+\DeclareTextCommand{\acckoronis}{\LastDeclaredEncoding}{\accpsili}</pre>
+<p>Symbol macros for the breathings:</p>
+<p>Moved to <span class="docutils literal">textalpha.sty</span> to avoid clashes with local definitions
+of <span class="docutils literal">\&lt;</span> and <span class="docutils literal">\&gt;</span> in documents using LGR or babel-greek.
+(Bugreport David Kastrup). If you want to use the short macros without
+loading <cite>textalpha</cite>, you can define them in the document preamble like</p>
+<pre class="code latex literal-block"><code><span class="keyword">\DeclareTextCommand</span><span class="name builtin">{</span><span class="keyword">\&lt;</span><span class="name builtin">}{</span>LGR<span class="name builtin">}{</span><span class="keyword">\accdasia</span><span class="name builtin">}</span>
+<span class="keyword">\DeclareTextCommand</span><span class="name builtin">{</span><span class="keyword">\&gt;</span><span class="name builtin">}{</span>LGR<span class="name builtin">}{</span><span class="keyword">\accpsili</span><span class="name builtin">}</span>
+<span class="keyword">\DeclareTextCompositeCommand</span><span class="name builtin">{</span><span class="keyword">\&gt;</span><span class="name builtin">}{</span>LGR<span class="name builtin">}{</span>'<span class="name builtin">}{</span><span class="keyword">\accpsilioxia</span><span class="name builtin">}</span>
+<span class="keyword">\DeclareTextCompositeCommand</span><span class="name builtin">{</span><span class="keyword">\&gt;</span><span class="name builtin">}{</span>LGR<span class="name builtin">}{</span>`<span class="name builtin">}{</span><span class="keyword">\accpsilivaria</span><span class="name builtin">}</span>
+<span class="keyword">\DeclareTextCompositeCommand</span><span class="name builtin">{</span><span class="keyword">\&gt;</span><span class="name builtin">}{</span>LGR<span class="name builtin">}{</span>~<span class="name builtin">}{</span><span class="keyword">\accpsiliperispomeni</span><span class="name builtin">}</span>
+<span class="keyword">\DeclareTextCompositeCommand</span><span class="name builtin">{</span><span class="keyword">\&lt;</span><span class="name builtin">}{</span>LGR<span class="name builtin">}{</span>'<span class="name builtin">}{</span><span class="keyword">\accdasiaoxia</span><span class="name builtin">}</span>
+<span class="keyword">\DeclareTextCompositeCommand</span><span class="name builtin">{</span><span class="keyword">\&lt;</span><span class="name builtin">}{</span>LGR<span class="name builtin">}{</span>`<span class="name builtin">}{</span><span class="keyword">\accdasiavaria</span><span class="name builtin">}</span>
+<span class="keyword">\DeclareTextCompositeCommand</span><span class="name builtin">{</span><span class="keyword">\&lt;</span><span class="name builtin">}{</span>LGR<span class="name builtin">}{</span>~<span class="name builtin">}{</span><span class="keyword">\accdasiaperispomeni</span><span class="name builtin">}</span></code></pre>
+<p>Or use alternative symbols for the breathings (cf. X compose
+table, LCI encoding)?</p>
+<pre class="code latex literal-block"><code><span class="keyword">\DeclareTextCommand</span><span class="name builtin">{</span><span class="literal string">\(</span><span class="name builtin">}{</span><span class="name variable">\LastDeclaredEncoding</span><span class="name builtin">}{</span><span class="name variable">\accdasia</span><span class="name builtin">}
+</span><span class="name variable">\DeclareTextCommand</span><span class="name builtin">{</span><span class="literal string">\)</span><span class="name builtin">}{</span><span class="keyword">\LastDeclaredEncoding</span><span class="name builtin">}{</span><span class="keyword">\accpsili</span><span class="name builtin">}</span></code></pre>
+</section>
+<section id="composite-diacritics">
+<h3><a class="toc-backref" href="#toc-entry-6" role="doc-backlink">Composite diacritics</a></h3>
+<p>Composite accents can be input as sequence of simple diacritics (in
+arbitrary order) via named macro, symbol macro and “transliteration
+characters”, e.g. one of</p>
+<pre class="code latex literal-block"><code><span class="keyword">\accdialytikatonos\textupsilon</span>,
+<span class="keyword">\accdialytika\acctonos\textupsilon</span>,
+<span class="keyword">\&quot;\'\textupsilon</span>,
+<span class="keyword">\&quot;</span>'<span class="keyword">\textupsilon</span>, or
+<span class="keyword">\'</span>&quot;<span class="keyword">\textupsilon</span>.</code></pre>
+<p>Separate definitions for the supported variants of the second input token
+are required as composition is based on the non-expanded input</p>
+<p>The composition with simple “transliteration characters” must also be defined
+for the symbol macros, otherwise it fails with <span class="docutils literal">\Makeuppercase</span>.</p>
+<p>For Unicode encodings (where they do not resolve to Greek named macros),
+composite definitions starting with standard macros are requried:</p>
+<pre class="literal-block">\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\acctonos}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\accoxia}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\'}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{'}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\&quot;}{\LastDeclaredEncoding}{\'}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\&quot;}{\LastDeclaredEncoding}{'}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\accvaria}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\`}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{`}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\&quot;}{\LastDeclaredEncoding}{\`}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\&quot;}{\LastDeclaredEncoding}{`}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\accperispomeni}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\~}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{~}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\&quot;}{\LastDeclaredEncoding}{\~}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\&quot;}{\LastDeclaredEncoding}{~}{\accdialytikaperispomeni}
+
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{\accdialytika}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{\&quot;}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{&quot;}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\'}{\LastDeclaredEncoding}{\&quot;}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\'}{\LastDeclaredEncoding}{&quot;}{\accdialytikatonos}
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{\accdasia}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{\&lt;}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{&lt;}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\'}{\LastDeclaredEncoding}{\&lt;}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\'}{\LastDeclaredEncoding}{&lt;}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{\accpsili}{\accpsilioxia}
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{\&gt;}{\accpsilioxia}
+\DeclareTextCompositeCommand{\acctonos}{\LastDeclaredEncoding}{&gt;}{\accpsilioxia}
+\DeclareTextCompositeCommand{\'}{\LastDeclaredEncoding}{\&gt;}{\accpsilioxia}
+\DeclareTextCompositeCommand{\'}{\LastDeclaredEncoding}{&gt;}{\accpsilioxia}
+\DeclareTextCompositeCommand{\'}{\LastDeclaredEncoding}{\'}{\textquoteright}
+\DeclareTextCompositeCommand{\'}{\LastDeclaredEncoding}{'}{\textquoteright}
+
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{\accdialytika}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{\&quot;}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{&quot;}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\`}{\LastDeclaredEncoding}{\&quot;}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\`}{\LastDeclaredEncoding}{&quot;}{\accdialytikavaria}
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{\accdasia}{\accdasiavaria}
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{\&lt;}{\accdasiavaria}
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{&lt;}{\accdasiavaria}
+\DeclareTextCompositeCommand{\`}{\LastDeclaredEncoding}{\&lt;}{\accdasiavaria}
+\DeclareTextCompositeCommand{\`}{\LastDeclaredEncoding}{&lt;}{\accdasiavaria}
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{\accpsili}{\accpsilivaria}
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{\&gt;}{\accpsilivaria}
+\DeclareTextCompositeCommand{\accvaria}{\LastDeclaredEncoding}{&gt;}{\accpsilivaria}
+\DeclareTextCompositeCommand{\`}{\LastDeclaredEncoding}{\&gt;}{\accpsilivaria}
+\DeclareTextCompositeCommand{\`}{\LastDeclaredEncoding}{&gt;}{\accpsilivaria}
+\DeclareTextCompositeCommand{\`}{\LastDeclaredEncoding}{\`}{\textquoteleft}
+\DeclareTextCompositeCommand{\`}{\LastDeclaredEncoding}{`}{\textquoteleft}
+
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{\accdialytika}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{\&quot;}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{&quot;}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\~}{\LastDeclaredEncoding}{\&quot;}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\~}{\LastDeclaredEncoding}{&quot;}{\accdialytikaperispomeni}
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{\accdasia}{\accdasiaperispomeni}
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{\&lt;}{\accdasiaperispomeni}
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{&lt;}{\accdasiaperispomeni}
+\DeclareTextCompositeCommand{\~}{\LastDeclaredEncoding}{\&lt;}{\accdasiaperispomeni}
+\DeclareTextCompositeCommand{\~}{\LastDeclaredEncoding}{&lt;}{\accdasiaperispomeni}
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{\accpsili}{\accpsiliperispomeni}
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{\&gt;}{\accpsiliperispomeni}
+\DeclareTextCompositeCommand{\accperispomeni}{\LastDeclaredEncoding}{&gt;}{\accpsiliperispomeni}
+\DeclareTextCompositeCommand{\~}{\LastDeclaredEncoding}{\&gt;}{\accpsiliperispomeni}
+\DeclareTextCompositeCommand{\~}{\LastDeclaredEncoding}{&gt;}{\accpsiliperispomeni}
+
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{\acctonos}{\accpsilioxia}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{\accoxia}{\accpsilioxia}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{\'}{\accpsilioxia}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{'}{\accpsilioxia}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{\accvaria}{\accpsilivaria}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{\`}{\accpsilivaria}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{`}{\accpsilivaria}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{\accperispomeni}{\accpsiliperispomeni}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{\~}{\accpsiliperispomeni}
+\DeclareTextCompositeCommand{\accpsili}{\LastDeclaredEncoding}{~}{\accpsiliperispomeni}
+
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{\acctonos}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{\accoxia}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{\'}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{'}{\accdasiaoxia}
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{\accvaria}{\accdasiavaria}
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{\`}{\accdasiavaria}
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{`}{\accdasiavaria}
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{\accperispomeni}{\accdasiaperispomeni}
+\DeclareTextCompositeCommand{\accdasia}{\LastDeclaredEncoding}{\~}{\accdasiaperispomeni}</pre>
+<p>Also define the combinations with “capital” accent macros:</p>
+<pre class="literal-block">\ProvideTextCommand{\accACUTE}{\LastDeclaredEncoding}{\&#64;tabacckludge '}
+\DeclareTextCompositeCommand{\accACUTE}{\LastDeclaredEncoding}{&lt;}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\accACUTE}{\LastDeclaredEncoding}{&gt;}{\LGR&#64;hiatus}
+\DeclareTextCompositeCommand{\accACUTE}{\LastDeclaredEncoding}{&quot;}{\accdialytika}
+\DeclareTextCompositeCommand{\accACUTE}{\LastDeclaredEncoding}{\accDIAERESIS}{\accdialytika}
+\DeclareTextCompositeCommand{\accACUTE}{\LastDeclaredEncoding}{\LGR&#64;hiatus}{\LGR&#64;hiatus}
+\DeclareTextCompositeCommand{\accACUTE}{\LastDeclaredEncoding}{\LGR&#64;accdropped}{\LGR&#64;accdropped}
+
+\ProvideTextCommand{\accGRAVE}{\LastDeclaredEncoding}{\&#64;tabacckludge`}
+\DeclareTextCompositeCommand{\accGRAVE}{\LastDeclaredEncoding}{&lt;}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\accGRAVE}{\LastDeclaredEncoding}{&gt;}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\accGRAVE}{\LastDeclaredEncoding}{&quot;}{\accdialytika}
+\DeclareTextCompositeCommand{\accGRAVE}{\LastDeclaredEncoding}{\accDIAERESIS}{\accdialytika}
+\DeclareTextCompositeCommand{\accGRAVE}{\LastDeclaredEncoding}{\LGR&#64;hiatus}{\LGR&#64;hiatus}
+\DeclareTextCompositeCommand{\accGRAVE}{\LastDeclaredEncoding}{\LGR&#64;accdropped}{\LGR&#64;accdropped}
+
+\ProvideTextCommand{\accTILDE}{\LastDeclaredEncoding}{\&#64;tabacckludge~}
+\DeclareTextCompositeCommand{\accTILDE}{\LastDeclaredEncoding}{&gt;}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\accTILDE}{\LastDeclaredEncoding}{&lt;}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\accTILDE}{\LastDeclaredEncoding}{&quot;}{\accdialytika}
+\DeclareTextCompositeCommand{\accTILDE}{\LastDeclaredEncoding}{\accDIAERESIS}{\accdialytika}
+\DeclareTextCompositeCommand{\accTILDE}{\LastDeclaredEncoding}{\LGR&#64;hiatus}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\accTILDE}{\LastDeclaredEncoding}{\LGR&#64;accdropped}{\LGR&#64;accdropped}
+
+\ProvideTextCommand{\accDIAERESIS}{\LastDeclaredEncoding}{\&#64;tabacckludge&quot;}
+\DeclareTextCompositeCommand{\accDIAERESIS}{\LastDeclaredEncoding}{'}{\accdialytika}
+\DeclareTextCompositeCommand{\accDIAERESIS}{\LastDeclaredEncoding}{`}{\accdialytika}
+\DeclareTextCompositeCommand{\accDIAERESIS}{\LastDeclaredEncoding}{~}{\accdialytika}
+\DeclareTextCompositeCommand{\accDIAERESIS}{\LastDeclaredEncoding}{\accACUTE}{\accdialytika}
+\DeclareTextCompositeCommand{\accDIAERESIS}{\LastDeclaredEncoding}{\accGRAVE}{\accdialytika}
+\DeclareTextCompositeCommand{\accDIAERESIS}{\LastDeclaredEncoding}{\accTILDE}{\accdialytika}</pre>
+</section>
+<section id="case-changing">
+<span id="uclclist"></span><h3><a class="toc-backref" href="#toc-entry-7" role="doc-backlink">Case changing</a></h3>
+<p>UPPERCASE (all-caps) is generated with <span class="docutils literal">\MakeUppercase</span>. The
+implementation of this command changed in June 2022 <a class="citation-reference" href="#ltnews35" id="citation-reference-1" role="doc-biblioref">[ltnews35]</a>.</p>
+<p>According to Greek typographical tradition, diacritics (except dialytika)
+are placed before capital letters in Titlecase and dropped in UPPERCASE.</p>
+<p>Different conventions exist for the treatment of the <a class="reference external" href="https://en.wikipedia.org/wiki/Iota_subscript">mute iota</a> with
+uppercase letters. The traditional typographic form and the most common
+used in Greece is a subscript, corresponding to the COMBINING GREEK
+YPOGEGRAMMENI (U+0345). Even if the pre-composed characters are named …
+WITH [… AND] PROSGEGRAMMENI, capitalization should not use the GREEK
+PROSGEGRAMMENI (U+1FBE) <a class="citation-reference" href="#nicholas-03" id="citation-reference-2" role="doc-biblioref">[Nicholas-03]</a>, <a class="citation-reference" href="#haralambous-98" id="citation-reference-3" role="doc-biblioref">[Haralambous-98]</a>.  Upper case
+glyphs with adscript are a stylistic choice, provided by the font. In the
+CB Fonts, a small capital adscript iota is used.</p>
+<p>The “Latin” diacritics <em>macron</em> and <em>breve</em> are used to denote the
+length of vowels. They are sometimes used in dictionaries and textbooks
+but not part of the Greek orthography. There is no established rule
+regarding their handling in uppercase. LaTeX used to keep them but
+the <a class="reference external" href="https://icu.unicode.org/design/case/greek-upper">Unicode reference implementation</a> drops them.</p>
+<p>Up to 2022/06, macro substitutions in the <span class="docutils literal">\&#64;uclclist</span> could be used to
+get the expected behaviour:</p>
+<section id="uclclist-extension">
+<h4><a class="toc-backref" href="#toc-entry-8" role="doc-backlink">&#64;uclclist extension</a></h4>
+<p>Based on Werner Lemberg’s 2008 <a class="reference external" href="http://www.eutypon.gr/eutypon/pdf/e2008-20/e20-a03.pdf">babel patch</a> and <span class="docutils literal">fontenc.sty</span>.</p>
+<p>The definition of an auxiliary, self-resetting macro makes this idempotent
+(only the first use of this function will expand the <span class="docutils literal">&#64;uclclist</span>).
+The second and third lines are TeX’s way of writing <span class="docutils literal">&#64;uclclist += …</span></p>
+<p>Since 2022, <span class="docutils literal">\MakeUppercase</span> expects the default for ambiguous mappings
+in first position, the old in last position.</p>
+<p>The <span class="docutils literal">\LGR&#64;…</span> auxiliary macros are defined below.</p>
+<pre class="literal-block">\providecommand*\update&#64;uclc&#64;with&#64;greek{%
+  \expandafter\def\expandafter\&#64;uclclist\expandafter{%
+    \&#64;uclclist
+    \accdasia           \LGR&#64;accdropped
+    \accdasiaoxia       \LGR&#64;hiatus
+    \accdasiavaria      \LGR&#64;accdropped
+    \accdasiaperispomeni\LGR&#64;accdropped
+    \accpsili           \LGR&#64;hiatus
+    \accpsilioxia       \LGR&#64;hiatus
+    \accpsilivaria      \LGR&#64;hiatus
+    \accpsiliperispomeni\LGR&#64;accdropped
+    \acctonos           \LGR&#64;hiatus
+    \accoxia            \LGR&#64;hiatus
+    \accvaria           \LGR&#64;accdropped
+    \accdialytikatonos  \LGR&#64;accDialytika
+    \accdialytikaoxia   \LGR&#64;accDialytika
+    \accdialytikavaria  \LGR&#64;accDialytika
+    \accdialytikaperispomeni\LGR&#64;accDialytika
+    \accperispomeni    \LGR&#64;accdropped
+    \LGR&#64;ypogegrammeni \prosgegrammeni
+    \textalpha         \textAlpha
+    \textbeta          \textBeta
+    \textbetasymbol    \textBeta
+    \textvarbeta       \textBeta
+    \textgamma         \textGamma
+    \textdelta         \textDelta
+    \textepsilon       \textEpsilon
+    \textepsilonsymbol \textEpsilon
+    \textvarepsilon    \textEpsilon
+    \textzeta          \textZeta
+    \texteta           \textEta
+    \texttheta         \textTheta
+    \texttheta         \textThetasymbol
+    \texttheta         \textvarTheta
+    \textthetasymbol   \textTheta
+    \textvartheta      \textTheta
+    \textiota          \textIota
+    \textkappa         \textKappa
+    \textkappasymbol   \textKappa
+    \textvarkappa      \textKappa
+    \textlambda        \textLambda
+    \textmu            \textMu
+    \textnu            \textNu
+    \textxi            \textXi
+    \textomicron       \textOmicron
+    \textpi            \textPi
+    \textpisymbol      \textPi
+    \textvarpi         \textPi
+    \textrho           \textRho
+    \textvarrho        \textRho
+    \textrhosymbol     \textRho
+    \textautosigma     \textSigma
+    \textfinalsigma    \textSigma
+    \textvarsigma      \textSigma
+    \textsigma         \textSigma
+    \texttau           \textTau
+    \textupsilon       \textUpsilon
+    \textphi           \textPhi
+    \textphisymbol     \textPhi
+    \textvarphi        \textPhi
+    \textchi           \textChi
+    \textpsi           \textPsi
+    \textomega         \textOmega
+    \textkoppa         \textKoppa
+    \textqoppa         \textQoppa
+    \textstigma        \textStigma
+    \textvarstigma     \textStigma
+    \textsampi         \textSampi
+    \textdigamma       \textDigamma
+    % Repeat default for ambiguous mappings for pre-2022 MakeUppercase:
+    \textbeta          \textBeta
+    \texttheta         \textTheta
+    \textkappa         \textKappa
+    \textpi            \textPi
+    \textrho           \textRho
+    \textautosigma     \textSigma
+    \textstigma        \textStigma
+  }%
+  \let\update&#64;uclc&#64;with&#64;greek\relax
+}</pre>
+<p>Expand the &#64;uclclist using the just defined macro:</p>
+<pre class="literal-block">\update&#64;uclc&#64;with&#64;greek</pre>
+</section>
+<section id="substitution-macros">
+<h4><a class="toc-backref" href="#toc-entry-9" role="doc-backlink">Substitution macros</a></h4>
+<p>Drop diacritics.
+The argument passing ensures that kerning is preserved and allows
+definition of CompositeCommands (cf. <a class="citation-reference" href="#fntguide" id="citation-reference-4" role="doc-biblioref">[fntguide]</a>)
+Composite definitions with the tilde prevent errors in monotonic Greek
+where the character <span class="docutils literal">~</span> maps to a no-break space.</p>
+<pre class="literal-block">\ProvideTextCommand{\LGR&#64;accdropped}{\LastDeclaredEncoding}{\&#64;firstofone}
+\DeclareTextCompositeCommand{\LGR&#64;accdropped}{\LastDeclaredEncoding}{'}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\LGR&#64;accdropped}{\LastDeclaredEncoding}{`}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\LGR&#64;accdropped}{\LastDeclaredEncoding}{~}{\LGR&#64;accdropped}</pre>
+<p>Keep dialytika: Define a dummy alias so that downcasing with
+<span class="docutils literal">\MakeLowercase</span> does not convert a simple dialytika to a composite
+accent:</p>
+<pre class="literal-block">\DeclareTextCommand{\LGR&#64;accDialytika}{\LastDeclaredEncoding}{\accdialytika}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\LGR&#64;hiatus}{\accdialytika}
+\DeclareTextCompositeCommand{\accdialytika}{\LastDeclaredEncoding}{\LGR&#64;accdropped}{\accdialytika}</pre>
+<p>The prosgegrammeni (adscript iota) is used only with capital letters.
+We define a dummy macro to enable the conversion of <span class="docutils literal">\prosgegrammeni</span>
+to <span class="docutils literal">\ypogegrammeni</span> (subscript iota) but not vice versa:</p>
+<pre class="literal-block">\DeclareTextCommand{\LGR&#64;ypogegrammeni}{\LastDeclaredEncoding}{\ypogegrammeni}</pre>
+</section>
+<section id="hiatus">
+<h4><a class="toc-backref" href="#toc-entry-10" role="doc-backlink">Hiatus</a></h4>
+<p>Tonos and psili mark a hiatus if placed on the first vowel of a diphthong
+(ΑΙ, ΑΥ, ΕΙ). A dialytika must be placed on the second vowel if they are
+dropped (άυλος → ΑΫΛΟΣ, μάινα → ΜΑΪΝΑ, κέικ → ΚΕΪΚ, ἀυπνία → ΑΫΠΝΙΑ).</p>
+<p>The <a class="reference internal" href="#uclclist-extension">&#64;uclclist extension</a> converts tonos, psili, and psili-oxia accents to
+<span class="docutils literal">\LGR&#64;hiatus</span>. They should be dropped (as well as the second character of
+composite diacritics like <span class="docutils literal">\'&lt;</span> or <span class="docutils literal">\&gt;~</span>).</p>
+<p>If the next character is an Alpha or Epsilon, we call commands that place
+a dialytika on a subsequent Iota or Upsilon (defined in the font
+encoding files).  The font encoding file must also handle the cases when
+<span class="docutils literal">\LGR&#64;hiatus</span> is followed by literal characters for Alpha or Epsilon
+(see <a class="reference external" href="lgrenc.def.html">lgrenc.def</a>) for an example).</p>
+<pre class="literal-block">\DeclareTextCommand{\LGR&#64;hiatus}{\LastDeclaredEncoding}[1]{#1}
+\DeclareTextCompositeCommand{\LGR&#64;hiatus}{\LastDeclaredEncoding}{'}{\LGR&#64;hiatus}
+\DeclareTextCompositeCommand{\LGR&#64;hiatus}{\LastDeclaredEncoding}{`}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\LGR&#64;hiatus}{\LastDeclaredEncoding}{~}{\LGR&#64;hiatus}
+\DeclareTextCompositeCommand{\LGR&#64;hiatus}{\LastDeclaredEncoding}{&gt;}{\LGR&#64;hiatus}
+\DeclareTextCompositeCommand{\LGR&#64;hiatus}{\LastDeclaredEncoding}{&lt;}{\LGR&#64;accdropped}
+\DeclareTextCompositeCommand{\LGR&#64;hiatus}{\LastDeclaredEncoding}{\textAlpha}{\LGR&#64;A&#64;hiatus}
+\DeclareTextCompositeCommand{\LGR&#64;hiatus}{\LastDeclaredEncoding}{\textEpsilon}{\LGR&#64;E&#64;hiatus}</pre>
+</section>
+<section id="test-next-character">
+<h4><a class="toc-backref" href="#toc-entry-11" role="doc-backlink">Test next character</a></h4>
+<p>The following macro can be used to test if the next character is an Alpha or
+Epsilon. As <span class="docutils literal">\&#64;ifnextchar</span> gobbles spaces the lookahead macro definition
+from <span class="docutils literal">amsgen.sty</span> is used:</p>
+<p>This macro is a variant of LaTeX’s <span class="docutils literal">\&#64;ifnextchar</span>, macro
+that does not skip over spaces.</p>
+<pre class="literal-block">\providecommand*{\LGR&#64;ifnextchar}[3]{%
+  \let\reserved&#64;d= #1%
+  \def\reserved&#64;a{#2}\def\reserved&#64;b{#3}%
+  \futurelet\&#64;let&#64;token\LGR&#64;ifnch
+}
+\providecommand*{\LGR&#64;ifnch}{%
+  \ifx\&#64;let&#64;token\reserved&#64;d \let\reserved&#64;b\reserved&#64;a \fi
+  \reserved&#64;b
+}</pre>
+</section>
+</section>
+</section>
+<section id="changelog">
+<h2><a class="toc-backref" href="#toc-entry-12" role="doc-backlink">Changelog</a></h2>
+<table class="borderless">
+<tbody>
+<tr><td><p>0.9</p></td>
+<td><p>2013-07-03</p></td>
+<td><p>code “outsourced” from lgrxenc.def</p></td>
+</tr>
+<tr><td><p>0.9.1</p></td>
+<td><p>2013-07-17</p></td>
+<td><p>composite definitions starting with standard accent cmds</p></td>
+</tr>
+<tr><td><p>0.11</p></td>
+<td><p>2013-11-28</p></td>
+<td><p><span class="docutils literal">\greekscript</span> TextCommand</p></td>
+</tr>
+<tr><td><p>0.12</p></td>
+<td><p>2014-12-12</p></td>
+<td><p>Remove symbol macros for breathing accents.</p></td>
+</tr>
+<tr><td><p>0.13</p></td>
+<td><p>2015-08-04</p></td>
+<td><p>No &#64;uclclist entry for ypogegrammeni/prosgegrammeni.</p></td>
+</tr>
+<tr><td><p>0.13.4</p></td>
+<td><p>2019-07-10</p></td>
+<td><p>&#64;uclclist entry for <span class="docutils literal">\prosgegrammeni</span>.</p></td>
+</tr>
+<tr><td><p>1.0</p></td>
+<td><p>2020-09-25</p></td>
+<td><p><span class="docutils literal">\textKoppagreek</span> and <span class="docutils literal">\textstigmagreek</span> aliases.</p></td>
+</tr>
+<tr><td><p>2.0</p></td>
+<td><p>2020/10/30</p></td>
+<td><p>Alias definitions matching mathematical variant symbols.</p></td>
+</tr>
+<tr><td><p>2.2</p></td>
+<td><p>2023-02-28</p></td>
+<td><p>Add missing accent composite commands.</p></td>
+</tr>
+<tr><td><p>2.2.1</p></td>
+<td><p>2023-03-08</p></td>
+<td><p>&#64;uclclist entry for <span class="docutils literal">\accoxia</span>, prevent
+downcasing <span class="docutils literal">\textStigma</span> to <span class="docutils literal">\textvarstigma</span>.</p></td>
+</tr>
+<tr><td><p>2.3</p></td>
+<td><p>2023-06-01</p></td>
+<td><p>&#64;uclclist entries for symbol variants.</p></td>
+</tr>
+<tr><td><p>2.4</p></td>
+<td><p>2023-08-15</p></td>
+<td><p>Fix &#64;uclclist_ for ambiguous mappings.</p></td>
+</tr>
+<tr><td><!--  -->
+</td>
+<td></td>
+<td><p>Composite commands for “captital” macros and <span class="docutils literal">~</span>.</p></td>
+</tr>
+<tr><td><p>2.5</p></td>
+<td><p>2023-09-12</p></td>
+<td><p><span class="docutils literal">\textvarTheta</span> is now an alias for <span class="docutils literal">\textTheta</span>
+(the math command <cite>varTheta</cite> set the <em>letter</em> Theta
+in italic shape).</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="references">
+<h2><a class="toc-backref" href="#toc-entry-13" role="doc-backlink">References</a></h2>
+<div role="list" class="citation-list">
+<div class="citation" id="fntguide" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-4">fntguide</a><span class="fn-bracket">]</span></span>
+<p>LaTeX3 Project Team, <cite>LaTeX2ε font selection</cite>.
+<a class="reference external" href="https://mirrors.ctan.org/macros/latex/base/fntguide.pdf">https://mirrors.ctan.org/macros/latex/base/fntguide.pdf</a></p>
+</div>
+<div class="citation" id="haralambous-98" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-3">Haralambous-98</a><span class="fn-bracket">]</span></span>
+<p>Yannis Haralambous
+<cite>From Unicode to Typography, a Case Study: the Greek Script</cite>, 1998.
+<a class="reference external" href="https://hal.science/hal-02101618">https://hal.science/hal-02101618</a></p>
+</div>
+<div class="citation" id="ltnews35" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-1">ltnews35</a><span class="fn-bracket">]</span></span>
+<p>LaTeX Project Team <cite>LaTeX News 35</cite>, June 2022.
+<a class="reference external" href="https://www.latex-project.org/news/latex2e-news/ltnews35.pdf">https://www.latex-project.org/news/latex2e-news/ltnews35.pdf</a></p>
+</div>
+<div class="citation" id="nicholas-03" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#citation-reference-2">Nicholas-03</a><span class="fn-bracket">]</span></span>
+<p>Nick Nicholas <cite>Titlecase and Adscripts</cite> 2003.
+<a class="reference external" href="https://opoudjis.net/unicode/unicode_adscript.html">https://opoudjis.net/unicode/unicode_adscript.html</a></p>
+</div>
+</div>
+</section>
+</main>
+</body>
+</html>

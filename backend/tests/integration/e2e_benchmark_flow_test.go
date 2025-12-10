@@ -25,7 +25,7 @@ func TestEndToEndBenchmarkFlow(t *testing.T) {
 	orchestratorRepo := orchestratorrepository.New(submissionStore)
 	orchestratorSvc := orchestratorservice.New(orchestratorRepo, bus)
 
-	runnerRepo := runnerrepository.New(storage.NewMemoryRepository[models.Submission]())
+	runnerRepo := runnerrepository.New(storage.NewMemoryRepository[models.Submission](), storage.NewMemoryRepository[models.TraceEvent]())
 	agentRepo := agentrepository.NewAgentRepository(storage.NewMemoryRepository[models.User]())
 	agentRepo.Save(models.User{ID: "agent", Name: "Test Agent"})
 

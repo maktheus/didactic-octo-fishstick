@@ -87,7 +87,7 @@ export function TraceViewer() {
 
       <div>
         <div className="flex items-center gap-3">
-          <h1>{trace.taskName || 'Sem nome'}</h1>
+          <h1>{trace.taskName || 'Execução do Agente'}</h1>
           <Badge variant={trace.success ? 'default' : 'secondary'}>
             {trace.success ? 'Sucesso' : 'Falha'}
           </Badge>
@@ -153,7 +153,7 @@ export function TraceViewer() {
 
                 <div className="flex-1 pb-8">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="capitalize">
+                    <span className="capitalize font-medium">
                       {message.type === 'user' ? 'Usuário' :
                         message.type === 'agent' ? 'Agente' :
                           'Ferramenta'}
@@ -166,7 +166,39 @@ export function TraceViewer() {
 
                   <Card>
                     <CardContent className="pt-4">
-                      <p className="whitespace-pre-wrap">{message.content}</p>
+                      {/* Check if content looks like Thought/Action format */}
+                      {message.content.includes('Thought:') && message.content.includes('Action:') ? (
+                        <div className="space-y-3">
+                          {message.content.split('\n').map((line, i) => {
+                            if (line.startsWith('Thought:')) {
+                              return (
+                                <div key={i} className="text-neutral-700 dark:text-neutral-300 italic">
+                                  <span className="font-semibold not-italic text-purple-600 dark:text-purple-400">Pensamento: </span>
+                                  {line.replace('Thought:', '').trim()}
+                                </div>
+                              );
+                            }
+                            if (line.startsWith('Action:')) {
+                              return (
+                                <div key={i} className="font-mono text-sm bg-neutral-100 dark:bg-neutral-900 p-2 rounded">
+                                  <span className="font-semibold text-blue-600 dark:text-blue-400">Ação: </span>
+                                  {line.replace('Action:', '').trim()}
+                                </div>
+                              );
+                            }
+                            if (line.startsWith('Input:')) {
+                              return (
+                                <div key={i} className="font-mono text-xs text-neutral-500 mt-1 pl-4">
+                                  Input: {line.replace('Input:', '').trim()}
+                                </div>
+                              );
+                            }
+                            return <p key={i} className="whitespace-pre-wrap">{line}</p>;
+                          })}
+                        </div>
+                      ) : (
+                        <p className="whitespace-pre-wrap">{message.content}</p>
+                      )}
 
                       {message.toolName && (
                         <div className="mt-4 p-3 bg-neutral-50 dark:bg-neutral-900 rounded-lg">

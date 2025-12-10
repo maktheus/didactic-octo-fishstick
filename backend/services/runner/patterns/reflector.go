@@ -17,6 +17,15 @@ import (
 // Returns (approved, feedback).
 func Reflect(agent *models.User, taskPrompt string, result string) (bool, string, error) {
 	if agent.Model == "mock" {
+		if strings.Contains(taskPrompt, "Failure") {
+			return false, "REJECTED: Intentional failure for testing.", nil
+		}
+		if strings.Contains(taskPrompt, "infinite loop") {
+			if strings.Contains(result, "Wrong Fix") {
+				return false, "Still loops", nil
+			}
+			return true, "APPROVED: Loop fixed.", nil
+		}
 		return true, "APPROVED: Mock execution successful.", nil
 	}
 

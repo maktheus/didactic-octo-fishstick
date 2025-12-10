@@ -13,7 +13,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build: ./Back-End-Tcc
+    build: ./backend
     ports:
       - "8080:8080"
     environment:
@@ -33,6 +33,13 @@ services:
       - "5173:80"
     depends_on:
       - backend
+
+  ref-agent:
+    build:
+      context: ./backend
+      dockerfile: services/ref_agent/Dockerfile
+    ports:
+      - "8081:8080"
 
 volumes:
   postgres_data:
