@@ -4,8 +4,8 @@ import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { ArrowLeft, Activity } from 'lucide-react';
-import { fetchRun, fetchTraces } from '../../lib/api';
-import { Run, Trace } from '../../lib/types';
+import { fetchRun, fetchTraces, fetchBenchmarks } from '../../lib/api';
+import { Run, Trace, Benchmark } from '../../lib/types';
 import { Progress } from '../ui/progress';
 
 export function RunDetail() {
@@ -15,14 +15,26 @@ export function RunDetail() {
   const [traces, setTraces] = useState<Trace[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const [benchmark, setBenchmark] = useState<Benchmark | null>(null);
+
   useEffect(() => {
     if (id) {
       Promise.all([
         fetchRun(id).catch(() => null),
         fetchTraces().then(ts => ts.filter(t => t.runId === id)).catch(() => [])
-      ]).then(([runData, tracesData]) => {
+      ]).then(async ([runData, tracesData]) => {
         setRun(runData);
         setTraces(tracesData);
+
+        if (runData && runData.benchmarkId) {
+          try {
+            const allBenchs = await fetchBenchmarks();
+            const bench = allBenchs.find(b => b.id === runData.benchmarkId);
+            setBenchmark(bench || null);
+          } catch (e) {
+            console.error(e);
+          }
+        }
         setLoading(false);
       });
     }
@@ -52,7 +64,7 @@ export function RunDetail() {
     );
   }
 
-  const statusConfig = {
+  const statusConfig: Record<string, { label: string; className: string }> = {
     completed: {
       label: 'Concluído',
       className: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
@@ -68,6 +80,10 @@ export function RunDetail() {
     pending: {
       label: 'Pendente',
       className: 'bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-neutral-400'
+    },
+    queued: {
+      label: 'Na Fila',
+      className: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'
     },
   };
 
@@ -86,13 +102,23 @@ export function RunDetail() {
             <h1>Execução {run.id}</h1>
             <Badge
               variant="secondary"
-              className={statusConfig[run.status].className}
+              className={statusConfig[run.status]?.className || statusConfig['pending'].className}
             >
-              {statusConfig[run.status].label}
+              {statusConfig[run.status]?.label || run.status}
             </Badge>
           </div>
-          <p className="text-neutral-600 dark:text-neutral-400 mt-2">
+          <p className="text-neutral-600 dark:text-neutral-400 mt-2 flex items-center gap-2 flex-wrap">
             {run.benchmarkName} • {run.agentName}
+            {benchmark && benchmark.tasks?.[0]?.repo && (
+              <span className="bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded text-xs font-mono text-neutral-500">
+                📦 {benchmark.tasks[0].repo}
+              </span>
+            )}
+            {benchmark && benchmark.tasks?.[0]?.commit && (
+              <span className="bg-neutral-100 dark:bg-neutral-800 px-2 py-0.5 rounded text-xs font-mono text-neutral-500">
+                🔗 {benchmark.tasks[0].commit.substring(0, 8)}
+              </span>
+            )}
           </p>
         </div>
         {run.status === 'completed' && (
@@ -141,7 +167,7 @@ export function RunDetail() {
 
       </Card>
 
-      {/* Plan Display */}
+      {/* Plan Display - Commented out as Trace type structure changed
       {
         traces.find(t => t.type === 'plan') && (
           <Card>
@@ -157,6 +183,7 @@ export function RunDetail() {
           </Card>
         )
       }
+      */}
 
       {
         run.status === 'completed' && (

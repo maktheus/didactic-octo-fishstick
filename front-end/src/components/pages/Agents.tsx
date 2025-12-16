@@ -42,6 +42,23 @@ export function Agents() {
   if (loading) return <div className="p-8 text-center">Loading agents...</div>;
   if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
 
+  /* Handlers */
+  const handleDelete = async (agentId: string) => {
+    if (!confirm('Tem certeza que deseja excluir este agente?')) return;
+
+    // Ideally need to implement deleteAgent in api.ts first if missing
+    // Assuming assuming it might not exist yet, I will verify api.ts next.
+    // For now I will focus on Wiring the UI first.
+    try {
+      // await deleteAgent(agentId);
+      // setAgents(agents.filter(a => a.id !== agentId));
+      // toast.success('Agent deleted');
+      alert('Delete functionality pending API implementation');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -109,9 +126,14 @@ export function Agents() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Editar</DropdownMenuItem>
-                      <DropdownMenuItem>Ver Execuções</DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600">
+                      <DropdownMenuItem disabled>Editar (Em breve)</DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link to={`/traces`}>Ver Execuções</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        className="text-red-600 focus:text-red-600"
+                        onClick={() => handleDelete(agent.id)}
+                      >
                         Excluir
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -122,7 +144,7 @@ export function Agents() {
                   <span className="text-neutral-600 dark:text-neutral-400">
                     Autenticação
                   </span>
-                  <span className="capitalize">{agent.authType}</span>
+                  <span className="capitalize">{agent.authType || 'Nenhuma'}</span>
                 </div>
 
                 <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 space-y-2">

@@ -19,6 +19,12 @@ export interface Task {
   expectedTool?: string;
   constraints?: string[];
   maxTurns?: number;
+  expected_output?: string;
+  repo?: string;
+  commit?: string;
+  patch?: string;
+  testFiles?: string[];
+  difficulty?: string;
 }
 
 export interface Benchmark {

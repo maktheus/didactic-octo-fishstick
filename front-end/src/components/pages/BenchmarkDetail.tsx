@@ -125,15 +125,46 @@ export function BenchmarkDetail() {
                       {index + 1}
                     </div>
                     <div className="flex-1 space-y-2">
-                      <p>{task.prompt}</p>
+                      <p className="font-medium text-sm text-neutral-900 dark:text-neutral-100">
+                        {task.prompt}
+                      </p>
 
-                      {task.expected_output && (
-                        <div className="flex items-center gap-2">
-                          <span className="text-neutral-600 dark:text-neutral-400">
+                      {/* SWE-bench / Coding Fields */}
+                      {(task.repo || task.commit) && (
+                        <div className="flex flex-wrap gap-x-4 gap-y-2 text-xs text-neutral-500 font-mono bg-neutral-100 dark:bg-neutral-900/50 p-2 rounded">
+                          {task.repo && (
+                            <div className="flex items-center gap-1">
+                              <span>📦 Repo:</span>
+                              <span className="text-neutral-700 dark:text-neutral-300">{task.repo}</span>
+                            </div>
+                          )}
+                          {task.commit && (
+                            <div className="flex items-center gap-1">
+                              <span>🔗 Commit:</span>
+                              <span className="text-neutral-700 dark:text-neutral-300">{task.commit.substring(0, 8)}</span>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {task.patch && (
+                        <details className="group">
+                          <summary className="cursor-pointer text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1 select-none">
+                            <span>📝 Ver Patch / Solução</span>
+                          </summary>
+                          <div className="mt-2 text-xs font-mono overflow-x-auto p-2 bg-neutral-900 text-neutral-50 rounded">
+                            <pre>{task.patch}</pre>
+                          </div>
+                        </details>
+                      )}
+
+                      {task.expected_output && !task.patch && (
+                        <div className="flex items-center gap-2 mt-2">
+                          <span className="text-neutral-600 dark:text-neutral-400 text-xs">
                             Saída Esperada:
                           </span>
-                          <span className="font-mono text-sm bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">
-                            {task.expected_output}
+                          <span className="font-mono text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">
+                            {task.expected_output.length > 50 ? task.expected_output.substring(0, 50) + '...' : task.expected_output}
                           </span>
                         </div>
                       )}

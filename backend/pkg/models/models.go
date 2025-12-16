@@ -39,6 +39,12 @@ type Task struct {
 	ExpectedOutput string   `json:"expected_output"` // New: For text matching
 	Constraints    []string `json:"constraints"`
 	MaxTurns       int      `json:"maxTurns"`
+	// SWE-bench / Coding fields
+	Repo       string   `json:"repo,omitempty"`
+	Commit     string   `json:"commit,omitempty"`
+	Patch      string   `json:"patch,omitempty"`
+	TestFiles  []string `json:"testFiles,omitempty"`
+	Difficulty string   `json:"difficulty,omitempty"`
 }
 
 // Submission is a benchmark submission by an agent (Run).

@@ -89,7 +89,9 @@ export function Benchmarks() {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 flex-wrap">
                       <h2>{benchmark.name}</h2>
-                      <Badge variant="outline">{benchmark.domain}</Badge>
+                      <Badge variant="outline" className={benchmark.domain.toLowerCase() === 'coding' ? 'bg-blue-50 text-blue-700 border-blue-200' : ''}>
+                        {benchmark.domain}
+                      </Badge>
                     </div>
                     <p className="text-neutral-600 dark:text-neutral-400 mt-2">
                       {benchmark.description}

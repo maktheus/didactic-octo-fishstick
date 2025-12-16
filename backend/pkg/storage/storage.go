@@ -7,6 +7,7 @@ type Repository[T any] interface {
 	Save(id string, value T)
 	Get(id string) (T, bool)
 	List() []T
+	Clear() error
 }
 
 // MemoryRepository is a thread-safe in-memory repository.
@@ -44,4 +45,12 @@ func (r *MemoryRepository[T]) List() []T {
 		values = append(values, v)
 	}
 	return values
+}
+
+// Clear removes all items from the repository.
+func (r *MemoryRepository[T]) Clear() error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	r.items = make(map[string]T)
+	return nil
 }

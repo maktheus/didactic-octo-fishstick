@@ -100,19 +100,44 @@ export function AgentForm() {
             </div>
 
             {(formData.provider === 'Custom' || formData.provider === 'Ollama') && (
-              <div className="space-y-2">
-                <Label htmlFor="endpoint">Endpoint URL</Label>
-                <Input
-                  id="endpoint"
-                  type="url"
-                  placeholder={formData.provider === 'Ollama' ? "http://host.docker.internal:11434/v1/chat/completions" : "https://api.example.com/v1/chat"}
-                  value={formData.endpoint}
-                  onChange={(e) => setFormData({ ...formData, endpoint: e.target.value })}
-                  required
-                />
-                <p className="text-neutral-500 text-sm">
-                  {formData.provider === 'Ollama' ? 'Use host.docker.internal para acessar o Ollama rodando no host.' : 'URL completa do endpoint da API.'}
-                </p>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="endpoint">Endpoint URL</Label>
+                  <Input
+                    id="endpoint"
+                    type="url"
+                    placeholder={formData.provider === 'Ollama' ? "http://host.docker.internal:11434/v1/chat/completions" : "https://api.example.com/v1/chat"}
+                    value={formData.endpoint}
+                    onChange={(e) => setFormData({ ...formData, endpoint: e.target.value })}
+                    required
+                  />
+                  <p className="text-neutral-500 text-sm">
+                    {formData.provider === 'Ollama' ? 'Use host.docker.internal para acessar o Ollama rodando no host.' : 'URL completa do endpoint da API.'}
+                  </p>
+                </div>
+
+                {formData.provider === 'Ollama' && (
+                  <div className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg p-4 text-sm">
+                    <h4 className="font-semibold text-blue-900 dark:text-blue-300 mb-2 flex items-center gap-2">
+                      📘 Guia: Como conectar ao Ollama Local
+                    </h4>
+                    <ul className="list-disc pl-5 space-y-1 text-blue-800 dark:text-blue-400">
+                      <li>
+                        Certifique-se que o Ollama está rodando (<code>ollama serve</code>).
+                      </li>
+                      <li>
+                        configure a variável de ambiente <code>OLLAMA_HOST=0.0.0.0</code> no seu terminal antes de iniciar o Ollama para permitir conexões externas (do Docker).
+                      </li>
+                      <li>
+                        O endpoint padrão dentro do Docker é: <br />
+                        <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">http://host.docker.internal:11434/v1/chat/completions</code>
+                      </li>
+                      <li>
+                        No campo "Modelo", use o nome exato que você baixou (ex: <code>llama3</code>, <code>mistral</code>) via <code>ollama pull llama3</code>.
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
 

@@ -116,3 +116,15 @@ func (r *PostgresRepository[T]) List() []T {
 	log.Printf("DEBUG: Found %d items for collection %s", len(values), r.collection)
 	return values
 }
+
+// Clear removes all items from the collection.
+func (r *PostgresRepository[T]) Clear() error {
+	log.Printf("DEBUG: Clearing items for collection %s", r.collection)
+	query := `DELETE FROM items WHERE collection = $1`
+	_, err := r.db.Exec(query, r.collection)
+	if err != nil {
+		log.Printf("Error clearing items: %v", err)
+		return err
+	}
+	return nil
+}

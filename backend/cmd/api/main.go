@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -184,6 +185,54 @@ func main() {
 		http.MethodGet:  traceHTTP.List,
 	}))
 	mux.HandleFunc("/leaderboard", leaderboardHTTP.List)
+    
+	// Reset handler
+	mux.HandleFunc("/reset", withMethod(map[string]http.HandlerFunc{
+		http.MethodPost: func(w http.ResponseWriter, r *http.Request) {
+			apiLog.Println("Resetting platform data...")
+			
+			// Clear all repositories content
+			if err := submissionRepo.Clear(); err != nil {
+				http.Error(w, "failed to clear submissions", http.StatusInternalServerError)
+				return
+			}
+			if err := traceRepo.Clear(); err != nil {
+				http.Error(w, "failed to clear traces", http.StatusInternalServerError)
+				return
+			}
+			if err := scoreRepo.Clear(); err != nil {
+				http.Error(w, "failed to clear scores", http.StatusInternalServerError)
+				return
+			}
+			// Note: Agents and Benchmarks are kept unless "Resetar Tudo" implies them too.
+			// The UI Text says "Remove todos os dados da plataforma".
+			// Given urgency, I will wipe Runs/Traces/Scores which is the main runtime data.
+			// Clearing Agents might annoy user if he just wants to reset Progress.
+			// But for "Reset All", I probably should clear everything.
+			// Let's clear everything as per user request "Resetar Tudo".
+			if err := agentRepoStore.Clear(); err != nil {
+				http.Error(w, "failed to clear agents", http.StatusInternalServerError)
+				return
+			}
+			if err := benchmarkRepo.Clear(); err != nil {
+				http.Error(w, "failed to clear benchmarks", http.StatusInternalServerError)
+				return
+			}
+			if err := leaderboardRepo.Clear(); err != nil {
+				http.Error(w, "failed to clear leaderboard", http.StatusInternalServerError)
+				return
+			}
+
+			// Re-seed admin user?
+            // The auth table "users" is separate (authRepoStore).
+            // Usually we don't wipe users configured valid access.
+            // I'll leave auth untouched.
+			
+			w.WriteHeader(http.StatusOK)
+			json.NewEncoder(w).Encode(map[string]string{"status": "ok", "message": "Platform reset successfully"})
+		},
+	}))
+
 	mux.HandleFunc("/swagger.json", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		if _, err := w.Write(docs.OpenAPISpec); err != nil && apiLog != nil {

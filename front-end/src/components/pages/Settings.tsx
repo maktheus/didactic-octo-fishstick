@@ -1,13 +1,41 @@
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 import { Switch } from '../ui/switch';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog';
 
 export function Settings() {
+  const [resetPassword, setResetPassword] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const handleSave = () => {
     toast.success('Configurações salvas com sucesso!');
+  };
+
+  const handleReset = () => {
+    if (resetPassword === 'w1ntersun') {
+      import('../../lib/api').then(({ resetPlatform }) => {
+        toast.promise(resetPlatform(), {
+          loading: 'Resetando plataforma...',
+          success: 'Plataforma resetada com sucesso!',
+          error: 'Erro ao resetar plataforma'
+        });
+      });
+      setIsDialogOpen(false);
+      setResetPassword('');
+    } else {
+      toast.error('Senha incorreta!');
+    }
   };
 
   return (
@@ -143,9 +171,42 @@ export function Settings() {
             <p className="text-neutral-600 dark:text-neutral-400">
               Remove todos os dados da plataforma. Esta ação não pode ser desfeita.
             </p>
-            <Button variant="outline" className="text-red-600 hover:text-red-700">
-              Resetar Tudo
-            </Button>
+
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="text-red-600 hover:text-red-700">
+                  Resetar Tudo
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Resetar Plataforma</DialogTitle>
+                  <DialogDescription>
+                    Tem certeza que deseja apagar TODOS os dados? Esta ação é irreversível.
+                    Digite a senha de administrador para confirmar.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="admin-password">Senha de Administrador</Label>
+                    <Input
+                      id="admin-password"
+                      type="password"
+                      placeholder="Digite a senha..."
+                      value={resetPassword}
+                      onChange={(e) => setResetPassword(e.target.value)}
+                    />
+                  </div>
+                  <Button
+                    variant="destructive"
+                    className="w-full"
+                    onClick={handleReset}
+                  >
+                    Confirmar Reset
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </CardContent>
       </Card>

@@ -194,14 +194,18 @@ func (s *Service) handleSubmission(ctx context.Context, msg queue.Message) error
 	maxRetries := 3
 	var response string
 	turns := 0
+	aggregatedCost := 0.0
 	
 	for i := 0; i < maxRetries; i++ {
 		turns = i + 1
 		
+		var cost float64
 		if agent.Provider == "agent-protocol" {
 			response, err = s.runAgentProtocolLoop(&agent, prompt, sb, submission)
+			// Agent Protocol currently doesn't return cost, assume 0 or implement later
 		} else {
-			response, err = s.callOpenAI(&agent, prompt, sb)
+			response, cost, err = s.callOpenAI(&agent, prompt, sb)
+			aggregatedCost += cost
 		}
 
 		// Update Progress
@@ -266,7 +270,7 @@ func (s *Service) handleSubmission(ctx context.Context, msg queue.Message) error
 		ToolCorrectness: 0, // Default for now
 		Violations:      0, // Default for now
 		AvgTurns:        float64(turns),
-		TotalCost:       0, // Default for now
+		TotalCost:       aggregatedCost, // Populated from OpenAI usage
 		AvgLatency:      0, // Default for now
 	}
 
@@ -290,9 +294,10 @@ func (s *Service) handleSubmission(ctx context.Context, msg queue.Message) error
 	return nil
 }
 
-func (s *Service) callOpenAI(agent *models.User, prompt string, sb sandbox.Sandbox) (string, error) {
+func (s *Service) callOpenAI(agent *models.User, prompt string, sb sandbox.Sandbox) (string, float64, error) {
 	if agent.Model == "mock" {
-		return s.mockLLM(prompt)
+		resp, err := s.mockLLM(prompt)
+		return resp, 0, err
 	}
 
 	endpoint := agent.Endpoint
@@ -319,6 +324,7 @@ func (s *Service) callOpenAI(agent *models.User, prompt string, sb sandbox.Sandb
 
 	availableTools := tools.GetTools()
 	maxTurns := 10
+	totalCost := 0.0
 
 	for i := 0; i < maxTurns; i++ {
 		reqBody := map[string]interface{}{
@@ -329,12 +335,12 @@ func (s *Service) callOpenAI(agent *models.User, prompt string, sb sandbox.Sandb
 
 		jsonData, err := json.Marshal(reqBody)
 		if err != nil {
-			return "", err
+			return "", totalCost, err
 		}
 
 		req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(jsonData))
 		if err != nil {
-			return "", err
+			return "", totalCost, err
 		}
 
 		req.Header.Set("Content-Type", "application/json")
@@ -349,23 +355,42 @@ func (s *Service) callOpenAI(agent *models.User, prompt string, sb sandbox.Sandb
 		client := &http.Client{Timeout: 60 * time.Second}
 		resp, err := client.Do(req)
 		if err != nil {
-			return "", err
+			return "", totalCost, err
 		}
 		defer resp.Body.Close()
 
 		body, _ := io.ReadAll(resp.Body)
 		if resp.StatusCode != http.StatusOK {
-			return "", fmt.Errorf("openai api error: %s - %s", resp.Status, string(body))
+			return "", totalCost, fmt.Errorf("openai api error: %s - %s", resp.Status, string(body))
 		}
 
 		var result map[string]interface{}
 		if err := json.Unmarshal(body, &result); err != nil {
-			return "", err
+			return "", totalCost, err
+		}
+
+		// Calculate Cost
+		if usage, ok := result["usage"].(map[string]interface{}); ok {
+			promptTokens := 0.0
+			completionTokens := 0.0
+			if pt, ok := usage["prompt_tokens"].(float64); ok {
+				promptTokens = pt
+			}
+			if ct, ok := usage["completion_tokens"].(float64); ok {
+				completionTokens = ct
+			}
+			
+			// Simple cost estimation (approx for gpt-4o/mini mix, can be refined)
+			// Input: $2.50 / 1M tokens ($0.0000025 per token)
+			// Output: $10.00 / 1M tokens ($0.000010 per token)
+			// This is just a ballpark for valid leaderboard sorting
+			cost := (promptTokens * 0.0000025) + (completionTokens * 0.000010)
+			totalCost += cost
 		}
 
 		choices, ok := result["choices"].([]interface{})
 		if !ok || len(choices) == 0 {
-			return "", fmt.Errorf("no choices in response")
+			return "", totalCost, fmt.Errorf("no choices in response")
 		}
 
 		firstChoice := choices[0].(map[string]interface{})
@@ -402,14 +427,14 @@ func (s *Service) callOpenAI(agent *models.User, prompt string, sb sandbox.Sandb
 
 		// No tool calls, return content
 		if content, ok := message["content"].(string); ok {
-			return content, nil
+			return content, totalCost, nil
 		}
 
 		// If no content and no tool calls, something is wrong or it's just thinking
-		return "", fmt.Errorf("no content or tool calls in response")
+		return "", totalCost, fmt.Errorf("no content or tool calls in response")
 	}
 
-	return "", fmt.Errorf("max turns reached")
+	return "", totalCost, fmt.Errorf("max turns reached")
 }
 
 func (s *Service) mockLLM(prompt string) (string, error) {

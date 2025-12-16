@@ -172,3 +172,11 @@ export async function createBenchmark(benchmark: Omit<Benchmark, 'id' | 'created
     if (!response.ok) throw new Error('Failed to create benchmark');
     return response.json();
 }
+
+export async function resetPlatform() {
+    const response = await fetch(`${API_URL}/reset`, {
+        method: 'POST',
+    });
+    if (!response.ok) throw new Error('Failed to reset platform');
+    return response.json();
+}

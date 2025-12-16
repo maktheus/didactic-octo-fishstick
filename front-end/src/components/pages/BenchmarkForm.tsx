@@ -22,6 +22,9 @@ export function BenchmarkForm() {
         expected_output: string;
         expectedTool?: string;
         maxTurns?: number;
+        repo?: string;
+        commit?: string;
+        patch?: string;
     }[]>([
         { prompt: '', expected_output: '', maxTurns: 10 }
     ]);
@@ -42,12 +45,55 @@ export function BenchmarkForm() {
         setTasks(newTasks);
     };
 
+    const handleImportSWEBench = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                try {
+                    const content = event.target?.result as string;
+                    const data = JSON.parse(content);
+                    const items = Array.isArray(data) ? data : [data];
+
+                    const importedTasks = items.map((item: any) => ({
+                        prompt: item.problem_statement || item.prompt || '',
+                        expected_output: item.patch || item.expected_output || '', // Using patch as expected outcome/truth
+                        maxTurns: 30, // Default for coding tasks
+                        repo: item.repo || '',
+                        commit: item.base_commit || item.commit || '',
+                        patch: item.patch || '',
+                        instance_id: item.instance_id || ''
+                    }));
+
+                    setTasks(importedTasks);
+                    setFormData(prev => ({
+                        ...prev,
+                        name: prev.name || `SWE-bench Import (${items.length})`,
+                        domain: 'Coding',
+                        description: prev.description || 'Imported from SWE-bench dataset'
+                    }));
+                    toast.success(`${importedTasks.length} tasks imported!`);
+                } catch (err) {
+                    console.error(err);
+                    toast.error('Failed to parse JSON');
+                }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         // Validate tasks
-        if (tasks.some(t => !t.prompt || !t.expected_output)) {
-            toast.error('Preencha todos os campos das tarefas');
+        if (tasks.some(t => !t.prompt)) {
+            toast.error('Preencha os prompts das tarefas');
             return;
         }
 
@@ -57,8 +103,9 @@ export function BenchmarkForm() {
                 tasksCount: tasks.length,
                 tasks: tasks.map((t, i) => ({
                     ...t,
-                    id: `task-${Date.now()}-${i}`, // Generate temporary ID
+                    id: `task-${Date.now()}-${i}`,
                     expectedTool: t.expectedTool || '',
+                    expected_output: t.expected_output || 'Check Patch', // Allow empty output if patch exists
                     constraints: []
                 }))
             });
@@ -74,21 +121,26 @@ export function BenchmarkForm() {
 
     return (
         <div className="max-w-3xl space-y-6">
-            <div className="flex items-center gap-4">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => navigate('/benchmarks')}
-                >
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Voltar
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => navigate('/benchmarks')}
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        Voltar
+                    </Button>
+                </div>
+                <Button variant="secondary" onClick={handleImportSWEBench}>
+                    Import SWE-bench JSON
                 </Button>
             </div>
 
             <div>
                 <h1>Novo Benchmark</h1>
                 <p className="text-neutral-600 dark:text-neutral-400 mt-1">
-                    Crie um novo benchmark para avaliar agentes
+                    Crie um novo benchmark ou importe do SWE-bench
                 </p>
             </div>
 
@@ -136,7 +188,7 @@ export function BenchmarkForm() {
 
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle>Tarefas</CardTitle>
+                            <CardTitle>Tarefas ({tasks.length})</CardTitle>
                             <Button type="button" variant="outline" size="sm" onClick={addTask}>
                                 <Plus className="w-4 h-4 mr-2" />
                                 Adicionar Tarefa
@@ -160,46 +212,81 @@ export function BenchmarkForm() {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <Label>Prompt / Instrução</Label>
+                                        <Label>Prompt / Instrução (Problem Statement)</Label>
                                         <Textarea
-                                            placeholder="Digite a instrução para o agente..."
+                                            placeholder="Digite a instrução..."
                                             value={task.prompt}
                                             onChange={(e) => handleTaskChange(index, 'prompt', e.target.value)}
                                             required
+                                            className="min-h-[100px]"
                                         />
                                     </div>
 
-                                    <div className="space-y-2">
-                                        <Label>Saída Esperada</Label>
-                                        <Textarea
-                                            placeholder="Digite a saída esperada para validação..."
-                                            value={task.expected_output}
-                                            onChange={(e) => handleTaskChange(index, 'expected_output', e.target.value)}
-                                            required
-                                        />
-                                    </div>
+                                    <details className="group">
+                                        <summary className="flex items-center gap-2 cursor-pointer text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200">
+                                            <span className="select-none">Detalhes & Código</span>
+                                            <div className="h-px bg-neutral-200 dark:bg-neutral-800 flex-1 ml-2 group-open:bg-neutral-300 transition-all" />
+                                        </summary>
 
-                                    <div className="grid grid-cols-2 gap-4">
-                                        <div className="space-y-2">
-                                            <Label>Ferramenta Esperada (Opcional)</Label>
-                                            <Input
-                                                placeholder="Ex: run_command"
-                                                value={task.expectedTool || ''}
-                                                onChange={(e) => handleTaskChange(index, 'expectedTool', e.target.value)}
-                                            />
+                                        <div className="space-y-4 mt-4 pt-2">
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="space-y-2">
+                                                    <Label>Repositório</Label>
+                                                    <Input
+                                                        value={task.repo || ''}
+                                                        onChange={(e) => handleTaskChange(index, 'repo', e.target.value)}
+                                                        placeholder="e.g. sqlfluff/sqlfluff"
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label>Base Commit</Label>
+                                                    <Input
+                                                        value={task.commit || ''}
+                                                        onChange={(e) => handleTaskChange(index, 'commit', e.target.value)}
+                                                        placeholder="SHA hash"
+                                                    />
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label>Patch (Solução)</Label>
+                                                <Textarea
+                                                    value={task.patch || ''}
+                                                    onChange={(e) => handleTaskChange(index, 'patch', e.target.value)}
+                                                    placeholder="Diff content..."
+                                                    className="font-mono text-xs"
+                                                />
+                                            </div>
+
+                                            <div className="space-y-2">
+                                                <Label>Saída Esperada (Fallback)</Label>
+                                                <Textarea
+                                                    placeholder="Validação textual..."
+                                                    value={task.expected_output}
+                                                    onChange={(e) => handleTaskChange(index, 'expected_output', e.target.value)}
+                                                />
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div className="space-y-2">
+                                                    <Label>Ferramenta Esperada</Label>
+                                                    <Input
+                                                        placeholder="Ex: run_command"
+                                                        value={task.expectedTool || ''}
+                                                        onChange={(e) => handleTaskChange(index, 'expectedTool', e.target.value)}
+                                                    />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label>Máximo de Turnos</Label>
+                                                    <Input
+                                                        type="number"
+                                                        value={task.maxTurns || 10}
+                                                        onChange={(e) => handleTaskChange(index, 'maxTurns', parseInt(e.target.value))}
+                                                    />
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label>Máximo de Turnos</Label>
-                                            <Input
-                                                type="number"
-                                                min={1}
-                                                max={50}
-                                                placeholder="10"
-                                                value={task.maxTurns || 10}
-                                                onChange={(e) => handleTaskChange(index, 'maxTurns', parseInt(e.target.value))}
-                                            />
-                                        </div>
-                                    </div>
+                                    </details>
                                 </div>
                             ))}
                         </CardContent>
